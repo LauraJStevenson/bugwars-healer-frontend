@@ -1,7 +1,7 @@
 <!-- LoginForm.vue -->
 <template>
     <div id="login">
-      <h1>Bug Wars</h1>
+      <h1>Bug Wars Login</h1>
       <form class="login-input" @submit.prevent="submitForm">
         <h2>Login</h2>
         <div class="form-input-group">
@@ -10,8 +10,8 @@
         <div class="form-input-group">
           <input type="password" id="password" placeholder="Password" v-model="formData.password" required />
         </div>
-        <button id="submitButton" type="submit">Login</button>
-        <p><router-link :to="{ name: 'register' }">New to Bug Wars? Sign up!</router-link></p>
+        <button id="submit" type="submit">Login</button>
+        <p><router-link :to="{ name: 'register' }">Need an account? Sign up.</router-link></p>
       </form>
     </div>
   </template>
@@ -93,9 +93,4 @@ a:hover {
   color: #ff6359;
   text-decoration: none;
 }
-
-#submitButton{
-  margin: 1em;
-}
-
 </style>

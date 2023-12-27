@@ -1,8 +1,11 @@
 <!-- RegistrationForm.vue -->
 <template>
     <div id="register">
-  
+      
       <form class="register-input" @submit.prevent="submitForm"> 
+        <h1 class="logo">
+      <span class="material-symbols-outlined my-icon"></span> Bug Wars
+    </h1>
         <h2>Register</h2>
         <div class="form-input-group">
           <input type="text" id="username" placeholder="Username" v-model="formData.username" required />
@@ -16,8 +19,8 @@
         <div class="form-input-group">
           <input type="password" id="confirmPassword" placeholder="Confirm Password" v-model="formData.confirmPassword" required />
         </div>
-        <button id = "submitButton" type="submit">Register</button>
-        <p><router-link :to="{ name: 'login' }">Already have an account? Log in!</router-link></p>
+        <button id = "submit" type="submit">Register</button>
+        <p><router-link to="/login">Already have an account? Log in</router-link></p>
       </form>
     </div>
 </template>
@@ -86,12 +89,8 @@
 }
 
 h1 {
-  text-align: center;
-  margin-top: 0;
-}
-
-#submitButton{
-  margin: 1em;
+   text-align: center;
+   margin-top: 0;
 }
 
 
