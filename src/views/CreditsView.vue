@@ -23,22 +23,131 @@
 
     <p>Summary of who our team is.</p>
 
-    <div class="team-card">
-      <img class="card-photo" />
-      <h2>Name</h2>
-      <h3>Title</h3>
-      <p>Contributions go here.</p>
-      <ul>
-        <li><a href="#">Name's LinkedIn</a></li>
-        <li><a href="#">Name's Github</a></li>
-      </ul>
+    <div class="card-collection">
+      <div class="individual-card">
+        <img class="card-photo" src="../../public/images/img-placeholder.svg" />
+        <h2>Name Name</h2>
+        <h3>Software Developer</h3>
+        <p>Contributions to the this project will go here.</p>
+        <ul>
+          <li><a href="https://www.github.com">Name's LinkedIn</a></li>
+          <li><a href="https://www.linkedin.com">Name's Github</a></li>
+        </ul>
+      </div>
+
+      <div class="individual-card">
+        <img class="card-photo" src="../../public/images/img-placeholder.svg" />
+        <h2>Name Name</h2>
+        <h3>Software Developer</h3>
+        <p>Contributions to the this project will go here.</p>
+        <ul>
+          <li><a href="https://www.github.com">Name's LinkedIn</a></li>
+          <li><a href="https://www.linkedin.com">Name's Github</a></li>
+        </ul>
+      </div>
+
+      <div class="individual-card">
+        <img class="card-photo" src="../../public/images/img-placeholder.svg" />
+        <h2>Name Name</h2>
+        <h3>Software Developer</h3>
+        <p>Contributions to the this project will go here.</p>
+        <ul>
+          <li><a href="https://www.github.com">Name's LinkedIn</a></li>
+          <li><a href="https://www.linkedin.com">Name's Github</a></li>
+        </ul>
+      </div>
+
+      <div class="individual-card">
+        <img class="card-photo" src="../../public/images/img-placeholder.svg" />
+        <h2>Name Name</h2>
+        <h3>Software Developer</h3>
+        <p>Contributions to the this project will go here.</p>
+        <ul>
+          <li><a href="https://www.github.com">Name's LinkedIn</a></li>
+          <li><a href="https://www.linkedin.com">Name's Github</a></li>
+        </ul>
+      </div>
+
+      <div class="individual-card">
+        <img class="card-photo" src="../../public/images/img-placeholder.svg" />
+        <h2>Name Name</h2>
+        <h3>Software Developer</h3>
+        <p>Contributions to the this project will go here.</p>
+        <ul>
+          <li><a href="https://www.github.com">Name's LinkedIn</a></li>
+          <li><a href="https://www.linkedin.com">Name's Github</a></li>
+        </ul>
+      </div>
+
+      <div class="individual-card">
+        <img class="card-photo" src="../../public/images/img-placeholder.svg" />
+        <h2>Name Name</h2>
+        <h3>Software Developer</h3>
+        <p>Contributions to the this project will go here.</p>
+        <ul>
+          <li><a href="https://www.github.com">Name's LinkedIn</a></li>
+          <li><a href="https://www.linkedin.com">Name's Github</a></li>
+        </ul>
+      </div>
+
+      <div class="individual-card">
+        <img class="card-photo" src="../../public/images/img-placeholder.svg" />
+        <h2>Name Name</h2>
+        <h3>Software Developer</h3>
+        <p>Contributions to the this project will go here.</p>
+        <ul>
+          <li><a href="https://www.github.com">Name's LinkedIn</a></li>
+          <li><a href="https://www.linkedin.com">Name's Github</a></li>
+        </ul>
+      </div>
     </div>
   </div>
 </template>
   
-<style>
+<style scoped>
+.credits {
+  font-family: 'Space Mono', Arial, Helvetica, sans-serif;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
 h1 {
   font-family: 'Press Start 2P', 'Space Mono', cursive;
+}
+
+.card-collection {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+}
+.individual-card {
+  border: 1px solid black;
+  border-radius: 5px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 15px;
+  margin: 15px;
+  width: 300px;
+  height: 400px;
+}
+
+.card-photo {
+  width: 25%;
+  height: 25%;
+}
+
+ul {
+  list-style: none;
+  display: flex;
+}
+
+li {
+  text-decoration: none;
+  margin: 10px;
 }
 </style>
   
