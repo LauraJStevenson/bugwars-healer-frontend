@@ -30,8 +30,8 @@
         <h3>Software Developer</h3>
         <p class="contribution">Contributions to the this project will go here.</p>
         <ul>
-          <li><a href="https://www.github.com">Name's LinkedIn</a></li>
-          <li><a href="https://www.linkedin.com">Name's Github</a></li>
+          <li><a class="contact-link" href="https://www.github.com">Name's LinkedIn</a></li>
+          <li><a class="contact-link" href="https://www.linkedin.com">Name's Github</a></li>
         </ul>
       </div>
 
@@ -41,8 +41,8 @@
         <h3>Software Developer</h3>
         <p class="contribution">Contributions to the this project will go here.</p>
         <ul>
-          <li><a href="https://www.github.com">Name's LinkedIn</a></li>
-          <li><a href="https://www.linkedin.com">Name's Github</a></li>
+          <li><a class="contact-link" href="https://www.github.com">Name's LinkedIn</a></li>
+          <li><a class="contact-link" href="https://www.linkedin.com">Name's Github</a></li>
         </ul>
       </div>
 
@@ -52,8 +52,8 @@
         <h3>Software Developer</h3>
         <p class="contribution">Contributions to the this project will go here.</p>
         <ul>
-          <li><a href="https://www.github.com">Name's LinkedIn</a></li>
-          <li><a href="https://www.linkedin.com">Name's Github</a></li>
+          <li><a class="contact-link" href="https://www.github.com">Name's LinkedIn</a></li>
+          <li><a class="contact-link" href="https://www.linkedin.com">Name's Github</a></li>
         </ul>
       </div>
 
@@ -63,8 +63,8 @@
         <h3>Software Developer</h3>
         <p class="contribution">Contributions to the this project will go here.</p>
         <ul>
-          <li><a href="https://www.github.com">Name's LinkedIn</a></li>
-          <li><a href="https://www.linkedin.com">Name's Github</a></li>
+          <li><a class="contact-link" href="https://www.github.com">Name's LinkedIn</a></li>
+          <li><a class="contact-link" href="https://www.linkedin.com">Name's Github</a></li>
         </ul>
       </div>
 
@@ -74,8 +74,8 @@
         <h3>Software Developer</h3>
         <p class="contribution">Contributions to the this project will go here.</p>
         <ul>
-          <li><a href="https://www.github.com">Name's LinkedIn</a></li>
-          <li><a href="https://www.linkedin.com">Name's Github</a></li>
+          <li><a class="contact-link" href="https://www.github.com">Name's LinkedIn</a></li>
+          <li><a class="contact-link" href="https://www.linkedin.com">Name's Github</a></li>
         </ul>
       </div>
 
@@ -85,8 +85,8 @@
         <h3>Software Developer</h3>
         <p class="contribution">Contributions to the this project will go here.</p>
         <ul>
-          <li><a href="https://www.github.com">Name's LinkedIn</a></li>
-          <li><a href="https://www.linkedin.com">Name's Github</a></li>
+          <li><a class="contact-link" href="https://www.github.com">Name's LinkedIn</a></li>
+          <li><a class="contact-link" href="https://www.linkedin.com">Name's Github</a></li>
         </ul>
       </div>
 
@@ -96,8 +96,8 @@
         <h3>Software Developer</h3>
         <p class="contribution">Contributions to the this project will go here.</p>
         <ul>
-          <li><a href="https://www.github.com">Name's LinkedIn</a></li>
-          <li><a href="https://www.linkedin.com">Name's Github</a></li>
+          <li><a class="contact-link" href="https://www.github.com">Name's LinkedIn</a></li>
+          <li><a class="contact-link" href="https://www.linkedin.com">Name's Github</a></li>
         </ul>
       </div>
     </div>
@@ -151,8 +151,16 @@ ul {
 }
 
 li {
-  text-decoration: none;
   margin: 10px;
+}
+
+.contact-link {
+  text-decoration: none;
+  color: #d62828;
+}
+
+.contact-link:hover {
+  color: #f77f00;
 }
 </style>
   
