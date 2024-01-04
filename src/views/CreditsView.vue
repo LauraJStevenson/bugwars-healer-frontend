@@ -28,7 +28,7 @@
         <img class="card-photo" src="../../public/images/img-placeholder.svg" />
         <h2>Name Name</h2>
         <h3>Software Developer</h3>
-        <p>Contributions to the this project will go here.</p>
+        <p class="contribution">Contributions to the this project will go here.</p>
         <ul>
           <li><a href="https://www.github.com">Name's LinkedIn</a></li>
           <li><a href="https://www.linkedin.com">Name's Github</a></li>
@@ -39,7 +39,7 @@
         <img class="card-photo" src="../../public/images/img-placeholder.svg" />
         <h2>Name Name</h2>
         <h3>Software Developer</h3>
-        <p>Contributions to the this project will go here.</p>
+        <p class="contribution">Contributions to the this project will go here.</p>
         <ul>
           <li><a href="https://www.github.com">Name's LinkedIn</a></li>
           <li><a href="https://www.linkedin.com">Name's Github</a></li>
@@ -50,7 +50,7 @@
         <img class="card-photo" src="../../public/images/img-placeholder.svg" />
         <h2>Name Name</h2>
         <h3>Software Developer</h3>
-        <p>Contributions to the this project will go here.</p>
+        <p class="contribution">Contributions to the this project will go here.</p>
         <ul>
           <li><a href="https://www.github.com">Name's LinkedIn</a></li>
           <li><a href="https://www.linkedin.com">Name's Github</a></li>
@@ -61,7 +61,7 @@
         <img class="card-photo" src="../../public/images/img-placeholder.svg" />
         <h2>Name Name</h2>
         <h3>Software Developer</h3>
-        <p>Contributions to the this project will go here.</p>
+        <p class="contribution">Contributions to the this project will go here.</p>
         <ul>
           <li><a href="https://www.github.com">Name's LinkedIn</a></li>
           <li><a href="https://www.linkedin.com">Name's Github</a></li>
@@ -72,7 +72,7 @@
         <img class="card-photo" src="../../public/images/img-placeholder.svg" />
         <h2>Name Name</h2>
         <h3>Software Developer</h3>
-        <p>Contributions to the this project will go here.</p>
+        <p class="contribution">Contributions to the this project will go here.</p>
         <ul>
           <li><a href="https://www.github.com">Name's LinkedIn</a></li>
           <li><a href="https://www.linkedin.com">Name's Github</a></li>
@@ -83,7 +83,7 @@
         <img class="card-photo" src="../../public/images/img-placeholder.svg" />
         <h2>Name Name</h2>
         <h3>Software Developer</h3>
-        <p>Contributions to the this project will go here.</p>
+        <p class="contribution">Contributions to the this project will go here.</p>
         <ul>
           <li><a href="https://www.github.com">Name's LinkedIn</a></li>
           <li><a href="https://www.linkedin.com">Name's Github</a></li>
@@ -94,7 +94,7 @@
         <img class="card-photo" src="../../public/images/img-placeholder.svg" />
         <h2>Name Name</h2>
         <h3>Software Developer</h3>
-        <p>Contributions to the this project will go here.</p>
+        <p class="contribution">Contributions to the this project will go here.</p>
         <ul>
           <li><a href="https://www.github.com">Name's LinkedIn</a></li>
           <li><a href="https://www.linkedin.com">Name's Github</a></li>
@@ -132,12 +132,17 @@ h1 {
   padding: 15px;
   margin: 15px;
   width: 300px;
-  height: 400px;
+  height: 500px;
 }
 
 .card-photo {
-  width: 25%;
-  height: 25%;
+  width: 200px;
+  height: 200px;
+  flex-shrink: 0;
+}
+
+.contribution {
+  text-align: center;
 }
 
 ul {
