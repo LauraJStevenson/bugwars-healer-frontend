@@ -8,15 +8,11 @@ import RegistrationView from './views/RegistrationView.vue';
   <header>
     <div class="wrapper">
       <HelloWorld msg="Team Healers Presents: Bug Wars" />
-      
- 
+
       <nav>
         <RouterLink to="/">Home</RouterLink>
-        <RouterLink to="/about">About Us</RouterLink>
         <RouterLink to="/register">Register</RouterLink>
         <RouterLink to="/login">Login</RouterLink>
-
-
       </nav>
     </div>
   </header>
@@ -86,6 +82,4 @@ nav a:first-of-type {
     margin-top: 1rem;
   }
 }
-
-
 </style>

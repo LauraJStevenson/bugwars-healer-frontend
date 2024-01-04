@@ -21,13 +21,40 @@ const router = createRouter({
       name: 'login',
       component: LoginView,
     },
+    /*
+     {
+       path: '/credits',
+       name: 'credits',
+       // route level code-splitting
+       // this generates a separate chunk (About.[hash].js) for this route
+       // which is lazy-loaded when the route is visited.
+       component: () => import('../views/CreditsView.vue'),
+     },
+  */
+
     {
-      path: '/about',
-      name: 'about',
-      // route level code-splitting
-      // this generates a separate chunk (About.[hash].js) for this route
-      // which is lazy-loaded when the route is visited.
-      component: () => import('../views/AboutView.vue'),
+      path: '/howtoplay',
+      name: 'howtoplay',
+      component: () => import('../views/HowToPlayView.vue'),
+    },
+
+
+    {
+      path: '/settings',
+      name: 'settings',
+      component: () => import('../views/SettingsView.vue'),
+    },
+
+
+    {
+      path: '/gamelobby',
+      name: 'gamelobby',
+      component: () => import('../views/GameLobbyView.vue'),
+    },
+    {
+      path: '/play',
+      name: 'play',
+      component: () => import('../views/PlayView.vue'),
     },
   ],
 });
