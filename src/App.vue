@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import { RouterLink, RouterView } from 'vue-router';
-import HelloWorld from './components/HelloWorld.vue';
 import RegistrationView from './views/RegistrationView.vue';
 import GlobalNav from './components/GlobalNav.vue';
 </script>
@@ -8,7 +7,6 @@ import GlobalNav from './components/GlobalNav.vue';
 <template>
   <header>
     <div class="wrapper">
-      <HelloWorld msg="Team Healers Presents: Bug Wars" />
       <GlobalNav class="left-global-nav" />
       <!--
       <nav>
@@ -30,10 +28,8 @@ import GlobalNav from './components/GlobalNav.vue';
   left: 0;
   top: 0;
   height: 100vh;
-  width: 80px;
-  background-color: #182328;
-  color: #f0eeec;
 }
+
 header {
   line-height: 1.5;
   max-height: 100vh;

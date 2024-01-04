@@ -39,6 +39,8 @@
 <style scoped>
 .global-nav-bar {
   width: 125px;
+  color: black;
+  border: 1px solid black;
 }
 
 ul {
@@ -47,7 +49,7 @@ ul {
 
 li {
   text-decoration: none;
-  color: #f0eeec;
+  color: black;
 }
 
 a {
