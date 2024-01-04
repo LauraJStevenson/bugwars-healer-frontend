@@ -22,42 +22,50 @@ const router = createRouter({
       component: LoginView,
     },
     {
-      path: '/about',
-      name: 'about',
+      path: '/credits',
+      name: 'credits',
       // route level code-splitting
       // this generates a separate chunk (About.[hash].js) for this route
       // which is lazy-loaded when the route is visited.
-      component: () => import('../views/AboutView.vue'),
+      component: () => import('../views/CreditsView.vue'),
     },
 
 
     {
-      path: '/about',
-      name: 'about',
+      path: '/howtoplay',
+      name: 'howtoplay',
       // route level code-splitting
       // this generates a separate chunk (About.[hash].js) for this route
       // which is lazy-loaded when the route is visited.
-      component: () => import('../views/AboutView.vue'),
+      component: () => import('../views/HowToPlayView.vue'),
     },
 
 
     {
-      path: '/about',
-      name: 'about',
+      path: '/settings',
+      name: 'settings',
       // route level code-splitting
       // this generates a separate chunk (About.[hash].js) for this route
       // which is lazy-loaded when the route is visited.
-      component: () => import('../views/AboutView.vue'),
+      component: () => import('../views/SettingsView.vue'),
     },
 
 
     {
-      path: '/about',
-      name: 'about',
+      path: '/gamelobby',
+      name: 'gamelobby',
       // route level code-splitting
       // this generates a separate chunk (About.[hash].js) for this route
       // which is lazy-loaded when the route is visited.
-      component: () => import('../views/AboutView.vue'),
+      component: () => import('../views/GameLobbyView.vue'),
+    },
+    {
+      path: '/play',
+      name: 'play',
+      // route level code-splitting
+      // this generates a separate chunk (About.[hash].js) for this route
+      // which is lazy-loaded when the route is visited.
+      component: () => import('../views/PlayView.vue'),
     },
   ],
 });
