@@ -101,7 +101,7 @@
       </div>
 
       <div class="individual-card">
-        <img class="card-photo" src="../../public/images/img-placeholder.svg" />
+        <img class="card-photo" src="../../public/images/kimlyn-img.jpg" />
         <h2>Kimlyn De Lara</h2>
         <h3>Software Developer</h3>
         <p class="contribution">Contributions to the this project will go here.</p>
