@@ -1,14 +1,13 @@
 <script setup lang="ts">
-import { RouterLink, RouterView } from 'vue-router';
-import RegistrationView from './views/RegistrationView.vue';
 import GlobalNav from './components/GlobalNav.vue';
+import Header from './components/Header.vue';
 </script>
 
 <template>
   <div class="app">
+    <Header />
     <GlobalNav class="left-global-nav" />
   </div>
-  <RouterView />
 </template>
 
 <style scoped>
