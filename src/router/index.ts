@@ -42,9 +42,9 @@ const router = createRouter({
       component: () => import('../views/GameLobbyView.vue'),
     },
     {
-      path: '/play',
-      name: 'play',
-      component: () => import('../views/PlayView.vue'),
+      path: '/gameplay',
+      name: 'gameplay',
+      component: () => import('../views/GamePlayView.vue'),
     },
     {
       path: '/credits',

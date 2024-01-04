@@ -44,7 +44,7 @@ li {
 }
 
 a {
-  color: #f0eeec;
+  color: black;
   text-decoration: none;
 }
 </style>
