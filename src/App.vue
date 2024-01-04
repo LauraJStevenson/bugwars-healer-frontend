@@ -11,7 +11,8 @@ import GlobalNav from './components/GlobalNav.vue';
       <!--
       <nav>
         <RouterLink to="/">Home</RouterLink>
-        <RouterLink to="/about">About Us</RouterLink>
+        <RouterLink to="/about">About</RouterLink>
+        <RouterLink to="/credits">Credits</RouterLink>
         <RouterLink to="/register">Register</RouterLink>
         <RouterLink to="/login">Login</RouterLink>
       </nav>
