@@ -2,9 +2,9 @@
 </script>
 
 <template>
-  <main>
-    <div>Test</div>
-  </main>
+  <div class="settings">
+    <div>Settings View</div>
+  </div>
 </template>
 
 

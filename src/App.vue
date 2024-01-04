@@ -1,87 +1,63 @@
 <script setup lang="ts">
-import HelloWorld from './components/HelloWorld.vue';
+import GlobalNav from './components/GlobalNav.vue';
 import Header from './components/Header.vue';
 </script>
 
 <template>
-  <header>
-    <div class="wrapper">
+  <div class="app">
+    <div class="header-container">
       <Header />
-      <HelloWorld msg="Team Healers Presents: Bug Wars" />
-
-      <nav>
-        <RouterLink to="/">Home</RouterLink>
-        <RouterLink to="/about">About</RouterLink>
-        <RouterLink to="/credits">Credits</RouterLink>
-        <RouterLink to="/register">Register</RouterLink>
-        <RouterLink to="/login">Login</RouterLink>
-      </nav>
     </div>
-  </header>
-
-  <RouterView />
+    <div class="nav-container">
+      <GlobalNav />
+    </div>
+    <div class="content-container">
+      <RouterView />
+    </div>
+  </div>
 </template>
 
 <style scoped>
-header {
-  line-height: 1.5;
-  max-height: 100vh;
+.app {
+  height: 100vh;
+  display: grid;
+  margin: 0;
+  grid-template-columns: auto 1fr;
+  grid-template-rows: auto 1fr;
+  grid-template-areas:
+    'header header'
+    'nav content-container';
 }
 
-.logo {
-  display: block;
-  margin: 0 auto 2rem;
+.header-container {
+  height: 100%;
+  grid-area: header;
+  border: 1px solid black;
+  margin-top: 0;
+  margin-bottom: 0;
+  height: 80px;
 }
 
-nav {
-  width: 100%;
-  font-size: 12px;
-  text-align: center;
-  margin-top: 2rem;
+.nav-container {
+  grid-area: nav;
+  padding: 0;
+  margin: 0;
+  width: 150px;
+  border: 1px solid black;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
 }
 
-nav a.router-link-exact-active {
-  color: var(--color-text);
-}
-
-nav a.router-link-exact-active:hover {
-  background-color: transparent;
-}
-
-nav a {
-  display: inline-block;
-  padding: 0 1rem;
-  border-left: 1px solid var(--color-border);
-}
-
-nav a:first-of-type {
-  border: 0;
-}
-
-@media (min-width: 1024px) {
-  header {
-    display: flex;
-    place-items: center;
-    padding-right: calc(var(--section-gap) / 2);
-  }
-
-  .logo {
-    margin: 0 2rem 0 0;
-  }
-
-  header .wrapper {
-    display: flex;
-    place-items: flex-start;
-    flex-wrap: wrap;
-  }
-
-  nav {
-    text-align: left;
-    margin-left: -1rem;
-    font-size: 1rem;
-
-    padding: 1rem 0;
-    margin-top: 1rem;
-  }
+.content-container {
+  grid-area: content-container;
+  border: 1px solid black;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
 }
 </style>

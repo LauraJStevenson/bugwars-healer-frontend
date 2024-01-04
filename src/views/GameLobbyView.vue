@@ -2,9 +2,10 @@
 </script>
 
 <template>
-  <main>
-    <div>Test</div>
-  </main>
+  <div class="game-lobby">
+    <p>Game Lobby View</p>
+    <p><RouterLink to="/gameplay">I'm Ready to Play!</RouterLink></p>
+  </div>
 </template>
 
 
