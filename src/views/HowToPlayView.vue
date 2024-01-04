@@ -3,7 +3,7 @@
 
 <template>
   <main>
-    <div>Test</div>
+    <div>How To Play View</div>
   </main>
 </template>
 

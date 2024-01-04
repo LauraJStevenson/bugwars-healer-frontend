@@ -5,18 +5,9 @@
     <ul>
       <li><img src="#" /></li>
       <li><RouterLink to="/">Home</RouterLink></li>
-      <li>
-        Play
-        <!--<RouterLink to="/GameLobby">Play</RouterLink>-->
-      </li>
-      <li>
-        How to Play
-        <!--<RouterLink to="/HowToPlay">How to Play</RouterLink>-->
-      </li>
-      <li>
-        Credits
-        <!--<RouterLink to="/credits">Credits</RouterLink>-->
-      </li>
+      <li><RouterLink to="/GameLobby">Play</RouterLink>--></li>
+      <li><RouterLink to="/HowToPlay">How to Play</RouterLink>--></li>
+      <li><RouterLink to="/credits">Credits</RouterLink>--></li>
       <li>
         <!--<li v-if="isLoggedIn" @click="settings">Settings</li>-->
         Settings

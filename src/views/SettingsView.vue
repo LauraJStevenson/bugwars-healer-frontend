@@ -3,7 +3,7 @@
 
 <template>
   <main>
-    <div>Test</div>
+    <div>Settings View</div>
   </main>
 </template>
 
