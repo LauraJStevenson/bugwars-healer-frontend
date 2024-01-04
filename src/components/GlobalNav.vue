@@ -10,8 +10,7 @@
       <li><RouterLink to="/credits">Credits</RouterLink></li>
       <li>
         <!--<li v-if="isLoggedIn" @click="settings">Settings</li>-->
-        Settings
-        <!--<RouterLink to="/Settings">Settings</RouterLink>-->
+        <RouterLink to="/Settings">Settings</RouterLink>
       </li>
       <li><RouterLink to="/login">Login</RouterLink></li>
       <li><RouterLink to="/register">Register</RouterLink></li>
@@ -29,20 +28,22 @@
 
 <style scoped>
 .global-nav-bar {
-  width: 125px;
+  width: 140px;
   color: black;
   height: 100%;
 }
 
 ul {
   list-style: none;
-  padding: 0;
+  padding: 15px;
   margin: 0;
   height: 100%;
   width: 100%;
   display: flex;
   flex-direction: column;
-  justify-content: space-evenly;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 50px;
 }
 
 li {

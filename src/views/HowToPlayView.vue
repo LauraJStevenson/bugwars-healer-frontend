@@ -2,9 +2,9 @@
 </script>
 
 <template>
-  <main>
+  <div class="how-to-play">
     <div>How To Play View</div>
-  </main>
+  </div>
 </template>
 
 

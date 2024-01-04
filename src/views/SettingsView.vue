@@ -2,9 +2,9 @@
 </script>
 
 <template>
-  <main>
+  <div class="settings">
     <div>Settings View</div>
-  </main>
+  </div>
 </template>
 
 

@@ -1,26 +1,8 @@
 <script setup lang="ts">
-//import TheWelcome from '../components/TheWelcome.vue';
 </script>
 
 <template>
   <div class="credits">
-    <!-- Font imports -->
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="anonymous" />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap"
-      rel="stylesheet"
-    />
-
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="anonymous" />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap"
-      rel="stylesheet"
-    />
-
-    <h1>Credits</h1>
-
     <p>
       <svg
         width="20"
@@ -61,8 +43,8 @@
     <div class="card-collection">
       <div class="individual-card">
         <img class="card-photo" src="../../public/images/laura-img.jpg" />
-        <h2>Laura Stevenson</h2>
-        <h3>Tech Lead</h3>
+        <h1>Laura Stevenson</h1>
+        <h3>Tech Lead / Software Developer</h3>
         <p class="contribution">Contributions to the this project will go here.</p>
         <ul>
           <li>
@@ -76,7 +58,7 @@
 
       <div class="individual-card">
         <img class="card-photo" src="../../public/images/ashley-img.jpg" />
-        <h2>Ashley Mical</h2>
+        <h1>Ashley Mical</h1>
         <h3>Software Developer</h3>
         <p class="contribution">Contributions to the this project will go here.</p>
         <ul>
@@ -89,7 +71,7 @@
 
       <div class="individual-card">
         <img class="card-photo" src="../../public/images/yagmur-img.jpg" />
-        <h2>Yagmur Muslu</h2>
+        <h1>Yagmur Muslu</h1>
         <h3>Software Developer</h3>
         <p class="contribution">Contributions to the this project will go here.</p>
         <ul>
@@ -102,7 +84,7 @@
 
       <div class="individual-card">
         <img class="card-photo" src="../../public/images/kimlyn-img.jpg" />
-        <h2>Kimlyn De Lara</h2>
+        <h1>Kimlyn De Lara</h1>
         <h3>Software Developer</h3>
         <p class="contribution">Contributions to the this project will go here.</p>
         <ul>
@@ -117,7 +99,7 @@
 
       <div class="individual-card">
         <img class="card-photo" src="../../public/images/viv-img.jpg" />
-        <h2>Viviana Valentin</h2>
+        <h1>Viviana Valentin</h1>
         <h3>Software Developer</h3>
         <p class="contribution">Contributions to the this project will go here.</p>
         <ul>
@@ -132,7 +114,7 @@
 
       <div class="individual-card">
         <img class="card-photo" src="../../public/images/rob-img.jpg" />
-        <h2>Robert Harris</h2>
+        <h1>Robert Harris</h1>
         <h3>Software Developer</h3>
         <p class="contribution">Contributions to the this project will go here.</p>
         <ul>
@@ -156,7 +138,8 @@
 }
 
 h1 {
-  font-family: 'Press Start 2P', 'Space Mono', cursive;
+  font-family: 'Press Start 2P', 'Space Mono', Arial, Helvetica, sans-serif;
+  font-size: 19px;
 }
 
 h2 {
@@ -165,6 +148,7 @@ h2 {
 
 h3 {
   text-align: center;
+  font-size: 15px;
 }
 
 svg {
@@ -196,6 +180,7 @@ svg {
   flex-shrink: 0;
   border-radius: 5px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+  margin: 5px;
 }
 
 .contribution {
@@ -219,6 +204,8 @@ li {
 .cg-link {
   text-decoration: none;
   color: #d62828;
+  font-family: 'Press Start 2P', 'Space Mono', Arial, Helvetica, sans-serif;
+  font-size: 15px;
 }
 
 .contact-link:hover {
