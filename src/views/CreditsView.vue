@@ -62,7 +62,7 @@
       <div class="individual-card">
         <img class="card-photo" src="../../public/images/laura-img.jpg" />
         <h2>Laura Stevenson</h2>
-        <h3>Tech Lead / Software Developer</h3>
+        <h3>Tech Lead</h3>
         <p class="contribution">Contributions to the this project will go here.</p>
         <ul>
           <li>

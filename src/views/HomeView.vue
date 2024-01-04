@@ -4,6 +4,6 @@ import TheWelcome from '../components/TheWelcome.vue';
 
 <template>
   <main>
-    <div>HomeView</div>
+    <div><p>HomeView TESTING</p></div>
   </main>
 </template>

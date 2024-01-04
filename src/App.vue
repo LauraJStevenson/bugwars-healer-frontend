@@ -5,16 +5,59 @@ import Header from './components/Header.vue';
 
 <template>
   <div class="app">
-    <Header />
-    <GlobalNav class="left-global-nav" />
+    <div class="header-container">
+      <Header />
+    </div>
+    <div class="nav-container">
+      <GlobalNav />
+    </div>
+    <div class="content-container">
+      <RouterView />
+    </div>
   </div>
 </template>
 
 <style scoped>
-.left-global-nav {
-  position: fixed;
-  left: 0;
-  top: 0;
+.app {
   height: 100vh;
+  display: grid;
+  margin: 0;
+  grid-template-columns: auto 1fr;
+  grid-template-rows: auto 1fr;
+  grid-template-areas:
+    'header header'
+    'nav content-container';
+}
+
+.header-container {
+  height: 100%;
+  grid-area: header;
+  border: 1px solid black;
+  margin-top: 0;
+  margin-bottom: 0;
+  height: 80px;
+}
+
+.nav-container {
+  grid-area: nav;
+  padding: 0;
+  margin: 0;
+  width: 150px;
+  border: 1px solid black;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+}
+
+.content-container {
+  grid-area: content-container;
+  border: 1px solid black;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
 }
 </style>

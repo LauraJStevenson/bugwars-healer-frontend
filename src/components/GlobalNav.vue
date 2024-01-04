@@ -3,18 +3,18 @@
 <template>
   <div class="global-nav-bar">
     <ul>
-      <li><img src="#" /></li>
+      <li><img src="../../public/images/img-placeholder.svg" /></li>
       <li><RouterLink to="/">Home</RouterLink></li>
-      <li><RouterLink to="/GameLobby">Play</RouterLink>--></li>
-      <li><RouterLink to="/HowToPlay">How to Play</RouterLink>--></li>
-      <li><RouterLink to="/credits">Credits</RouterLink>--></li>
+      <li><RouterLink to="/GameLobby">Play</RouterLink></li>
+      <li><RouterLink to="/HowToPlay">How to Play</RouterLink></li>
+      <li><RouterLink to="/credits">Credits</RouterLink></li>
       <li>
         <!--<li v-if="isLoggedIn" @click="settings">Settings</li>-->
         Settings
         <!--<RouterLink to="/Settings">Settings</RouterLink>-->
       </li>
-      <li>Login</li>
-      <li>Register</li>
+      <li><RouterLink to="/login">Login</RouterLink></li>
+      <li><RouterLink to="/register">Register</RouterLink></li>
 
       <!--<li v-if="isLoggedIn" @click="logout">Logout</li>
       <li v-else></li>
@@ -31,11 +31,18 @@
 .global-nav-bar {
   width: 125px;
   color: black;
-  border: 1px solid black;
+  height: 100%;
 }
 
 ul {
   list-style: none;
+  padding: 0;
+  margin: 0;
+  height: 100%;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
 }
 
 li {
