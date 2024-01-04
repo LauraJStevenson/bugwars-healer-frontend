@@ -1,0 +1,56 @@
+<script setup lang="ts"></script>
+
+<template>
+  <div class="global-nav-bar">
+    <ul>
+      <li><img src="#" /></li>
+      <li><RouterLink to="/">Home</RouterLink></li>
+      <li>
+        Play
+        <!--<RouterLink to="/GameLobby">Play</RouterLink>-->
+      </li>
+      <li>
+        How to Play
+        <!--<RouterLink to="/HowToPlay">How to Play</RouterLink>-->
+      </li>
+      <li>
+        Credits
+        <!--<RouterLink to="/credits">Credits</RouterLink>-->
+      </li>
+      <li>
+        Settings
+        <!--<RouterLink to="/Settings">Settings</RouterLink>-->
+      </li>
+      <li>Login</li>
+      <li>Register</li>
+
+      <!--<li v-if="isLoggedIn" @click="logout">Logout</li>
+      <li v-else></li>
+      <li>
+        <RouterLink to="/login">Login</RouterLink>
+        <RouterLink to="/register">Register</RouterLink>
+      </li>
+      -->
+    </ul>
+  </div>
+</template>
+
+<style scoped>
+.global-nav-bar {
+  width: 125px;
+}
+
+ul {
+  list-style: none;
+}
+
+li {
+  text-decoration: none;
+  color: #f0eeec;
+}
+
+a {
+  color: #f0eeec;
+  text-decoration: none;
+}
+</style>
