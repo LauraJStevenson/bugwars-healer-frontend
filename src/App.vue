@@ -2,22 +2,22 @@
 import { RouterLink, RouterView } from 'vue-router';
 import HelloWorld from './components/HelloWorld.vue';
 import RegistrationView from './views/RegistrationView.vue';
+import GlobalNav from './components/GlobalNav.vue';
 </script>
 
 <template>
   <header>
     <div class="wrapper">
       <HelloWorld msg="Team Healers Presents: Bug Wars" />
-      
- 
+      <GlobalNav class="left-global-nav" />
+      <!--
       <nav>
         <RouterLink to="/">Home</RouterLink>
         <RouterLink to="/about">About Us</RouterLink>
         <RouterLink to="/register">Register</RouterLink>
         <RouterLink to="/login">Login</RouterLink>
-
-
       </nav>
+      -->
     </div>
   </header>
 
@@ -25,6 +25,15 @@ import RegistrationView from './views/RegistrationView.vue';
 </template>
 
 <style scoped>
+.left-global-nav {
+  position: fixed;
+  left: 0;
+  top: 0;
+  height: 100vh;
+  width: 80px;
+  background-color: #182328;
+  color: #f0eeec;
+}
 header {
   line-height: 1.5;
   max-height: 100vh;
@@ -86,6 +95,4 @@ nav a:first-of-type {
     margin-top: 1rem;
   }
 }
-
-
 </style>
