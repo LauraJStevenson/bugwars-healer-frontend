@@ -34,9 +34,6 @@ const router = createRouter({
     {
       path: '/howtoplay',
       name: 'howtoplay',
-      // route level code-splitting
-      // this generates a separate chunk (About.[hash].js) for this route
-      // which is lazy-loaded when the route is visited.
       component: () => import('../views/HowToPlayView.vue'),
     },
 
@@ -44,9 +41,6 @@ const router = createRouter({
     {
       path: '/settings',
       name: 'settings',
-      // route level code-splitting
-      // this generates a separate chunk (About.[hash].js) for this route
-      // which is lazy-loaded when the route is visited.
       component: () => import('../views/SettingsView.vue'),
     },
 
@@ -54,17 +48,11 @@ const router = createRouter({
     {
       path: '/gamelobby',
       name: 'gamelobby',
-      // route level code-splitting
-      // this generates a separate chunk (About.[hash].js) for this route
-      // which is lazy-loaded when the route is visited.
       component: () => import('../views/GameLobbyView.vue'),
     },
     {
       path: '/play',
       name: 'play',
-      // route level code-splitting
-      // this generates a separate chunk (About.[hash].js) for this route
-      // which is lazy-loaded when the route is visited.
       component: () => import('../views/PlayView.vue'),
     },
   ],
