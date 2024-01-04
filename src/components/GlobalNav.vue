@@ -18,6 +18,7 @@
         <!--<RouterLink to="/credits">Credits</RouterLink>-->
       </li>
       <li>
+        <!--<li v-if="isLoggedIn" @click="settings">Settings</li>-->
         Settings
         <!--<RouterLink to="/Settings">Settings</RouterLink>-->
       </li>
