@@ -37,9 +37,11 @@
   };
   
   const showPassword = () => {
-    const x = document.getElementById("password");
-    x.type = x.type === "password" ? "text" : "password";
-  };
+  const x = document.getElementById("password") as HTMLInputElement;
+  x.type = x.type === "password" ? "text" : "password";
+};
+
+
   </script>
   
   <style>
