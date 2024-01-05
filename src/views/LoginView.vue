@@ -47,6 +47,7 @@
     height: 2.5em;
     width: 15em;
     border-radius: 5px;
+
   }
 
   /* changes the placeholder box color when clicked, ie, password, email etc*/
