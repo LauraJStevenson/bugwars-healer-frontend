@@ -25,7 +25,7 @@ import Header from './components/Header.vue';
   grid-template-columns: auto 1fr;
   grid-template-rows: auto 1fr;
   grid-template-areas:
-    'header header'
+    'nav header'
     'nav content-container';
 }
 

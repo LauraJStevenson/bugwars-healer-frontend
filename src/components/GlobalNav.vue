@@ -35,7 +35,7 @@
 
 ul {
   list-style: none;
-  padding: 15px;
+  padding: 100px 15px 15px 15px;
   margin: 0;
   height: 100%;
   width: 100%;
