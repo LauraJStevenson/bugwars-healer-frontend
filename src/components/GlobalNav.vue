@@ -3,9 +3,6 @@
 <template>
   <div class="global-nav-bar">
     <ul>
-      <!-- <li><img src="../../public/images/img-placeholder.svg" /></li> -->
-
-      <!--added logo into the placeholder.svg spot viv -->
       <li><img src="/images/Logo.png" /></li>
 
       <li><RouterLink to="/">Home</RouterLink></li>
