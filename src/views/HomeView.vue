@@ -16,7 +16,7 @@
     >
       <div class="image-overlay"></div>
       <img
-        src="/images/home-img.jpg"
+        src="../../public/images/home-img.jpg"
         alt="Illustration of Bug Wars being played on a computer."
         class="computer-illustration"
       />
