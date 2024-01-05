@@ -60,4 +60,6 @@ import Header from './components/Header.vue';
   align-items: center;
   height: 100%;
 }
+
+
 </style>
