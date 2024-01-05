@@ -37,9 +37,11 @@
   };
   
   const showPassword = () => {
-    const x = document.getElementById("password");
-    x.type = x.type === "password" ? "text" : "password";
-  };
+  const x = document.getElementById("password") as HTMLInputElement;
+  x.type = x.type === "password" ? "text" : "password";
+};
+
+
   </script>
   
   <style>
@@ -47,6 +49,7 @@
     height: 2.5em;
     width: 15em;
     border-radius: 5px;
+
   }
 
   /* changes the placeholder box color when clicked, ie, password, email etc*/
