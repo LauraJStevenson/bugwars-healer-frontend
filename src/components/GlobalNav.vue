@@ -3,7 +3,11 @@
 <template>
   <div class="global-nav-bar">
     <ul>
-      <li><img src="../../public/images/img-placeholder.svg" /></li>
+      <!-- <li><img src="../../public/images/img-placeholder.svg" /></li> -->
+
+      <!--added logo into the placeholder.svg spot viv -->
+      <li><img src="/images/Logo.png" /></li>
+
       <li><RouterLink to="/">Home</RouterLink></li>
       <li><RouterLink to="/GameLobby">Play</RouterLink></li>
       <li><RouterLink to="/HowToPlay">How to Play</RouterLink></li>
@@ -54,5 +58,16 @@ li {
 a {
   color: black;
   text-decoration: none;
+}
+
+/* hover color for the nav links */
+a:hover {
+  color: #2f80ed;
+  text-decoration: underline;
+}
+
+/* 4em works to not make the page scroll */
+img {
+  width: 4em;
 }
 </style>
