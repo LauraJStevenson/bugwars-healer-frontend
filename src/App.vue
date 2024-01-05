@@ -27,6 +27,7 @@ import Header from './components/Header.vue';
   grid-template-areas:
     'nav header'
     'nav content-container';
+  background-color: #eae2b7;
 }
 
 .header-container {
@@ -60,6 +61,4 @@ import Header from './components/Header.vue';
   align-items: center;
   height: 100%;
 }
-
-
 </style>
