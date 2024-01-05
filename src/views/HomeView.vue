@@ -93,6 +93,10 @@ h1 {
 .go-button:hover {
   filter: none;
 }
+
+p {
+  text-align: center;
+}
 </style>
 
 <script setup lang="ts">
