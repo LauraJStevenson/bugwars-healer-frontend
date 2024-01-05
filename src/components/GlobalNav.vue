@@ -3,11 +3,8 @@
 <template>
   <div class="global-nav-bar">
     <ul>
-      <!-- <li><img src="../../public/images/img-placeholder.svg" /></li> -->
+      <li><img src="/images/Logo.png" /></li>
 
-      <!--added logo into the placeholder.svg spot viv -->
-      <li><img src="../../public/images/Logo.png" /></li> 
-      
       <li><RouterLink to="/">Home</RouterLink></li>
       <li><RouterLink to="/GameLobby">Play</RouterLink></li>
       <li><RouterLink to="/HowToPlay">How to Play</RouterLink></li>
@@ -39,7 +36,7 @@
 
 ul {
   list-style: none;
-  padding: 15px;
+  padding: 100px 15px 15px 15px;
   margin: 0;
   height: 100%;
   width: 100%;
@@ -58,7 +55,6 @@ li {
 a {
   color: black;
   text-decoration: none;
-  
 }
 
 /* hover color for the nav links */

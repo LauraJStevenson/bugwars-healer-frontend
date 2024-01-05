@@ -42,10 +42,10 @@
 
     <div class="card-collection">
       <div class="individual-card">
-        <img class="card-photo" src="../../public/images/laura-img.jpg" />
+        <img class="card-photo" src="/images/laura-img.jpg" />
         <h1>Laura Stevenson</h1>
         <h3>Tech Lead / Software Developer</h3>
-        <p class="contribution">Contributions to the this project will go here.</p>
+        <p class="contribution">Contributions:</p>
         <ul>
           <li>
             <a class="contact-link" href="https://www.linkedin.com/in/laurajstevenson/">LinkedIn</a>
@@ -57,10 +57,10 @@
       </div>
 
       <div class="individual-card">
-        <img class="card-photo" src="../../public/images/ashley-img.jpg" />
+        <img class="card-photo" src="/images/ashley-img.jpg" />
         <h1>Ashley Mical</h1>
         <h3>Software Developer</h3>
-        <p class="contribution">Contributions to the this project will go here.</p>
+        <p class="contribution">Contributions:</p>
         <ul>
           <li>
             <a class="contact-link" href="https://www.linkedin.com/in/ashleymical/">LinkedIn</a>
@@ -70,10 +70,10 @@
       </div>
 
       <div class="individual-card">
-        <img class="card-photo" src="../../public/images/yagmur-img.jpg" />
+        <img class="card-photo" src="/images/yagmur-img.jpg" />
         <h1>Yagmur Muslu</h1>
         <h3>Software Developer</h3>
-        <p class="contribution">Contributions to the this project will go here.</p>
+        <p class="contribution">Contributions:</p>
         <ul>
           <li>
             <a class="contact-link" href="https://www.linkedin.com/in/yagmurmuslu/">LinkedIn</a>
@@ -83,10 +83,10 @@
       </div>
 
       <div class="individual-card">
-        <img class="card-photo" src="../../public/images/kimlyn-img.jpg" />
+        <img class="card-photo" src="/images/kimlyn-img.jpg" />
         <h1>Kimlyn De Lara</h1>
         <h3>Software Developer</h3>
-        <p class="contribution">Contributions to the this project will go here.</p>
+        <p class="contribution">Contributions:</p>
         <ul>
           <li>
             <a class="contact-link" href="https://www.linkedin.com/in/kimlyn-de-lara/">LinkedIn</a>
@@ -98,10 +98,10 @@
       </div>
 
       <div class="individual-card">
-        <img class="card-photo" src="../../public/images/viv-img.jpg" />
+        <img class="card-photo" src="/images/viv-img.jpg" />
         <h1>Viviana Valentin</h1>
         <h3>Software Developer</h3>
-        <p class="contribution">Contributions to the this project will go here.</p>
+        <p class="contribution">Contributions:</p>
         <ul>
           <li>
             <a class="contact-link" href="https://www.linkedin.com/in/viviana-valentin/"
@@ -113,10 +113,10 @@
       </div>
 
       <div class="individual-card">
-        <img class="card-photo" src="../../public/images/rob-img.jpg" />
+        <img class="card-photo" src="/images/rob-img.jpg" />
         <h1>Robert Harris</h1>
         <h3>Software Developer</h3>
-        <p class="contribution">Contributions to the this project will go here.</p>
+        <p class="contribution">Contributions:</p>
         <ul>
           <li>
             <a class="contact-link" href="https://www.linkedin.com/in/robjamesharris/">LinkedIn</a>
@@ -130,7 +130,6 @@
   
 <style scoped>
 .credits {
-  font-family: 'Space Mono', Arial, Helvetica, sans-serif;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -198,6 +197,10 @@ li {
   background-color: #182328;
   padding: 10px;
   border-radius: 5px;
+}
+
+.contact-link {
+  background-color: #182328;
 }
 
 .contact-link,
