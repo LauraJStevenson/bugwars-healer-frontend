@@ -3,25 +3,11 @@
 
 <template>
   <div class="credits">
-    <p>
-      <svg
-        width="20"
-        height="20"
-        viewBox="0 0 20 20"
-        fill="none"
-        xmlns="http://www.w3.org/2000/svg"
-      >
-        <path
-          d="M6 0H8V4H12V0H14V4H16V7H18V9H16V11H20V13H16V15H18V17H16V20H4V17H2V15H4V13H0V11H4V9H2V7H4V4H6V0ZM14 6H6V9H14V6ZM9 11H6V18H9V11ZM11 18H14V11H11V18Z"
-          fill="black"
-        />
-        <path fill-rule="evenodd" clip-rule="evenodd" d="M2 7H0V5H2V7Z" fill="black" />
-        <path fill-rule="evenodd" clip-rule="evenodd" d="M2 17V19H0V17H2Z" fill="black" />
-        <path fill-rule="evenodd" clip-rule="evenodd" d="M18 17H20V19H18V17Z" fill="black" />
-        <path fill-rule="evenodd" clip-rule="evenodd" d="M18 7V5H20V7H18Z" fill="black" />
-      </svg>
+    <p class="title">
       We are Team Healer of
       <a class="cg-link" href="https://www.crusadergames.net/about">Crusader Games </a>
+    </p>
+    <p>
       <svg
         width="20"
         height="20"
@@ -134,6 +120,15 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  padding: 50px;
+}
+
+.title {
+  font-family: 'Press Start 2P', 'Space Mono', Arial, Helvetica, sans-serif;
+  font-size: 1.5em;
+}
+.title > a {
+  font-size: 1em;
 }
 
 h1 {

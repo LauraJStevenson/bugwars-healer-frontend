@@ -47,10 +47,11 @@ h1 {
   justify-content: center;
   align-items: center;
   text-decoration: none;
+  width: 50%;
 }
 
 .computer-illustration {
-  width: 50%;
+  width: 100%;
   border-radius: 15px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
   display: block;
@@ -91,6 +92,10 @@ h1 {
 
 .go-button:hover {
   filter: none;
+}
+
+p {
+  text-align: center;
 }
 </style>
 

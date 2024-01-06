@@ -2,11 +2,11 @@
 </script>
 
 <template>
-  <img class="help-img" src="..\..\public\images\Blue-Bug.png"/>
   <div class="how-to-play">
+    <img class="help-img" src="..\..\public\images\Blue-Bug.png" />
     <div>
       <h1>How To Play</h1>
-      <h2>Easy Mode </h2>
+      <h2>Easy Mode</h2>
       <p>Step 1: Choose your bug</p>
       <p>Step 2: Choose your enemy</p>
       <p>Step 3: Fight!</p>
@@ -22,6 +22,14 @@
 
 <script scoped></script>
 <style>
+.how-to-play {
+  padding: 50px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
 h1 {
   font-family: 'Press Start 2P', 'Space Mono', Arial, Helvetica, sans-serif;
   font-size: 25px;
@@ -38,7 +46,7 @@ p {
   height: 200px;
   flex-shrink: 0;
   border-radius: 5px;
-  
+
   margin: 5px;
 }
 </style>
