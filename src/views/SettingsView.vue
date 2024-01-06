@@ -18,18 +18,21 @@
     <div class="form-group">
       <label for="change-username">Change Username:</label>
       <input type="text" id="change-username" placeholder="Enter new username" />
+      <button type="submit" class="submit-btn">Submit</button>
     </div>
 
     <!--Needs format validation-->
     <div class="form-group">
       <label for="change-password">Change Password:</label>
       <input type="password" id="change-password" placeholder="Enter new password" />
+      <button type="submit" class="submit-btn">Submit</button>
     </div>
 
     <!--Needs format validation-->
     <div class="form-group">
       <label for="change-email">Change Email:</label>
       <input type="email" id="change-email" placeholder="Enter new email" />
+      <button type="submit" class="submit-btn">Submit</button>
     </div>
 
     <!--Will need updated once we implement the game functionality-->
@@ -139,6 +142,19 @@ ul {
 .delete-script {
   color: #f00;
   cursor: pointer;
+}
+
+#change-email,
+#change-password,
+#change-username {
+  height: 2.5em;
+  width: 15em;
+  border-radius: 5px;
+  background-color: rgb(255, 255, 255);
+}
+
+.submit-btn {
+  margin-left: 5px;
 }
 </style>
 
