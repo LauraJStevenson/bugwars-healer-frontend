@@ -3,7 +3,7 @@
 <template>
   <div id="registration">
     
-    <form class="registration-form" @submit.prevent="submitForm">
+    <form class="input-form" @submit.prevent="submitForm">
 
       <h1>Sign Up</h1>
 
@@ -82,10 +82,7 @@ const submitForm = () => {
   color: #EB5757;
 }
 
-.registration-form{
-  text-align: center;
-}
-  
+
 /* changes the placeholder box color when clicked, ie, password, email etc*/
 .reg-input-group input:focus{
     border: 2px #2f80ed solid;
