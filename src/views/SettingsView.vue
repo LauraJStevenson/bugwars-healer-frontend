@@ -103,7 +103,16 @@ select {
   padding: 8px;
   margin-top: 5px;
   box-sizing: border-box;
+  
 }
+
+/*this is to try and make the input fields the same as the reg and login views, but it messes with the checkbox*/ 
+/* input{
+  height: 2.5em;
+    width: 15em;
+    border-radius: 5px;
+    background-color: rgb(255, 255, 255);
+} */
 
 .toggle {
   display: flex;
@@ -114,6 +123,8 @@ select {
 .toggle label {
   margin-right: 10px;
 }
+
+
 
 ul {
   list-style: none;

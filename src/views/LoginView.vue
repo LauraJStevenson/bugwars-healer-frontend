@@ -1,6 +1,6 @@
 <template>
     <div id="login">
-      <form class="login-form" @submit.prevent="login">
+      <form class="input-form" @submit.prevent="login">
         <h1>Login</h1>
         <div class="login-input-group">
           <input type="email" id="email" placeholder="Email" v-model="formData.email" required />
@@ -61,7 +61,7 @@
 }
 
 /* centers the actual Login information*/
-.login-form{
+.input-form{
   text-align: center;
 }
 
