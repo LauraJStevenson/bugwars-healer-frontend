@@ -64,14 +64,33 @@ const submitForm = () => {
 
 <style scoped>
 
+  /* makes the card to hold the login*/
+  #registration {
+  border: 2px solid black;
+  border-radius: 5px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 15px;
+  margin: 15px;
+  width: 345px;
+  height: 530px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
 .error-message {
   color: #EB5757;
 }
 
+.registration-form{
+  text-align: center;
+}
+  
 /* changes the placeholder box color when clicked, ie, password, email etc*/
 .reg-input-group input:focus{
     border: 2px #2f80ed solid;
     outline: 0;
+    
   }
 
   a {
