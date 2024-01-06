@@ -3,7 +3,7 @@
 <template>
   <div class="global-nav-bar">
     <ul>
-      <li><img src="/images/Logo.png" /></li>
+      <li><img src="/public/images/Logo.png" /></li>
 
       <li><RouterLink to="/">Home</RouterLink></li>
       <li><RouterLink to="/GameLobby">Play</RouterLink></li>
