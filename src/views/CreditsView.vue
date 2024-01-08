@@ -126,6 +126,7 @@
 .title {
   font-family: 'Press Start 2P', 'Space Mono', Arial, Helvetica, sans-serif;
   font-size: 1.5em;
+  text-align: center;
 }
 .title > a {
   font-size: 1em;

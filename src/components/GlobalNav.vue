@@ -30,22 +30,24 @@
 
 <style scoped>
 .global-nav-bar {
-  width: 130px;
+  width: 100%;
   color: black;
-  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
 }
 
 ul {
   list-style: none;
   padding: 100px 15px 15px 15px;
   margin: 0;
-  height: 100%;
+  max-height: 100%;
   width: 100%;
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
   align-items: center;
-  gap: 50px;
+  gap: 2em;
 }
 
 li {

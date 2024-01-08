@@ -6,13 +6,12 @@
 </template>
   
   <style scoped>
-.process-view {
+.process {
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   padding: 50px;
-  text-align: center;
 }
 
 h1 {

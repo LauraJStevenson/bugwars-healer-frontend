@@ -33,6 +33,7 @@ import Header from './components/HeaderComponent.vue';
   height: 100%;
   grid-area: header;
   border: 1px solid black;
+  border-left: none;
   margin-top: 0;
   margin-bottom: 0;
   height: 80px;
@@ -43,17 +44,16 @@ import Header from './components/HeaderComponent.vue';
   padding: 0;
   margin: 0;
   width: 150px;
-  border: 1px solid black;
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: flex-start;
   align-items: center;
   height: 100%;
+  border: 1px solid black;
 }
 
 .content-container {
   grid-area: content-container;
-  border: 1px solid black;
   display: flex;
   flex-direction: column;
   justify-content: center;
