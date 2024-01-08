@@ -30,7 +30,7 @@
       <div class="individual-card">
         <img class="card-photo" src="../../public/images/laura-img.jpg" />
         <h1>Laura Stevenson</h1>
-        <h3>Tech Lead / Software Developer</h3>
+        <h3>Tech Lead / Full Stack Developer</h3>
         <p class="contribution">Contributions:</p>
         <ul>
           <li>
@@ -45,7 +45,7 @@
       <div class="individual-card">
         <img class="card-photo" src="../../public/images/ashley-img.jpg" />
         <h1>Ashley Mical</h1>
-        <h3>Software Developer</h3>
+        <h3>Full Stack Developer</h3>
         <p class="contribution">Contributions:</p>
         <ul>
           <li>
@@ -58,7 +58,7 @@
       <div class="individual-card">
         <img class="card-photo" src="../../public/images/yagmur-img.jpg" />
         <h1>Yagmur Muslu</h1>
-        <h3>Software Developer</h3>
+        <h3>Full Stack Developer</h3>
         <p class="contribution">Contributions:</p>
         <ul>
           <li>
@@ -71,7 +71,7 @@
       <div class="individual-card">
         <img class="card-photo" src="../../public/images/kimlyn-img.jpg" />
         <h1>Kimlyn De Lara</h1>
-        <h3>Software Developer</h3>
+        <h3>Full Stack Developer</h3>
         <p class="contribution">Contributions:</p>
         <ul>
           <li>
@@ -86,7 +86,7 @@
       <div class="individual-card">
         <img class="card-photo" src="../../public/images/viv-img.jpg" />
         <h1>Viviana Valentin</h1>
-        <h3>Software Developer</h3>
+        <h3>Full Stack Developer</h3>
         <p class="contribution">Contributions:</p>
         <ul>
           <li>
@@ -101,7 +101,7 @@
       <div class="individual-card">
         <img class="card-photo" src="../../public/images/rob-img.jpg" />
         <h1>Robert Harris</h1>
-        <h3>Software Developer</h3>
+        <h3>Full Stack Developer</h3>
         <p class="contribution">Contributions:</p>
         <ul>
           <li>
