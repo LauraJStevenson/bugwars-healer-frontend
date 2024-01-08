@@ -18,7 +18,7 @@
     <div class="individual-bug-card">
       <img class="bug-card-photo" src="../../public/images/Green-Bug.png" />
       <h1>Green Bug</h1>
-      <h3>Blue Bug Abilities</h3>
+      <h3>Green Bug Abilities</h3>
       <label for="option2">
         <input type="radio" id="option2" name="options" />
         Choose this bug!
@@ -27,7 +27,7 @@
     <div class="individual-bug-card">
       <img class="bug-card-photo" src="../../public/images/Yellow-Bug.png" />
       <h1>Yellow Bug</h1>
-      <h3>Blue Bug Abilities</h3>
+      <h3>Yellow Bug Abilities</h3>
       <label for="option3">
         <input type="radio" id="option3" name="options" />
         Choose this bug!
@@ -36,7 +36,7 @@
     <div class="individual-bug-card">
       <img class="bug-card-photo" src="../../public/images/Red-Bug.png" />
       <h1>Red Bug</h1>
-      <h3>Blue Bug Abilities</h3>
+      <h3>Red Bug Abilities</h3>
       <label for="option4">
         <input type="radio" id="option4" name="options" />
         Choose this bug!
