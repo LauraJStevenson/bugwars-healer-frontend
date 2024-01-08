@@ -51,6 +51,11 @@ const router = createRouter({
       name: 'credits',
       component: () => import('../views/CreditsView.vue'),
     },
+    {
+      path: '/behindthescenes',
+      name: 'behindthescenes',
+      component: () => import('../views/BehindTheScenesView.vue'),
+    },
   ],
 });
 

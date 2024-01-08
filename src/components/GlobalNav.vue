@@ -6,12 +6,13 @@
       <li><img src="/public/images/Logo.png" /></li>
 
       <li><RouterLink to="/">Home</RouterLink></li>
-      <li><RouterLink to="/GameLobby">Play</RouterLink></li>
-      <li><RouterLink to="/HowToPlay">How to Play</RouterLink></li>
+      <li><RouterLink to="/gamelobby">Play</RouterLink></li>
+      <li><RouterLink to="/howtoplay">How to Play</RouterLink></li>
       <li><RouterLink to="/credits">Credits</RouterLink></li>
+      <li><RouterLink to="/behindthescenes">Behind the Scenes</RouterLink></li>
       <li>
         <!--<li v-if="isLoggedIn" @click="settings">Settings</li>-->
-        <RouterLink to="/Settings">Settings</RouterLink>
+        <RouterLink to="/settings">Settings</RouterLink>
       </li>
       <li><RouterLink to="/login">Login</RouterLink></li>
       <li><RouterLink to="/register">Register</RouterLink></li>
@@ -29,7 +30,7 @@
 
 <style scoped>
 .global-nav-bar {
-  width: 140px;
+  width: 130px;
   color: black;
   height: 100%;
 }
@@ -50,6 +51,7 @@ ul {
 li {
   text-decoration: none;
   color: black;
+  text-align: center;
 }
 
 a {
