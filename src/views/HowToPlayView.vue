@@ -2,7 +2,7 @@
 </script>
 
 <template>
-  <div class="how-to-play">
+  <div class="how-to-play-card">
     <img class="help-img" src="..\..\public\images\Blue-Bug.png" />
     <div>
       <h1>How To Play</h1>
@@ -22,12 +22,18 @@
 
 <script scoped></script>
 <style>
-.how-to-play {
-  padding: 50px;
+.how-to-play-card {
+  border: 2px solid black;
+  border-radius: 5px;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  padding: 15px;
+  margin: 15px;
+  width: 345px;
+  height: 720px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
 }
 
 h1 {
