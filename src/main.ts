@@ -4,6 +4,7 @@ import { createApp } from 'vue';
 import axios from 'axios';
 import App from './App.vue';
 import router from './router';
+import store from './stores/auth.store'
 
 axios.defaults.baseURL = import.meta.env.VITE_REMOTE_API + '/api';
 
@@ -11,6 +12,7 @@ const app = createApp(App);
 
 app.use(createPinia());
 app.use(router);
+app.use(store);
 
 app.mount('#app');
 
