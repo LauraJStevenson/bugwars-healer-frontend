@@ -26,10 +26,10 @@
 </template>
 
 <script setup lang="ts">
-import { useAuthStore } from '@/stores/auth';
 import { storeToRefs } from 'pinia';
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
+import { useAuthStore } from '../stores/auth';
 
 const formData = ref({
   email: '',
@@ -41,11 +41,12 @@ const { login, clearAuthError } = useAuthStore();
 const { authError } = storeToRefs(useAuthStore());
 
 function submit() {
-  const loginDto = { 
+  const loginDto = {
     username: formData.value.email,
-    password: formData.value.password }
+    password: formData.value.password,
+  };
 
-  login(loginDto)
+  login(loginDto);
 }
 
 const showPassword = () => {

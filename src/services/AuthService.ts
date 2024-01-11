@@ -24,8 +24,8 @@
 //         return response.data;
 //     },
 // };
-import type { LoginDto, RegisterDto } from '@/types';
-import { makeRequest } from '@/utils/makeRequest';
+import type { LoginDto, RegisterDto } from '../types';
+import { makeRequest } from '../utils/makeRequest';
 
 import axios from 'axios';
 
@@ -49,5 +49,4 @@ export const authService = {
       },
     });
   },
-
 };

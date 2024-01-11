@@ -1,12 +1,10 @@
-import type { RetryAxiosRequestConfig } from '@/config/axios';
-import { authService } from '@/services/authService';
-import type { LoginDto, User } from '@/types';
-import { type SuccessResponse } from '@/utils/makeRequest';
-import { objectsHaveSameKeys } from '@/utils/objectsHaveSameKeys';
-import axios, { AxiosError } from 'axios';
 import { defineStore } from 'pinia';
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
+import { authService } from '../services/authService';
+import type { LoginDto, User } from '../types';
+import { type SuccessResponse } from '../utils/makeRequest';
+import { objectsHaveSameKeys } from '../utils/objectsHaveSameKeys';
 
 export const useAuthStore = defineStore('auth', () => {
   const router = useRouter();
@@ -68,13 +66,11 @@ export const useAuthStore = defineStore('auth', () => {
     }
   }
 
-
   return {
     user,
     authError,
     clearAuthError,
     login,
     logout,
-    
   };
 });
