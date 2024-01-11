@@ -68,11 +68,10 @@
 </template>
 
 <script setup lang="ts">
-import { authService } from '@/services/authService';
-import type { RegisterDto } from '@/types';
-import { ref, computed, provide, inject } from 'vue';
+import { computed, ref } from 'vue';
 import { useRouter } from 'vue-router';
-import LoginView from './LoginView.vue';
+import { authService } from '../services/authService';
+import type { RegisterDto } from '../types';
 
 const router = useRouter();
 
@@ -92,22 +91,23 @@ const isSubmitDisabled = computed(() => passwordsDoNotMatch.value);
 
 const submitForm = async () => {
   if (passwordsDoNotMatch.value) {
-    return
+    return;
   }
-  const registerDTO:RegisterDto = {
-      username: formData.value.username,
-      firstname: formData.value.firstname,
-      lastname: formData.value.lastname,
-      email: formData.value.email,
-      password: formData.value.password
-}
-  const response = await authService.register(registerDTO)
-  if (response.type === 'success'){
-    router.push({ name: 'login' })
-  } else { console.error(response.error) }
+  const registerDTO: RegisterDto = {
+    username: formData.value.username,
+    firstname: formData.value.firstname,
+    lastname: formData.value.lastname,
+    email: formData.value.email,
+    password: formData.value.password,
+  };
+  const response = await authService.register(registerDTO);
+  if (response.type === 'success') {
+    router.push({ name: 'login' });
+  } else {
+    console.error(response.error);
+  }
 };
 </script>
-
 
 <style scoped>
 #registration {
