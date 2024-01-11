@@ -68,8 +68,11 @@
 </template>
 
 <script setup lang="ts">
+import { authService } from '@/services/authService';
+import type { RegisterDto } from '@/types';
 import { ref, computed, provide, inject } from 'vue';
 import { useRouter } from 'vue-router';
+import LoginView from './LoginView.vue';
 
 const router = useRouter();
 
@@ -87,27 +90,22 @@ const passwordsDoNotMatch = computed(
 );
 const isSubmitDisabled = computed(() => passwordsDoNotMatch.value);
 
-const store = inject('store'); // Inject the store from the parent component
-
 const submitForm = async () => {
-  if (!passwordsDoNotMatch.value && store) {
-    try {
-      // Call store.dispatch inside the setup function
-      await store.dispatch('register', formData.value);
-      console.log('Registration successful');
-
-      // Redirect to login page after registering
-      router.push('/login');
-    } catch (error) {
-      console.error('Registration error:', error.message);
-      // Display user-friendly error message to the user
-      alert(error.message);
-    }
+  if (passwordsDoNotMatch.value) {
+    return
   }
+  const registerDTO:RegisterDto = {
+      username: formData.value.username,
+      firstname: formData.value.firstname,
+      lastname: formData.value.lastname,
+      email: formData.value.email,
+      password: formData.value.password
+}
+  const response = await authService.register(registerDTO)
+  if (response.type === 'success'){
+    router.push({ name: 'login' })
+  } else { console.error(response.error) }
 };
-
-// Provide the store to child components
-provide('store', store);
 </script>
 
 

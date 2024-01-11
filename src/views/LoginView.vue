@@ -1,9 +1,9 @@
 <template>
   <div id="login">
-    <form class="input-form" @submit.prevent="login">
+    <form class="input-form" @submit.prevent="submit" @input="clearAuthError">
       <h1>Login</h1>
       <div class="login-input-group">
-        <input type="email" id="email" placeholder="Email" v-model="formData.email" required />
+        <input type="text" id="email" placeholder="Email" v-model="formData.email" required />
       </div>
       <p></p>
       <div class="login-input-group">
@@ -19,15 +19,17 @@
       <p><input type="checkbox" @change="showPassword" /> Show Password</p>
 
       <p><button type="submit">Login</button></p>
+      {{ authError }}
     </form>
     <p><router-link to="/register">New here? Create an account!</router-link></p>
   </div>
 </template>
 
 <script setup lang="ts">
+import { useAuthStore } from '@/stores/auth';
+import { storeToRefs } from 'pinia';
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
-import { useStore } from 'vuex';
 
 const formData = ref({
   email: '',
@@ -35,24 +37,16 @@ const formData = ref({
 });
 
 const router = useRouter();
-const store = useStore();
+const { login, clearAuthError } = useAuthStore();
+const { authError } = storeToRefs(useAuthStore());
 
-const login = async () => {
-  try {
-    await store.dispatch('login', {
-      username: formData.value.email, // Assuming your backend uses 'username' instead of 'email'
-      password: formData.value.password,
-    });
+function submit() {
+  const loginDto = { 
+    username: formData.value.email,
+    password: formData.value.password }
 
-    console.log('Login successful');
-    // Example: Redirect to the home page after login
-    router.push('/');
-  } catch (error) {
-    console.error('Login error:', error.message);
-    // Display user-friendly error message to the user
-    alert(error.message);
-  }
-};
+  login(loginDto)
+}
 
 const showPassword = () => {
   const x = document.getElementById('password') as HTMLInputElement;
