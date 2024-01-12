@@ -32,7 +32,7 @@
       </li>
 
       <li v-if="isAuthenticated">
-        <RouterLink @click="handleLogout" active-class="active" to="/">Logout</RouterLink>
+        <RouterLink @click="handleLogout" to="/">Logout</RouterLink>
       </li>
     </ul>
   </div>
@@ -40,7 +40,6 @@
 
 <script>
 import { useAuthStore } from '../stores/auth';
-import { RouterLink } from 'vue-router';
 
 export default {
   setup() {

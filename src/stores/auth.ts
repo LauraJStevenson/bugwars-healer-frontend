@@ -44,13 +44,15 @@ export const useAuthStore = defineStore('auth', () => {
     router.push({ name: 'home' });
   }
 
-  function logout(redirect = true) {
+  function logout() {
     user.value = emptyUser;
     isAuthenticated.value = false;
     localStorage.removeItem('accessToken');
     localStorage.removeItem('user');
-    if (redirect) router.push({ name: 'home' });
-    window.location.reload();
+
+    router.push({ name: 'home' }).then(() => {
+      window.location.reload();
+    });
   }
 
   function clearAuthError() {
