@@ -30,22 +30,39 @@
           >Register</RouterLink
         >
       </li>
+
+      <li v-if="isAuthenticated">
+        <RouterLink @click="handleLogout" active-class="active" to="/">Logout</RouterLink>
+      </li>
     </ul>
   </div>
 </template>
 
 <script>
 import { useAuthStore } from '../stores/auth';
+import { RouterLink } from 'vue-router';
 
 export default {
+  setup() {
+    const authStore = useAuthStore();
+
+    return {
+      authStore,
+    };
+  },
   computed: {
     isAuthenticated() {
-      const authStore = useAuthStore();
-      return authStore.isAuthenticated;
+      return this.authStore.isAuthenticated;
+    },
+  },
+  methods: {
+    handleLogout() {
+      this.authStore.logout();
     },
   },
 };
 </script>
+
 
 <style scoped>
 .global-nav-bar {
