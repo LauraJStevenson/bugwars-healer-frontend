@@ -50,7 +50,7 @@ export const useAuthStore = defineStore('auth', () => {
     localStorage.removeItem('accessToken');
     localStorage.removeItem('user');
 
-    router.push({ name: 'home' }).then(() => {
+    router.push({ name: 'login' }).then(() => {
       window.location.reload();
     });
   }
