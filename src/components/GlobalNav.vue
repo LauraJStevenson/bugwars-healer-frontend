@@ -9,7 +9,9 @@
       <li><RouterLink active-class="active" to="/gamelobby">Play</RouterLink></li>
       <li><RouterLink active-class="active" to="/howtoplay">How to Play</RouterLink></li>
       <li><RouterLink active-class="active" to="/credits">Credits</RouterLink></li>
-      <li><RouterLink active-class="active" to="/behindthescenes">Behind the Scenes</RouterLink></li>
+      <li>
+        <RouterLink active-class="active" to="/behindthescenes">Behind the Scenes</RouterLink>
+      </li>
       <li>
         <!--<li v-if="isLoggedIn" @click="settings">Settings</li>-->
         <RouterLink active-class="active" to="/settings">Settings</RouterLink>
@@ -28,6 +30,8 @@
   </div>
 </template>
 
+<script setup lang="ts"></script>
+
 <style scoped>
 .global-nav-bar {
   width: 9em;
@@ -40,9 +44,6 @@
   position: fixed;
   height: 100%;
   padding-bottom: 0;
-  
-
-  
 }
 
 ul {
@@ -56,45 +57,41 @@ ul {
   justify-content: flex-start;
   align-items: center;
   gap: 2.41em;
-  background-color: #136F63;
+  background-color: #136f63;
   border-radius: 5px;
   box-shadow: 0px 4px 8px 0px rgba(0, 0, 0, 0.15);
-  
 }
 
 li {
   text-decoration: none;
   color: black;
   text-align: center;
-  background-color: #136F63;
-  
+  background-color: #136f63;
 }
 
 a {
   color: rgb(255, 255, 255);
   text-decoration: none;
-  background-color: #136F63;
-  
+  background-color: #136f63;
 }
 
 /* hover color for the nav links */
 a:hover {
-  color: #F77F00;
+  color: #f77f00;
   text-decoration: underline;
   font-weight: bold;
   margin-right: 5px;
-
 }
 
 /* 4em works to not make the page scroll */
 img {
   width: 4em;
-  background-color: #136F63;
+  background-color: #136f63;
 }
 
 .active {
   font-weight: bold;
   text-decoration: underline;
-  color: #F77F00;
+  color: #f77f00;
 }
 </style>

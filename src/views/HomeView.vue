@@ -7,9 +7,8 @@
       For more information about us, checkout 'Credits'. Please log in or register to play.
     </p>
 
-    <!--This router link needs to be modified once auth is set up to go to register when user is not logged in and to go to the game lobby when they are logged in-->
     <router-link
-      to="/register"
+      :to="isAuthenticated ? '/gamelobby' : '/login'"
       class="image-container"
       @mouseover="showGoButton = true"
       @mouseout="showGoButton = false"
@@ -21,7 +20,13 @@
         class="computer-illustration"
       />
 
-      <div v-if="showGoButton" class="go-button" @click="$router.push('/register')">Let's Go!</div>
+      <div
+        v-if="showGoButton"
+        class="go-button"
+        @click="$router.push(isAuthenticated ? '/gamelobby' : '/login')"
+      >
+        Let's Go!
+      </div>
     </router-link>
   </div>
 </template>
