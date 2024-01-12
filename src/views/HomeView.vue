@@ -1,6 +1,6 @@
 <template>
   <div class="home-view">
-    <h1>Welcome, warriors!</h1>
+    <h1>Welcome, {{ isAuthenticated ? user.username : 'warriors' }}!</h1>
     <p>
       Bug Wars is an exciting battle simulator using pre-scripted bugs or bugs you can program
       yourself. For more details on how to play take a look at the 'How to Play' button on the left.
@@ -25,6 +25,18 @@
     </router-link>
   </div>
 </template>
+
+
+
+<script setup lang="ts">
+import { useAuthStore } from '../stores/auth';
+import { ref } from 'vue';
+
+const showGoButton = ref(false);
+
+const { isAuthenticated, user } = useAuthStore();
+</script>
+
 
 <style scoped>
 .home-view {
@@ -98,9 +110,3 @@ p {
   text-align: center;
 }
 </style>
-
-<script setup lang="ts">
-import { ref } from 'vue';
-
-const showGoButton = ref(false);
-</script>
