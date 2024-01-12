@@ -3,7 +3,7 @@
 <template>
   <div id="registration">
     
-    <form class="input-form" @submit.prevent="submitForm">
+    <form class=".individual-card" @submit.prevent="submitForm">
 
       <h1>Sign Up</h1>
 
@@ -77,6 +77,7 @@ const submitForm = () => {
   width: 345px;
   height: 530px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+  text-align: center;
 }
 .error-message {
   color: #EB5757;

@@ -58,10 +58,6 @@
   width: 345px;
   height: 530px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
-}
-
-/* centers the actual Login information*/
-.input-form{
   text-align: center;
 }
 
