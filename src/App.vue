@@ -18,8 +18,6 @@ import Header from './components/HeaderComponent.vue';
 </template>
 
 <style scoped>
-
-
 .app {
   height: 100%;
   display: grid;
@@ -38,9 +36,8 @@ import Header from './components/HeaderComponent.vue';
   border-left: none;
   margin-top: 0;
   margin-bottom: 0;
- padding-left: 7px;
- padding-right: 5px;
-
+  padding-left: 7px;
+  padding-right: 5px;
 }
 
 .nav-container {
@@ -49,8 +46,6 @@ import Header from './components/HeaderComponent.vue';
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
-  
-
 }
 
 .content-container {
@@ -60,9 +55,5 @@ import Header from './components/HeaderComponent.vue';
   justify-content: center;
   align-items: center;
   height: 100%;
-
 }
-
-
-
 </style>

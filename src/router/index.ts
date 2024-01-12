@@ -65,6 +65,9 @@ const router = createRouter({
       name: 'behindthescenes',
       component: () => import('../views/BehindTheScenesView.vue'),
     },
+
+    // When adding a route for ScriptEditor, please be sure to add "meta: { requiresAuth: true }" to give that route a navigation guard. See route for /gameplay to see example of this.
+
   ],
 });
 
