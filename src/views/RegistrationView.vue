@@ -1,71 +1,116 @@
-<!-- RegistrationView.vue -->
-
 <template>
   <div id="registration">
-    
-    <form class=".individual-card" @submit.prevent="submitForm">
-
+    <form class="input-form" @submit.prevent="submitForm">
       <h1>Sign Up</h1>
 
       <div class="reg-input-group">
-        <input type="text" id="username" placeholder="Username" v-model="formData.username" required />
+        <input
+          type="text"
+          id="username"
+          placeholder="Username"
+          v-model="formData.username"
+          required
+        />
+      </div>
+      <p></p>
+      <div class="reg-input-group">
+        <input
+          type="text"
+          id="firstname"
+          placeholder="First Name"
+          v-model="formData.firstname"
+          required
+        />
+      </div>
+      <p></p>
+      <div class="reg-input-group">
+        <input
+          type="text"
+          id="lastname"
+          placeholder="Last Name"
+          v-model="formData.lastname"
+          required
+        />
       </div>
       <p></p>
       <div class="reg-input-group">
         <input type="email" id="email" placeholder="Email" v-model="formData.email" required />
       </div>
-        <p></p>
+      <p></p>
       <div class="reg-input-group">
-        <input type="password" id="password" placeholder="Password" v-model="formData.password" required />
+        <input
+          type="password"
+          id="password"
+          placeholder="Password"
+          v-model="formData.password"
+          required
+        />
       </div>
-        <p></p>
+      <p></p>
       <div class="reg-input-group">
-        <input type="password" id="confirmPassword" placeholder="Confirm Password" v-model="formData.confirmPassword" required />
+        <input
+          type="password"
+          id="confirmPassword"
+          placeholder="Confirm Password"
+          v-model="formData.confirmPassword"
+          required
+        />
       </div>
 
       <div v-if="passwordsDoNotMatch" class="error-message">Passwords do not match</div>
 
-      <p><button id = "submitButton" type="submit" :disabled="isSubmitDisabled">Register</button></p>
-      <p><router-link to="/login" class="login-link">Already have an account? Login!</router-link></p>
-      
+      <p><button id="submitButton" type="submit" :disabled="isSubmitDisabled">Register</button></p>
+      <p>
+        <router-link to="/login" class="login-link">Already have an account? Login!</router-link>
+      </p>
     </form>
   </div>
 </template>
 
 <script setup lang="ts">
-import { ref, computed } from 'vue';
+import { computed, ref } from 'vue';
 import { useRouter } from 'vue-router';
+import { authService } from '../services/authService';
+import type { RegisterDto } from '../types';
 
+const router = useRouter();
 
 const formData = ref({
   username: '',
+  firstname: '',
+  lastname: '',
   email: '',
   password: '',
-  confirmPassword: ''
+  confirmPassword: '',
 });
 
-const router = useRouter();
-const passwordsDoNotMatch = computed(() => formData.value.password !== formData.value.confirmPassword);
+const passwordsDoNotMatch = computed(
+  () => formData.value.password !== formData.value.confirmPassword,
+);
 const isSubmitDisabled = computed(() => passwordsDoNotMatch.value);
 
-
-
-const submitForm = () => {
-  if (!passwordsDoNotMatch.value) {
-  console.log('Registration form submitted with data:', formData.value);
-  // Logging the data to the console just to see what happens
-  
-  //Redirect to login page after registering
-  router.push('/login')
-  } 
-
+const submitForm = async () => {
+  if (passwordsDoNotMatch.value) {
+    return;
+  }
+  const registerDTO: RegisterDto = {
+    username: formData.value.username,
+    firstname: formData.value.firstname,
+    lastname: formData.value.lastname,
+    email: formData.value.email,
+    password: formData.value.password,
+  };
+  const response = await authService.register(registerDTO);
+  if (response.type === 'success') {
+    router.push({ name: 'login' });
+  } else {
+    console.error(response.error);
+  }
 };
 </script>
 
 <style scoped>
-
-  /* makes the card to hold the login*/
-  #registration {
+#registration {
   border: 2px solid black;
   border-radius: 5px;
   display: flex;
@@ -79,27 +124,23 @@ const submitForm = () => {
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
   text-align: center;
 }
+
 .error-message {
-  color: #EB5757;
+  color: #eb5757;
 }
 
+.reg-input-group input:focus {
+  border: 2px #2f80ed solid;
+  outline: 0;
+}
 
-/* changes the placeholder box color when clicked, ie, password, email etc*/
-.reg-input-group input:focus{
-    border: 2px #2f80ed solid;
-    outline: 0;
-    
-  }
-
-  a {
+a {
   color: black;
 }
 
-/* hover color for the nav links */
 a:hover {
   color: #2f80ed;
   text-decoration: none;
   transition: all 0.3s ease-in-out;
 }
-
 </style>
