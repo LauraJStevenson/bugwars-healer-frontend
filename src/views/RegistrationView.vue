@@ -122,6 +122,7 @@ const submitForm = async () => {
   width: 345px;
   height: 530px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+  text-align: center;
 }
 
 .error-message {
