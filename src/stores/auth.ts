@@ -6,6 +6,7 @@ import type { LoginDto, User } from '../types';
 import { type SuccessResponse } from '../utils/makeRequest';
 import { objectsHaveSameKeys } from '../utils/objectsHaveSameKeys';
 
+
 export const useAuthStore = defineStore('auth', () => {
   const router = useRouter();
   const emptyUser: User = {
@@ -13,7 +14,10 @@ export const useAuthStore = defineStore('auth', () => {
     roles: [],
   };
   const user = ref<User>(emptyUser);
+  const isAuthenticated = ref<boolean>(false);
+
   loadUserFromLocalStorage();
+
   const authError = ref('');
 
   async function login(loginDto: LoginDto) {
@@ -33,17 +37,22 @@ export const useAuthStore = defineStore('auth', () => {
     };
     console.log(responseUser);
     user.value = responseUser;
+    isAuthenticated.value = true;
     localStorage.setItem('user', JSON.stringify(responseUser));
     localStorage.setItem('accessToken', response.data.accessToken);
 
     router.push({ name: 'home' });
   }
 
-  function logout(redirect = true) {
+  function logout() {
     user.value = emptyUser;
+    isAuthenticated.value = false;
     localStorage.removeItem('accessToken');
     localStorage.removeItem('user');
-    if (redirect) router.push({ name: 'home' });
+
+    router.push({ name: 'login' }).then(() => {
+      window.location.reload();
+    });
   }
 
   function clearAuthError() {
@@ -58,6 +67,7 @@ export const useAuthStore = defineStore('auth', () => {
       const parsedUser = JSON.parse(localUser);
       if (objectsHaveSameKeys(parsedUser, emptyUser)) {
         user.value = parsedUser;
+        isAuthenticated.value = true;
         return;
       }
       logout();
@@ -72,5 +82,6 @@ export const useAuthStore = defineStore('auth', () => {
     clearAuthError,
     login,
     logout,
+    isAuthenticated,
   };
 });

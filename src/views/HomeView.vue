@@ -1,15 +1,14 @@
 <template>
   <div class="home-view">
-    <h1>Welcome, warriors!</h1>
+    <h1>Welcome, {{ isAuthenticated ? user.username : 'warriors' }}!</h1>
     <p>
       Bug Wars is an exciting battle simulator using pre-scripted bugs or bugs you can program
       yourself. For more details on how to play take a look at the 'How to Play' button on the left.
       For more information about us, checkout 'Credits'. Please log in or register to play.
     </p>
 
-    <!--This router link needs to be modified once auth is set up to go to register when user is not logged in and to go to the game lobby when they are logged in-->
     <router-link
-      to="/register"
+      :to="isAuthenticated ? '/gamelobby' : '/login'"
       class="image-container"
       @mouseover="showGoButton = true"
       @mouseout="showGoButton = false"
@@ -21,10 +20,28 @@
         class="computer-illustration"
       />
 
-      <div v-if="showGoButton" class="go-button" @click="$router.push('/register')">Let's Go!</div>
+      <div
+        v-if="showGoButton"
+        class="go-button"
+        @click="$router.push(isAuthenticated ? '/gamelobby' : '/login')"
+      >
+        Let's Go!
+      </div>
     </router-link>
   </div>
 </template>
+
+
+
+<script setup lang="ts">
+import { useAuthStore } from '../stores/auth';
+import { ref } from 'vue';
+
+const showGoButton = ref(false);
+
+const { isAuthenticated, user } = useAuthStore();
+</script>
+
 
 <style scoped>
 .home-view {
@@ -98,9 +115,3 @@ p {
   text-align: center;
 }
 </style>
-
-<script setup lang="ts">
-import { ref } from 'vue';
-
-const showGoButton = ref(false);
-</script>
