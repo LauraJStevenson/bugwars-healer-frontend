@@ -12,7 +12,7 @@
     }
   ],
   "compilerOptions": {
-    "module": "NodeNext",
-    "allowJs": true
+    "allowJs": true,
+    "module": "NodeNext"
   }
 }
