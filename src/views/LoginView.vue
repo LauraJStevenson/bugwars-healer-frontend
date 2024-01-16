@@ -3,7 +3,7 @@
     <form class="input-form" @submit.prevent="submit" @input="clearAuthError">
       <h1>Login</h1>
       <div class="login-input-group">
-        <input type="text" id="email" placeholder="Email" v-model="formData.email" required />
+        <input type="text" id="email" placeholder="Username" v-model="formData.email" required />
       </div>
       <p></p>
       <div class="login-input-group">

@@ -1,6 +1,9 @@
 export type User = {
   username: string;
-  roles: string[];
+  firstname: string;
+  lastname: string;
+  email: string;
+  roles?: string[];
 };
 
 export type LoginDto = {

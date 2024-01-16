@@ -1,15 +1,21 @@
-<script setup lang="ts">
-</script>
-
 <template>
   <div class="settings">
     <h2>Settings</h2>
 
     <div class="current-username">
-      <span>Username: CurrentUser123</span>
+      <span>Username: {{ user.username }}</span>
     </div>
+
     <div class="current-email">
-      <span>Email: BugWarsUser@Email.com</span>
+      <span>Email: {{ user.email }}</span>
+    </div>
+
+    <div class="current-firstname">
+      <span>First Name: {{ user.firstname }}</span>
+    </div>
+
+    <div class="current-lastname">
+      <span>Last Name: {{ user.lastname }}</span>
     </div>
 
     <p><br /></p>
@@ -32,6 +38,20 @@
     <div class="form-group">
       <label for="change-email">Change Email:</label>
       <input type="email" id="change-email" placeholder="Enter new email" />
+      <button type="submit" class="submit-btn">Submit</button>
+    </div>
+
+    <!--Needs format validation-->
+    <div class="form-group">
+      <label for="change-firstname">Change First Name:</label>
+      <input type="firstname" id="change-firstname" placeholder="Enter new first name" />
+      <button type="submit" class="submit-btn">Submit</button>
+    </div>
+
+    <!--Needs format validation-->
+    <div class="form-group">
+      <label for="change-lastname">Change Last Name:</label>
+      <input type="lastname" id="change-lastname" placeholder="Enter new last name" />
       <button type="submit" class="submit-btn">Submit</button>
     </div>
 
@@ -62,6 +82,24 @@
     </div>
   </div>
 </template>
+
+<script setup lang="ts">
+import { useAuthStore } from '../stores/auth';
+import { ref } from 'vue';
+
+const { isAuthenticated, user } = useAuthStore();
+
+// These will need updated when we have the API ready for saving user bug scripts and pulling user information.
+
+// Logic for pulling username, email...
+
+// function deleteScript(scriptId) {
+//   const scriptElement = document.querySelector(`#bug-scripts li[data-script-id="${scriptId}"]`);
+//   if (scriptElement) {
+//     scriptElement.remove();
+//   }
+// }
+</script>
 
 
 <style scoped>
@@ -103,10 +141,9 @@ select {
   padding: 8px;
   margin-top: 5px;
   box-sizing: border-box;
-  
 }
 
-/*this is to try and make the input fields the same as the reg and login views, but it messes with the checkbox*/ 
+/*this is to try and make the input fields the same as the reg and login views, but it messes with the checkbox*/
 /* input{
   height: 2.5em;
     width: 15em;
@@ -123,8 +160,6 @@ select {
 .toggle label {
   margin-right: 10px;
 }
-
-
 
 ul {
   list-style: none;
@@ -146,7 +181,9 @@ ul {
 
 #change-email,
 #change-password,
-#change-username {
+#change-username,
+#change-firstname,
+#change-lastname {
   height: 2.5em;
   width: 15em;
   border-radius: 5px;
@@ -157,16 +194,3 @@ ul {
   margin-left: 5px;
 }
 </style>
-
-<script>
-// These will need updated when we have the API ready for saving user bug scripts and pulling user information.
-
-// Logic for pulling username, email...
-
-// function deleteScript(scriptId) {
-//   const scriptElement = document.querySelector(`#bug-scripts li[data-script-id="${scriptId}"]`);
-//   if (scriptElement) {
-//     scriptElement.remove();
-//   }
-// }
-</script>
