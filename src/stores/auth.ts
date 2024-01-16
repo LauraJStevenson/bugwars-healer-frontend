@@ -32,6 +32,7 @@ export const useAuthStore = defineStore('auth', () => {
 
   function successfulLoginActions(response: SuccessResponse) {
     const responseUser = {
+      id: response.data.id,
       username: response.data.username,
       firstname: response.data.firstname,
       lastname: response.data.lastname,
