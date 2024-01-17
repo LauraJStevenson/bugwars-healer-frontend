@@ -107,7 +107,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, watch, nextTick } from 'vue';
+import { ref, watch, nextTick, computed } from 'vue';
 import { useAuthStore } from '../stores/auth';
 import UserService from '../services/userService';
 import { useRouter } from 'vue-router';
@@ -121,7 +121,7 @@ const validationError = ref('');
 const successMessage = ref('');
 const router = useRouter();
 const { isAuthenticated } = useAuthStore();
-const user = ref(useAuthStore().user);
+const user = computed(() => useAuthStore().user);
 const logout = useAuthStore().logout;
 
 /* USERNAME IS TIED TO JWT TOKEN AND WOULD NEED A TOKEN REFRESH. LEAVING OUT OPTION TO CHANGE IT FOR NOW- */
@@ -175,7 +175,7 @@ watch(validationError, (newValue) => {
 // Method to update password
 const updatePassword = async () => {
   if (newPassword.value) {
-    await UserService.updateUser(user.id, { password: newPassword.value });
+    await UserService.updateUser(user.value.id, { password: newPassword.value });
     // Update local user details and show confirmation
   }
 };
@@ -202,10 +202,10 @@ const validateEmail = () => {
 const updateEmail = async () => {
   if (validateEmail()) {
     try {
-      const response = await UserService.updateUser(user.id, { email: newEmail.value });
-      user.email = response.data.email;
+      const response = await UserService.updateUser(user.value.id, { email: newEmail.value });
+      user.value.email = response.data.email;
       successMessage.value = 'Email updated successfully!';
-      user.email = newEmail.value;
+      user.value.email = newEmail.value;
       newEmail.value = '';
     } catch (error) {
       console.error('An error occurred: ', error);
@@ -227,10 +227,12 @@ const validateFirstName = () => {
 const updateFirstName = async () => {
   if (validateFirstName()) {
     try {
-      const response = await UserService.updateUser(user.id, { firstname: newFirstName.value });
-      user.firstname = response.data.firstname;
+      const response = await UserService.updateUser(user.value.id, {
+        firstname: newFirstName.value,
+      });
+      user.value.firstname = response.data.firstname;
       successMessage.value = 'First name updated successfully!';
-      user.firstname = newFirstName.value;
+      user.value.firstname = newFirstName.value;
       newFirstName.value = '';
     } catch (error) {
       console.error('An error occurred: ', error);
@@ -252,10 +254,10 @@ const validateLastName = () => {
 const updateLastName = async () => {
   if (validateLastName()) {
     try {
-      const response = await UserService.updateUser(user.id, { lastname: newLastName.value });
-      user.lastname = response.data.lastname;
+      const response = await UserService.updateUser(user.value.id, { lastname: newLastName.value });
+      user.value.lastname = response.data.lastname;
       successMessage.value = 'Last name updated successfully!';
-      user.lastname = newLastName.value;
+      user.value.lastname = newLastName.value;
       newFirstName.value = '';
     } catch (error) {
       console.error('An error occurred: ', error);
@@ -278,10 +280,10 @@ const updateLastName = async () => {
   // const updateUsername = async () => {
   //   if (validateUsername()) {
   //     try {
-  //       const response = await UserService.updateUser(user.id, { username: newUsername.value });
-  //       user.username = response.data.username;
+  //       const response = await UserService.updateUser(user.value.id, { username: newUsername.value });
+  //       user.value.username = response.data.username;
   //       successMessage.value = 'Username updated successfully!';
-  //       user.username = newUsername.value;
+  //       user.value.username = newUsername.value;
   //       newUsername.value = '';
   //     } catch (error) {
   //       console.error('An error occurred: ', error);
