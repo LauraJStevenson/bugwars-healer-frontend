@@ -15,41 +15,58 @@
     </div>
 
     <p><br /></p>
+    <span v-if="validationError" class="error-message">{{ validationError }}</span>
+    <span v-if="successMessage" class="success-message">{{ successMessage }}</span>
+    <p><br /></p>
 
-    <!--Needs format validation-->
     <div class="form-group">
       <label for="change-username">Change Username:</label>
-      <input type="text" id="change-username" placeholder="Enter new username" />
-      <button type="submit" class="submit-btn">Submit</button>
+      <input
+        type="text"
+        id="change-username"
+        placeholder="Enter new username"
+        v-model="newUsername"
+      />
+      <button @click="updateUsername" type="submit" class="submit-btn">Submit</button>
     </div>
-    <!-- <span v-if="validationError" class="error-message">{{ validationError }}</span> -->
 
-    <!--Needs format validation-->
     <div class="form-group">
       <label for="change-password">Change Password:</label>
-      <input type="password" id="change-password" placeholder="Enter new password" />
-      <button type="submit" class="submit-btn">Submit</button>
+      <input
+        type="password"
+        id="change-password"
+        placeholder="Enter new password"
+        v-model="newPassword"
+      />
+      <button @click="updatePassword" type="submit" class="submit-btn">Submit</button>
     </div>
 
-    <!--Needs format validation-->
     <div class="form-group">
       <label for="change-email">Change Email:</label>
-      <input type="email" id="change-email" placeholder="Enter new email" />
-      <button type="submit" class="submit-btn">Submit</button>
+      <input type="email" id="change-email" placeholder="Enter new email" v-model="newEmail" />
+      <button @click="updateEmail" type="submit" class="submit-btn">Submit</button>
     </div>
 
-    <!--Needs format validation-->
     <div class="form-group">
       <label for="change-firstname">Change First Name:</label>
-      <input type="firstname" id="change-firstname" placeholder="Enter new first name" />
-      <button type="submit" class="submit-btn">Submit</button>
+      <input
+        type="firstname"
+        id="change-firstname"
+        placeholder="Enter new first name"
+        v-model="newFirstName"
+      />
+      <button @click="updateFirstName" type="submit" class="submit-btn">Submit</button>
     </div>
 
-    <!--Needs format validation-->
     <div class="form-group">
       <label for="change-lastname">Change Last Name:</label>
-      <input type="lastname" id="change-lastname" placeholder="Enter new last name" />
-      <button type="submit" class="submit-btn">Submit</button>
+      <input
+        type="lastname"
+        id="change-lastname"
+        placeholder="Enter new last name"
+        v-model="newLastName"
+      />
+      <button @click="updateLastName" type="submit" class="submit-btn">Submit</button>
     </div>
 
     <!--Will need updated once we implement the game play functionality-->
@@ -90,11 +107,105 @@
 <script setup lang="ts">
 import { ref } from 'vue';
 import { useAuthStore } from '../stores/auth';
-import UserService from '../services/userService';
 const { isAuthenticated, user } = useAuthStore();
-const validationError = ref('');
+import UserService from '../services/userService';
 
-const authStore = useAuthStore();
+// Define refs for new values
+const newUsername = ref('');
+const newPassword = ref('');
+const newEmail = ref('');
+const newFirstName = ref('');
+const newLastName = ref('');
+const validationError = ref('');
+const successMessage = ref('');
+
+// Validation method for username
+const validateUsername = () => {
+  if (newUsername.value.length < 3 || newUsername.value.length > 15) {
+    validationError.value = 'Username must be between 3 and 15 characters';
+    setTimeout(() => {
+      validationError.value = '';
+    }, 5000);
+    return false;
+  }
+  return true;
+};
+
+// Method to update username
+const updateUsername = async () => {
+  if (validateUsername()) {
+    try {
+      const response = await UserService.updateUser(user.id, { username: newUsername.value });
+      user.username = response.data.username;
+      successMessage.value = 'Username updated successfully';
+      user.username = newUsername.value;
+
+      setTimeout(() => {
+        successMessage.value = '';
+      }, 5000);
+      newUsername.value = '';
+    } catch (error) {
+      console.error('An error occurred: ', error);
+      validationError.value = 'Failed to update username';
+    }
+  }
+};
+
+// Method to update password
+const updatePassword = async () => {
+  if (newPassword.value) {
+    await UserService.updateUser(user.id, { password: newPassword.value });
+    // Update local user details and show confirmation
+  }
+};
+
+// Validation method for email
+const validateEmail = () => {
+  if (newEmail.value.length < 5 || newEmail.value.length > 100) {
+    validationError.value = 'Username must be between 5 and 100 characters';
+    setTimeout(() => {
+      validationError.value = '';
+    }, 5000);
+    return false;
+  }
+  return true;
+};
+
+// Method to update email
+const updateEmail = async () => {
+  if (validateEmail()) {
+    try {
+      const response = await UserService.updateUser(user.id, { email: newEmail.value });
+      user.email = response.data.email;
+      successMessage.value = 'Email updated successfully';
+      user.email = newUsername.value;
+
+      setTimeout(() => {
+        successMessage.value = '';
+      }, 5000);
+      newEmail.value = '';
+    } catch (error) {
+      console.error('An error occurred: ', error);
+      validationError.value = 'Failed to update email';
+    }
+  }
+};
+
+// Method to update first name
+const updateFirstName = async () => {
+  if (newFirstName.value) {
+    await UserService.updateUser(user.id, { firstname: newLastName.value });
+    // Update local user details and show confirmation
+  }
+};
+
+// Method to update last name
+const updateLastName = async () => {
+  if (newLastName.value) {
+    await UserService.updateUser(user.id, { lastname: newLastName.value });
+    // Update local user details and show confirmation
+  }
+};
 </script>
 
 
@@ -212,6 +323,19 @@ ul {
   display: flex;
   flex-direction: column;
   justify-content: center;
+  align-items: start;
+}
+
+span.error-message {
+  text-align: center;
+  color: #d62828;
+}
+
+.success-message {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
   align-items: center;
+  color: #136f63;
 }
 </style>
