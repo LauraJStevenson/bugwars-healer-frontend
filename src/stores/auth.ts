@@ -45,8 +45,6 @@ export const useAuthStore = defineStore('auth', () => {
     isAuthenticated.value = true;
     localStorage.setItem('user', JSON.stringify(responseUser));
     localStorage.setItem('token', response.data.token);
-    console.log('Stored token:', localStorage.getItem('token'));
-
 
     router.push({ name: 'home' });
   }

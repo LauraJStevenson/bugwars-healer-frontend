@@ -8,7 +8,6 @@ class UserService {
     async updateUser(userId: string, userDetails: any) {
         try {
             const token = localStorage.getItem('token');
-            console.log(token); // For debugging purposes, can be removed later
 
             if (!token) {
                 throw new Error('No token found');
@@ -22,15 +21,33 @@ class UserService {
 
             return response;
         } catch (error) {
-            // Handle errors (e.g., token not found, request failed)
+
             console.error('Error updating user:', error);
             throw error;
         }
     }
 
 
-    deleteUser(userId) {
-        return axios.delete(`/users/${userId}`);
+    async deleteUser(userId: string) {
+        try {
+            const token = localStorage.getItem('token');
+
+            if (!token) {
+                throw new Error('No token found');
+            }
+
+            const response = await axios.delete(`/users/${userId}`, {
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            });
+
+            return response;
+        } catch (error) {
+            // Handle errors (e.g., token not found, request failed)
+            console.error('Error deleting user:', error);
+            throw error;
+        }
     }
 }
 
