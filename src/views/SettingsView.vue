@@ -172,11 +172,36 @@ watch(validationError, (newValue) => {
 
 /* Validation and update methods for inputs */
 
-// Method to update password
+// Validation method for password !!!CONSTRAINTS ARE NOT SET UP YET!!!
+// const validatePassword = () => {
+//   const password = newPassword.value;
+//   const lengthCheck = password.length >= 8 && password.length <= 15;
+//   const numberCheck = /[0-9]/.test(password);
+//   const specialCharCheck = /[!@#]/.test(password);
+
+//   if (!lengthCheck) {
+//     validationError.value = 'Password must be between 8 and 15 characters.';
+//     return false;
+//   }
+//   if (!numberCheck || !specialCharCheck) {
+//     validationError.value =
+//       'Password must contain at least one number and one special character (!, @, #).';
+//     return false;
+//   }
+
+//   return true; // Password is valid
+// };
+
 const updatePassword = async () => {
-  if (newPassword.value) {
-    await UserService.updateUser(user.value.id, { password: newPassword.value });
-    // Update local user details and show confirmation
+  try {
+    if (newPassword.value) {
+      await UserService.updateUser(user.value.id, { password: newPassword.value });
+      successMessage.value = 'Password updated successfully!';
+      newPassword.value = '';
+    }
+  } catch (error) {
+    console.error('An error occurred: ', error);
+    validationError.value = 'Failed to update password.';
   }
 };
 
@@ -280,7 +305,9 @@ const updateLastName = async () => {
   // const updateUsername = async () => {
   //   if (validateUsername()) {
   //     try {
-  //       const response = await UserService.updateUser(user.value.id, { username: newUsername.value });
+  //       const response = await UserService.updateUser(user.value.id, {
+  //         username: newUsername.value,
+  //       });
   //       user.value.username = response.data.username;
   //       successMessage.value = 'Username updated successfully!';
   //       user.value.username = newUsername.value;
