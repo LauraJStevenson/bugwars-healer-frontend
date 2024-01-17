@@ -18,8 +18,12 @@
 
       <p><input type="checkbox" @change="showPassword" /> Show Password</p>
 
+      <!-- Span to display messages */ -->
+      <div class="messages">
+        <span v-if="authError" class="error-message fade-effect">{{ authError }}</span>
+      </div>
+
       <p><button type="submit">Login</button></p>
-      {{ authError }}
     </form>
     <p><router-link to="/register">New here? Create an account!</router-link></p>
   </div>
@@ -27,7 +31,7 @@
 
 <script setup lang="ts">
 import { storeToRefs } from 'pinia';
-import { ref } from 'vue';
+import { ref, watch, nextTick, onMounted } from 'vue';
 import { useRouter } from 'vue-router';
 import { useAuthStore } from '../stores/auth';
 
@@ -39,6 +43,35 @@ const formData = ref({
 const router = useRouter();
 const { login, clearAuthError } = useAuthStore();
 const { authError } = storeToRefs(useAuthStore());
+
+/* Watcher for message span */
+watch(authError, (newValue) => {
+  if (newValue) {
+    nextTick(() => {
+      const authErrorElement = document.querySelector('.error-message');
+      if (authErrorElement) {
+        authErrorElement.classList.add('fade-in');
+
+        setTimeout(() => {
+          authErrorElement.classList.remove('fade-in');
+          authErrorElement.classList.add('fade-out');
+
+          setTimeout(() => {
+            clearAuthError();
+            authErrorElement.classList.remove('fade-out');
+          }, 1000); // Fade out duration
+        }, 3000); // Display duration
+      }
+    });
+  }
+});
+
+/* Used for account deletion from SettingsView */
+onMounted(() => {
+  if (router.currentRoute.value.query.accountDeleted) {
+    authError.value = 'User account has been deleted. Please re-register to login.';
+  }
+});
 
 function submit() {
   const loginDto = {
@@ -115,5 +148,44 @@ button {
 button:hover {
   background-color: #7acc9c;
   transition: all 0.3s ease-in-out;
+}
+
+/* Message span styling */
+
+.fade-in {
+  opacity: 0;
+  animation: fadeInAnimation 1s forwards;
+}
+
+.fade-out {
+  animation: fadeOutAnimation 1s forwards;
+}
+
+@keyframes fadeInAnimation {
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes fadeOutAnimation {
+  to {
+    opacity: 0;
+  }
+}
+
+.messages {
+  max-width: 100%;
+  height: 50px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+span.error-message {
+  text-align: center;
+  color: #d62828;
+  max-width: 100%;
+  font-size: 0.8em;
 }
 </style>

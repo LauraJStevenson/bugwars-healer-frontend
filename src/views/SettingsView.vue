@@ -293,12 +293,9 @@ const updateLastName = async () => {
 /*  Method to delete user account */
 const deleteUserAccount = async () => {
   try {
-    await UserService.deleteUser(user.value.id); // Use user.value.id to get the user's ID
-    // Provide feedback to the user
-    showSuccessMessage('Your account has been deleted successfully.'); // Create this method to show a success message
-
-    // Log out the user using the store's logout function
-    logout();
+    await UserService.deleteUser(user.value.id); // Delete the user
+    logout(); // Log out
+    router.push({ name: 'login', query: { accountDeleted: 'true' } }); // Redirect to LoginView with query
   } catch (error) {
     console.error('An error occurred during account deletion: ', error);
     validationError.value = 'Failed to delete account.';
