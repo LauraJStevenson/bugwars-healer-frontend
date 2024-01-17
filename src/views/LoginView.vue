@@ -55,7 +55,7 @@ const showPassword = () => {
 };
 </script>
 
-<style>
+<style scoped>
 /* makes the card to hold the login*/
 #login {
   border: 2px solid black;
@@ -109,6 +109,7 @@ a:hover {
 button {
   text-transform: uppercase;
   background-color: rgb(247, 171, 101);
+  cursor: pointer;
 }
 
 button:hover {

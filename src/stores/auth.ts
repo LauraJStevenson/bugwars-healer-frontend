@@ -5,6 +5,7 @@ import { authService } from '../services/authService';
 import type { LoginDto, User } from '../types';
 import { type SuccessResponse } from '../utils/makeRequest';
 import { objectsHaveSameKeys } from '../utils/objectsHaveSameKeys';
+import UserService from '../services/userService';
 
 
 export const useAuthStore = defineStore('auth', () => {
@@ -43,7 +44,7 @@ export const useAuthStore = defineStore('auth', () => {
     user.value = responseUser;
     isAuthenticated.value = true;
     localStorage.setItem('user', JSON.stringify(responseUser));
-    localStorage.setItem('accessToken', response.data.accessToken);
+    localStorage.setItem('token', response.data.token);
 
     router.push({ name: 'home' });
   }
@@ -79,6 +80,9 @@ export const useAuthStore = defineStore('auth', () => {
       logout();
     }
   }
+
+
+
 
   return {
     user,

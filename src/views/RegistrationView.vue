@@ -125,6 +125,24 @@ const submitForm = async () => {
   text-align: center;
 }
 
+#email,
+#password,
+#username,
+#confirmPassword,
+#lastname,
+#firstname {
+  height: 2.5em;
+  width: 15em;
+  border-radius: 5px;
+  background-color: rgb(255, 255, 255);
+}
+
+button {
+  text-transform: uppercase;
+  background-color: rgb(247, 171, 101);
+  cursor: pointer;
+}
+
 .error-message {
   color: #eb5757;
 }

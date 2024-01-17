@@ -5,8 +5,18 @@ class UserService {
         return axios.get(`/users/${userId}`);
     }
 
-    updateUser(userId, userData) {
-        return axios.put(`/users/${userId}`, userData);
+    updateUser(userId, userDetails) {
+
+        const token = localStorage.getItem('token');
+
+        console.log('Retrieved token:', token); // Debugging line
+
+
+        return axios.put(`/users/${userId}`, userDetails, {
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        });
     }
 
     deleteUser(userId) {
