@@ -56,8 +56,10 @@ export const useAuthStore = defineStore('auth', () => {
     localStorage.removeItem('accessToken');
     localStorage.removeItem('user');
 
-    router.push({ name: 'login' });
+    // Redirect to the login page with a query parameter to display log out message
+    router.push({ name: 'login', query: { loggedOut: 'true' } });
   }
+
 
   function clearAuthError() {
     authError.value = '';

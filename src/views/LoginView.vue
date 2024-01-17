@@ -21,6 +21,7 @@
       <!-- Span to display messages */ -->
       <div class="messages">
         <span v-if="authError" class="error-message fade-effect">{{ authError }}</span>
+        <span v-if="logoutMessage" class="success-message fade-effect">{{ logoutMessage }}</span>
       </div>
 
       <p><button type="submit">Login</button></p>
@@ -43,8 +44,9 @@ const formData = ref({
 const router = useRouter();
 const { login, clearAuthError } = useAuthStore();
 const { authError } = storeToRefs(useAuthStore());
+const logoutMessage = ref('');
 
-/* Watcher for message span */
+/* Watcher for error span */
 watch(authError, (newValue) => {
   if (newValue) {
     nextTick(() => {
@@ -65,6 +67,27 @@ watch(authError, (newValue) => {
     });
   }
 });
+/* Watcher for logout span */
+watch(logoutMessage, (newValue) => {
+  if (newValue) {
+    nextTick(() => {
+      const logoutMessageElement = document.querySelector('.success-message');
+      if (logoutMessageElement) {
+        logoutMessageElement.classList.add('fade-in');
+
+        setTimeout(() => {
+          logoutMessageElement.classList.remove('fade-in');
+          logoutMessageElement.classList.add('fade-out');
+
+          setTimeout(() => {
+            logoutMessage.value = '';
+            logoutMessageElement.classList.remove('fade-out');
+          }, 1000); // Fade out duration
+        }, 3000); // Display duration
+      }
+    });
+  }
+});
 
 /* Used for account deletion from SettingsView */
 onMounted(() => {
@@ -72,6 +95,15 @@ onMounted(() => {
     authError.value = 'User account has been deleted. Please re-register to login.';
   }
 });
+
+/* Used for logout from GlobalNav */
+onMounted(() => {
+  if (router.currentRoute.value.query.loggedOut === 'true') {
+    logoutMessage.value = 'You have been logged out.';
+  }
+});
+
+/* Form submission functions */
 
 function submit() {
   const loginDto = {
@@ -185,6 +217,13 @@ button:hover {
 span.error-message {
   text-align: center;
   color: #d62828;
+  max-width: 100%;
+  font-size: 0.8em;
+}
+
+span.success-message {
+  text-align: center;
+  color: green; /* or any color you prefer */
   max-width: 100%;
   font-size: 0.8em;
 }
