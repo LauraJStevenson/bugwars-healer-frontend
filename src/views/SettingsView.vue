@@ -2,65 +2,68 @@
   <div class="settings">
     <h2>Settings</h2>
 
-    <div class="current-username">
-      <span>Username: {{ user.username }}</span>
+    <div class="current-properties-div">
+      <div class="current-username">
+        <span>Username: {{ user.username }}</span>
+      </div>
+
+      <div class="current-email">
+        <span>Email: {{ user.email }}</span>
+      </div>
+
+      <div class="current-name">
+        <span>Name: {{ user.firstname }} {{ user.lastname }}</span>
+      </div>
     </div>
 
-    <div class="current-email">
-      <span>Email: {{ user.email }}</span>
-    </div>
+    <div class="change-properties-div">
+      <div class="messages">
+        <span v-if="validationError" class="error-message">{{ validationError }}</span>
+        <span v-if="successMessage" class="success-message">{{ successMessage }}</span>
+      </div>
 
-    <div class="current-name">
-      <span>Name: {{ user.firstname }} {{ user.lastname }}</span>
-    </div>
+      <div class="form-group">
+        <label for="change-password">Change Password:</label>
+        <input
+          type="password"
+          id="change-password"
+          placeholder="Enter new password"
+          v-model="newPassword"
+        />
+        <button @click="updatePassword" type="submit" class="submit-btn">Submit</button>
+      </div>
 
-    <div class="messages">
-      <span v-if="validationError" class="error-message">{{ validationError }}</span>
-      <span v-if="successMessage" class="success-message">{{ successMessage }}</span>
-    </div>
+      <div class="form-group">
+        <label for="change-email">Change Email:</label>
+        <input type="email" id="change-email" placeholder="Enter new email" v-model="newEmail" />
+        <button @click="updateEmail" type="submit" class="submit-btn">Submit</button>
+      </div>
 
-    <div class="form-group">
-      <label for="change-password">Change Password:</label>
-      <input
-        type="password"
-        id="change-password"
-        placeholder="Enter new password"
-        v-model="newPassword"
-      />
-      <button @click="updatePassword" type="submit" class="submit-btn">Submit</button>
-    </div>
+      <div class="form-group">
+        <label for="change-firstname">Change First Name:</label>
+        <input
+          type="firstname"
+          id="change-firstname"
+          placeholder="Enter new first name"
+          v-model="newFirstName"
+        />
+        <button @click="updateFirstName" type="submit" class="submit-btn">Submit</button>
+      </div>
 
-    <div class="form-group">
-      <label for="change-email">Change Email:</label>
-      <input type="email" id="change-email" placeholder="Enter new email" v-model="newEmail" />
-      <button @click="updateEmail" type="submit" class="submit-btn">Submit</button>
-    </div>
+      <div class="form-group">
+        <label for="change-lastname">Change Last Name:</label>
+        <input
+          type="lastname"
+          id="change-lastname"
+          placeholder="Enter new last name"
+          v-model="newLastName"
+        />
+        <button @click="updateLastName" type="submit" class="submit-btn">Submit</button>
+      </div>
 
-    <div class="form-group">
-      <label for="change-firstname">Change First Name:</label>
-      <input
-        type="firstname"
-        id="change-firstname"
-        placeholder="Enter new first name"
-        v-model="newFirstName"
-      />
-      <button @click="updateFirstName" type="submit" class="submit-btn">Submit</button>
-    </div>
+      <!-- USERNAME IS TIED TO JWT TOKEN AND WOULD NEED A TOKEN REFRESH. LEAVING OUT OPTION TO CHANGE IT FOR NOW -->
 
-    <div class="form-group">
-      <label for="change-lastname">Change Last Name:</label>
-      <input
-        type="lastname"
-        id="change-lastname"
-        placeholder="Enter new last name"
-        v-model="newLastName"
-      />
-      <button @click="updateLastName" type="submit" class="submit-btn">Submit</button>
-    </div>
-
-    <!-- USERNAME IS TIED TO JWT TOKEN AND WOULD NEED A TOKEN REFRESH. LEAVING OUT OPTION TO CHANGE IT FOR NOW -->
-
-    <!-- <div class="form-group">
+      <!-- <div class="form-group">
       <label for="change-username">Change Username:</label>
       <input
         type="text"
@@ -70,6 +73,7 @@
       />
       <button @click="updateUsername" type="submit" class="submit-btn">Submit</button>
     </div> -->
+    </div>
 
     <!--Will need updated once we implement the game play functionality-->
     <div class="form-group toggle">
@@ -80,7 +84,7 @@
     <p><br /></p>
 
     <!--The following form will need to be updated with an API request for a users saved bug scripts once we get everything connected -->
-    <div class="form-group">
+    <div class="form-group bug-script-div">
       <h3>Saved Bug Scripts:</h3>
       <ul id="bug-scripts">
         <li class="bug-script">
@@ -101,7 +105,10 @@
 
     <div class="form-group delete-option">
       <label for="delete-account">Want to delete your account?</label>
-      <button @click="deleteUserAccount" type="submit" id="delete-btn">DELETE</button>
+      <button @click="deleteUserAccount" type="submit" id="delete-btn">
+        {{ deleteClicked ? 'CONFIRM' : 'DELETE' }}
+      </button>
+      <span v-if="deleteClicked" class="warning-message"> THIS IS PERMANENT! ARE YOU SURE? </span>
     </div>
   </div>
 </template>
@@ -123,6 +130,7 @@ const router = useRouter();
 const { isAuthenticated } = useAuthStore();
 const user = computed(() => useAuthStore().user);
 const logout = useAuthStore().logout;
+const deleteClicked = ref(false);
 
 /* USERNAME IS TIED TO JWT TOKEN AND WOULD NEED A TOKEN REFRESH. LEAVING OUT OPTION TO CHANGE IT FOR NOW- */
 // const newUsername = ref('');
@@ -192,6 +200,7 @@ watch(validationError, (newValue) => {
 //   return true; // Password is valid
 // };
 
+// Method to update password
 const updatePassword = async () => {
   try {
     if (newPassword.value) {
@@ -283,7 +292,7 @@ const updateLastName = async () => {
       user.value.lastname = response.data.lastname;
       successMessage.value = 'Last name updated successfully!';
       user.value.lastname = newLastName.value;
-      newFirstName.value = '';
+      newLastName.value = '';
     } catch (error) {
       console.error('An error occurred: ', error);
       validationError.value = 'Failed to update last name.';
@@ -320,14 +329,31 @@ const updateLastName = async () => {
   // };
 };
 /*  Method to delete user account */
+// const deleteUserAccount = async () => {
+//   try {
+//     await UserService.deleteUser(user.value.id); // Delete the user
+//     logout(); // Log out
+//     router.push({ name: 'login', query: { accountDeleted: 'true' } }); // Redirect to LoginView with query
+//   } catch (error) {
+//     console.error('An error occurred during account deletion: ', error);
+//     validationError.value = 'Failed to delete account.';
+//   }
+// };
+
 const deleteUserAccount = async () => {
-  try {
-    await UserService.deleteUser(user.value.id); // Delete the user
-    logout(); // Log out
-    router.push({ name: 'login', query: { accountDeleted: 'true' } }); // Redirect to LoginView with query
-  } catch (error) {
-    console.error('An error occurred during account deletion: ', error);
-    validationError.value = 'Failed to delete account.';
+  if (!deleteClicked.value) {
+    // First click
+    deleteClicked.value = true;
+  } else {
+    // Second click will perform the deletion
+    try {
+      await UserService.deleteUser(user.value.id); // Delete the user
+      logout(); // Log out
+      router.push({ name: 'login', query: { accountDeleted: 'true' } }); // Redirect to LoginView with query
+    } catch (error) {
+      console.error('An error occurred during account deletion: ', error);
+      validationError.value = 'Failed to delete account.';
+    }
   }
 };
 </script>
@@ -353,6 +379,43 @@ const deleteUserAccount = async () => {
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
 }
 
+.current-properties-div {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  border-bottom: 1px solid black;
+  padding: 15px;
+}
+
+.change-properties-div {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 30px;
+}
+
+.bug-script-div {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  border-bottom: 1px solid black;
+  width: 100%;
+  padding-bottom: 50px;
+}
+
+.delete-option {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  padding-bottom: 30px;
+}
+
 h2,
 h3 {
   font-family: 'Press Start 2P', 'Space Mono', Arial, Helvetica, sans-serif;
@@ -366,12 +429,23 @@ h3 {
 
 .toggle {
   display: flex;
+  flex-direction: row;
   align-items: center;
+  justify-content: center;
+  width: 100%;
+  padding: 15px;
   margin-top: 10px;
+  border-top: 1px solid black;
+  border-bottom: 1px solid black;
 }
 
 .toggle label {
-  margin-right: 10px;
+  margin: 5px;
+}
+
+#music-toggle {
+  width: 15px;
+  margin: 5px;
 }
 
 /* Styling for bug script section */
@@ -380,13 +454,13 @@ h3 {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  border-bottom: 1px solid #ccc;
   padding: 10px 0;
 }
 
 .delete-script {
   color: #d62828;
   cursor: pointer;
+  margin-left: 55px;
 }
 
 ul {
@@ -445,16 +519,13 @@ button {
   color: #f0eeec;
   height: 2em;
   width: 5em;
-}
-
-.delete-option {
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
 }
 
-/* Color and positioning for error and success message spans */
+/* Color and positioning for top of page error and success message spans */
 
 .messages {
   max-width: 100%;
@@ -476,6 +547,16 @@ span.success-message {
   color: #136f63;
   max-width: 100%;
   font-size: 0.8em;
+}
+
+/* Color and positioning for bottom deletion spans */
+
+span.warning-message {
+  text-align: center;
+  color: #d62828; /* Choose an appropriate warning color */
+  max-width: 100%;
+  font-size: 0.8em;
+  margin-top: 10px;
 }
 
 /* Fade in and out for success and error message spans */
