@@ -44,16 +44,24 @@ export const useAuthStore = defineStore('auth', () => {
     router.push({ name: 'home' });
   }
 
-  function logout() {
-    user.value = emptyUser;
-    isAuthenticated.value = false;
-    localStorage.removeItem('accessToken');
-    localStorage.removeItem('user');
+  async function logout() {
+    try {
+      await authService.logout();
 
-    router.push({ name: 'login' }).then(() => {
-      window.location.reload();
-    });
+      user.value = emptyUser;
+      isAuthenticated.value = false;
+      localStorage.removeItem('accessToken');
+      localStorage.removeItem('user');
+
+      router.push({ name: 'login' }).then(() => {
+        window.location.reload();
+      });
+    } catch (error) {
+      console.error('Logout failed', error);
+    }
   }
+
+
 
   function clearAuthError() {
     authError.value = '';

@@ -23,4 +23,19 @@ export const authService = {
       },
     });
   },
+
+  logout() {
+    return makeRequest(() => axios.post('/api/v1/logout', {}, {
+      headers: {
+        'Authorization': `Bearer ${localStorage.getItem('accessToken')}`
+      }
+    }), {
+      successStatuses: [200],
+      errorStatuses: {
+        400: 'Bad Request',
+        401: 'Unauthorized - Please login again',
+      },
+    });
+  },
+
 };
