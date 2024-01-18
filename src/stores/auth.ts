@@ -6,7 +6,6 @@ import type { LoginDto, User } from '../types';
 import { type SuccessResponse } from '../utils/makeRequest';
 import { objectsHaveSameKeys } from '../utils/objectsHaveSameKeys';
 
-
 export const useAuthStore = defineStore('auth', () => {
   const router = useRouter();
   const emptyUser: User = {
@@ -32,14 +31,18 @@ export const useAuthStore = defineStore('auth', () => {
 
   function successfulLoginActions(response: SuccessResponse) {
     const responseUser = {
+      id: response.data.id,
       username: response.data.username,
+      firstname: response.data.firstname,
+      lastname: response.data.lastname,
+      email: response.data.email,
       roles: response.data.roles,
     };
-    console.log(responseUser);
+    // console.log(responseUser); //For debugging purposes only
     user.value = responseUser;
     isAuthenticated.value = true;
     localStorage.setItem('user', JSON.stringify(responseUser));
-    localStorage.setItem('accessToken', response.data.accessToken);
+    localStorage.setItem('token', response.data.token);
 
     router.push({ name: 'home' });
   }
@@ -83,6 +86,9 @@ export const useAuthStore = defineStore('auth', () => {
       logout();
     }
   }
+
+
+
 
   return {
     user,
