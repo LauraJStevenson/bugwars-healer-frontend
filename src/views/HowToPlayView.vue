@@ -1,6 +1,3 @@
-<script setup lang="ts">
-</script>
-
 <template>
   <div class="how-to-play-card">
     <img class="help-img" src="..\..\public\images\Blue-Bug.png" />
@@ -19,9 +16,9 @@
   </div>
 </template>
 
-
 <script scoped></script>
-<style>
+
+<style scoped>
 .how-to-play-card {
   border: 2px solid black;
   border-radius: 5px;

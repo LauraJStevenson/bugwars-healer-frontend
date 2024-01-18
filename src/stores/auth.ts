@@ -12,6 +12,7 @@ export const useAuthStore = defineStore('auth', () => {
     username: '',
     roles: [],
   };
+
   const user = ref<User>(emptyUser);
   const isAuthenticated = ref<boolean>(false);
 
@@ -38,6 +39,7 @@ export const useAuthStore = defineStore('auth', () => {
       email: response.data.email,
       roles: response.data.roles,
     };
+
     // console.log(responseUser); //For debugging purposes only
     user.value = responseUser;
     isAuthenticated.value = true;
@@ -53,18 +55,15 @@ export const useAuthStore = defineStore('auth', () => {
 
       user.value = emptyUser;
       isAuthenticated.value = false;
-      localStorage.removeItem('accessToken');
+      localStorage.removeItem('token');
       localStorage.removeItem('user');
 
-      router.push({ name: 'login' }).then(() => {
-        window.location.reload();
-      });
+      router.push({ name: 'login', query: { loggedOut: 'true' } });
+
     } catch (error) {
       console.error('Logout failed', error);
     }
   }
-
-
 
   function clearAuthError() {
     authError.value = '';
@@ -86,9 +85,6 @@ export const useAuthStore = defineStore('auth', () => {
       logout();
     }
   }
-
-
-
 
   return {
     user,
