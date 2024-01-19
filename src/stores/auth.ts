@@ -11,6 +11,10 @@ export const useAuthStore = defineStore('auth', () => {
   const emptyUser: User = {
     username: '',
     roles: [],
+    id: 0,
+    firstname: '',
+    lastname: '',
+    email: '',
   };
 
   const user = ref<User>(emptyUser);
@@ -59,7 +63,6 @@ export const useAuthStore = defineStore('auth', () => {
       localStorage.removeItem('user');
 
       router.push({ name: 'login', query: { loggedOut: 'true' } });
-
     } catch (error) {
       console.error('Logout failed', error);
     }
