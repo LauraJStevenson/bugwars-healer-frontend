@@ -28,7 +28,7 @@ class UserService {
     }
 
 
-    async deleteUser(userId: string) {
+    async deleteUser(userId: number) {
         try {
             const token = localStorage.getItem('token');
 
