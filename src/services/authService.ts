@@ -23,4 +23,30 @@ export const authService = {
       },
     });
   },
+
+  logout() {
+    return new Promise((resolve, reject) => {
+
+      makeRequest(() => axios.post('/logout', {}, {
+        headers: {
+          'Authorization': `Bearer ${localStorage.getItem('token')}`
+        }
+      }), {
+        successStatuses: [200],
+        errorStatuses: {
+          400: 'Bad Request',
+          401: 'Unauthorized - Please login again',
+        },
+
+      }).then(response => {
+        localStorage.removeItem('token');
+        localStorage.removeItem('user');
+        resolve(response);
+
+      }).catch(error => {
+        console.error('Logout failed', error);
+        reject(error);
+      });
+    });
+  }
 };

@@ -1,6 +1,3 @@
-<script setup lang="ts">
-</script>
-
 <template>
   <div class="game-lobby">
     <h1>Choose Your Bug</h1>
@@ -47,7 +44,8 @@
 </template>
 
 
-<script scoped></script>
+<script setup lang="ts"></script>
+
 <style scoped>
 .game-lobby {
   padding: 50px;

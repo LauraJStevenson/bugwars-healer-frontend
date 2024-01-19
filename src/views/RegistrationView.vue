@@ -102,7 +102,7 @@ const submitForm = async () => {
   };
   const response = await authService.register(registerDTO);
   if (response.type === 'success') {
-    router.push({ name: 'login' });
+    router.push({ name: 'login', query: { registered: 'true' } });
   } else {
     console.error(response.error);
   }

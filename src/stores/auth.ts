@@ -5,8 +5,6 @@ import { authService } from '../services/authService';
 import type { LoginDto, User } from '../types';
 import { type SuccessResponse } from '../utils/makeRequest';
 import { objectsHaveSameKeys } from '../utils/objectsHaveSameKeys';
-import UserService from '../services/userService';
-
 
 export const useAuthStore = defineStore('auth', () => {
   const router = useRouter();
@@ -14,6 +12,7 @@ export const useAuthStore = defineStore('auth', () => {
     username: '',
     roles: [],
   };
+
   const user = ref<User>(emptyUser);
   const isAuthenticated = ref<boolean>(false);
 
@@ -40,6 +39,7 @@ export const useAuthStore = defineStore('auth', () => {
       email: response.data.email,
       roles: response.data.roles,
     };
+
     // console.log(responseUser); //For debugging purposes only
     user.value = responseUser;
     isAuthenticated.value = true;
@@ -49,16 +49,21 @@ export const useAuthStore = defineStore('auth', () => {
     router.push({ name: 'home' });
   }
 
-  function logout() {
-    user.value = emptyUser;
-    isAuthenticated.value = false;
-    localStorage.removeItem('accessToken');
-    localStorage.removeItem('user');
+  async function logout() {
+    try {
+      await authService.logout();
 
-    // Redirect to the login page with a query parameter to display log out message
-    router.push({ name: 'login', query: { loggedOut: 'true' } });
+      user.value = emptyUser;
+      isAuthenticated.value = false;
+      localStorage.removeItem('token');
+      localStorage.removeItem('user');
+
+      router.push({ name: 'login', query: { loggedOut: 'true' } });
+
+    } catch (error) {
+      console.error('Logout failed', error);
+    }
   }
-
 
   function clearAuthError() {
     authError.value = '';
@@ -80,9 +85,6 @@ export const useAuthStore = defineStore('auth', () => {
       logout();
     }
   }
-
-
-
 
   return {
     user,

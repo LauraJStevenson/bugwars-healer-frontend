@@ -1,6 +1,3 @@
-<script setup lang="ts">
-</script>
-
 <template>
   <div class="credits">
     <p class="title">
@@ -113,6 +110,8 @@
     </div>
   </div>
 </template>
+
+<script setup lang="ts"></script>
   
 <style scoped>
 .credits {
