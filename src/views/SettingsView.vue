@@ -117,7 +117,8 @@ const validationError = ref('');
 const successMessage = ref('');
 const router = useRouter();
 const { isAuthenticated } = useAuthStore();
-const user = computed(() => useAuthStore().user);
+const authStore = useAuthStore();
+const user = computed(() => authStore.user);
 const logout = useAuthStore().logout;
 const deleteClicked = ref(false);
 
@@ -125,7 +126,7 @@ const deleteClicked = ref(false);
 // const newUsername = ref('');
 
 /* Watchers for adding fade-in/fade-out animations and timeouts to error and success spans */
-watch(successMessage, (newValue) => {
+watch(successMessage, (newValue: string) => {
   if (newValue) {
     nextTick(() => {
       const successMessageElement = document.querySelector('.success-message');
@@ -146,7 +147,7 @@ watch(successMessage, (newValue) => {
   }
 });
 
-watch(validationError, (newValue) => {
+watch(validationError, (newValue: string) => {
   if (newValue) {
     nextTick(() => {
       const validationErrorElement = document.querySelector('.error-message');

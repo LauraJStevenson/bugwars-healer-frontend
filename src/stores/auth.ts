@@ -49,7 +49,7 @@ export const useAuthStore = defineStore('auth', () => {
     router.push({ name: 'home' });
   }
 
-  async function logout() {
+  async function logout(): Promise<any> {
     try {
       await authService.logout();
 
