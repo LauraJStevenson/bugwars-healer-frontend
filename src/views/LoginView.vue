@@ -18,10 +18,13 @@
 
       <p><input type="checkbox" @change="showPassword" /> Show Password</p>
 
-      <!-- Span to display messages */ -->
+      <!-- Spans to display messages */ -->
       <div class="messages">
         <span v-if="authError" class="error-message fade-effect">{{ authError }}</span>
         <span v-if="logoutMessage" class="success-message fade-effect">{{ logoutMessage }}</span>
+        <span v-if="registrationMessage" class="success-message fade-effect">{{
+          registrationMessage
+        }}</span>
       </div>
 
       <p><button type="submit">Login</button></p>
@@ -45,6 +48,7 @@ const router = useRouter();
 const { login, clearAuthError } = useAuthStore();
 const { authError } = storeToRefs(useAuthStore());
 const logoutMessage = ref('');
+const registrationMessage = ref('');
 
 /* Watcher for error span */
 watch(authError, (newValue) => {
@@ -61,12 +65,13 @@ watch(authError, (newValue) => {
           setTimeout(() => {
             clearAuthError();
             authErrorElement.classList.remove('fade-out');
-          }, 1000); // Fade out duration
-        }, 3000); // Display duration
+          }, 1000);
+        }, 3000);
       }
     });
   }
 });
+
 /* Watcher for logout span */
 watch(logoutMessage, (newValue) => {
   if (newValue) {
@@ -82,8 +87,30 @@ watch(logoutMessage, (newValue) => {
           setTimeout(() => {
             logoutMessage.value = '';
             logoutMessageElement.classList.remove('fade-out');
-          }, 1000); // Fade out duration
-        }, 3000); // Display duration
+          }, 1000);
+        }, 3000);
+      }
+    });
+  }
+});
+
+/* Watcher for registration span */
+watch(registrationMessage, (newValue) => {
+  if (newValue) {
+    nextTick(() => {
+      const registrationMessageElement = document.querySelector('.success-message');
+      if (registrationMessageElement) {
+        registrationMessageElement.classList.add('fade-in');
+
+        setTimeout(() => {
+          registrationMessageElement.classList.remove('fade-in');
+          registrationMessageElement.classList.add('fade-out');
+
+          setTimeout(() => {
+            registrationMessage.value = '';
+            registrationMessageElement.classList.remove('fade-out');
+          }, 1000);
+        }, 3000);
       }
     });
   }
@@ -100,6 +127,14 @@ onMounted(() => {
 onMounted(() => {
   if (router.currentRoute.value.query.loggedOut === 'true') {
     logoutMessage.value = 'You have been logged out.';
+  }
+});
+
+/* Used for registration from RegistrationView */
+onMounted(() => {
+  const query = router.currentRoute.value.query;
+  if (query.registered === 'true') {
+    registrationMessage.value = 'Registration successful !';
   }
 });
 
@@ -223,7 +258,7 @@ span.error-message {
 
 span.success-message {
   text-align: center;
-  color: green; /* or any color you prefer */
+  color: green;
   max-width: 100%;
   font-size: 0.8em;
 }

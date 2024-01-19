@@ -44,7 +44,6 @@ class UserService {
 
             return response;
         } catch (error) {
-            // Handle errors (e.g., token not found, request failed)
             console.error('Error deleting user:', error);
             throw error;
         }

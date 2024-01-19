@@ -38,6 +38,7 @@
   </div>
 </template>
 
+
 <script lang="ts">
 import { useAuthStore } from '../stores/auth';
 
@@ -61,6 +62,7 @@ export default {
   },
 };
 </script>
+
 
 <style scoped>
 .global-nav-bar {

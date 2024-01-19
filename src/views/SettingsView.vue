@@ -17,6 +17,7 @@
     </div>
 
     <div class="change-properties-div">
+      <!-- Spans to display messages */ -->
       <div class="messages">
         <span v-if="validationError" class="error-message">{{ validationError }}</span>
         <span v-if="successMessage" class="success-message">{{ successMessage }}</span>
@@ -62,17 +63,6 @@
       </div>
 
       <!-- USERNAME IS TIED TO JWT TOKEN AND WOULD NEED A TOKEN REFRESH. LEAVING OUT OPTION TO CHANGE IT FOR NOW -->
-
-      <!-- <div class="form-group">
-      <label for="change-username">Change Username:</label>
-      <input
-        type="text"
-        id="change-username"
-        placeholder="Enter new username"
-        v-model="newUsername"
-      />
-      <button @click="updateUsername" type="submit" class="submit-btn">Submit</button>
-    </div> -->
     </div>
 
     <!--Will need updated once we implement the game play functionality-->
@@ -89,13 +79,12 @@
       <ul id="bug-scripts">
         <li class="bug-script">
           <span>Sample Script 1</span>
-          <!--<span class="delete-script" onclick="deleteScript(1)">Delete</span>-->
+          <span class="delete-script">Edit</span>
           <span class="delete-script">Delete</span>
         </li>
         <li class="bug-script">
           <span>Sample Script 2</span>
-          <!--<span class="delete-script" onclick="deleteScript(1)">Delete</span>-->
-
+          <span class="delete-script">Edit</span>
           <span class="delete-script">Delete</span>
         </li>
       </ul>
@@ -150,8 +139,8 @@ watch(successMessage, (newValue: string) => {
           setTimeout(() => {
             successMessage.value = '';
             successMessageElement.classList.remove('fade-out');
-          }, 1000); // Fade out duration
-        }, 3000); // Display duration
+          }, 1000);
+        }, 3000);
       }
     });
   }
@@ -171,8 +160,8 @@ watch(validationError, (newValue: string) => {
           setTimeout(() => {
             validationError.value = '';
             validationErrorElement.classList.remove('fade-out');
-          }, 1000); // Fade out duration
-        }, 3000); // Display duration
+          }, 1000);
+        }, 3000);
       }
     });
   }
@@ -180,25 +169,9 @@ watch(validationError, (newValue: string) => {
 
 /* Validation and update methods for inputs */
 
-// Validation method for password !!!CONSTRAINTS ARE NOT SET UP YET!!!
-// const validatePassword = () => {
-//   const password = newPassword.value;
-//   const lengthCheck = password.length >= 8 && password.length <= 15;
-//   const numberCheck = /[0-9]/.test(password);
-//   const specialCharCheck = /[!@#]/.test(password);
+// Validation method for password
 
-//   if (!lengthCheck) {
-//     validationError.value = 'Password must be between 8 and 15 characters.';
-//     return false;
-//   }
-//   if (!numberCheck || !specialCharCheck) {
-//     validationError.value =
-//       'Password must contain at least one number and one special character (!, @, #).';
-//     return false;
-//   }
-
-//   return true; // Password is valid
-// };
+// Constraints are not set up yet on backend. Once implemented on backend, validation will need to be added for password constraints.
 
 // Method to update password
 const updatePassword = async () => {
@@ -300,56 +273,17 @@ const updateLastName = async () => {
   }
 
   /* USERNAME IS TIED TO JWT TOKEN AND WOULD NEED A TOKEN REFRESH. LEAVING OUT OPTION TO CHANGE IT FOR NOW- */
-
-  // // Validation method for username
-  // const validateUsername = () => {
-  //   if (newUsername.value.length < 3 || newUsername.value.length > 15) {
-  //     validationError.value = 'Username must be between 3 and 15 characters.';
-  //     return false;
-  //   }
-  //   return true;
-  // };
-
-  // // Method to update username
-  // const updateUsername = async () => {
-  //   if (validateUsername()) {
-  //     try {
-  //       const response = await UserService.updateUser(user.value.id, {
-  //         username: newUsername.value,
-  //       });
-  //       user.value.username = response.data.username;
-  //       successMessage.value = 'Username updated successfully!';
-  //       user.value.username = newUsername.value;
-  //       newUsername.value = '';
-  //     } catch (error) {
-  //       console.error('An error occurred: ', error);
-  //       validationError.value = 'Failed to update username.';
-  //     }
-  //   }
-  // };
 };
-/*  Method to delete user account */
-// const deleteUserAccount = async () => {
-//   try {
-//     await UserService.deleteUser(user.value.id); // Delete the user
-//     logout(); // Log out
-//     router.push({ name: 'login', query: { accountDeleted: 'true' } }); // Redirect to LoginView with query
-//   } catch (error) {
-//     console.error('An error occurred during account deletion: ', error);
-//     validationError.value = 'Failed to delete account.';
-//   }
-// };
 
+/*  Method to delete user account */
 const deleteUserAccount = async () => {
   if (!deleteClicked.value) {
-    // First click
     deleteClicked.value = true;
   } else {
-    // Second click will perform the deletion
     try {
-      await UserService.deleteUser(user.value.id); // Delete the user
-      logout(); // Log out
-      router.push({ name: 'login', query: { accountDeleted: 'true' } }); // Redirect to LoginView with query
+      await UserService.deleteUser(user.value.id);
+      logout();
+      router.push({ name: 'login', query: { accountDeleted: 'true' } });
     } catch (error) {
       console.error('An error occurred during account deletion: ', error);
       validationError.value = 'Failed to delete account.';
@@ -357,10 +291,6 @@ const deleteUserAccount = async () => {
   }
 };
 </script>
-
-
-
-
 
 <style scoped>
 /* Base styling for settings page */
@@ -553,7 +483,7 @@ span.success-message {
 
 span.warning-message {
   text-align: center;
-  color: #d62828; /* Choose an appropriate warning color */
+  color: #d62828;
   max-width: 100%;
   font-size: 0.8em;
   margin-top: 10px;

@@ -1,11 +1,13 @@
-<script setup lang="ts"></script>
-
 <template>
   <div class="header">
     <h1>Bug Wars</h1>
     <!-- <li><img src="/public/images/Logo.png" /></li> -->
   </div>
 </template>
+
+
+<script setup lang="ts"></script>
+
 
 <style scoped>
 .header {
