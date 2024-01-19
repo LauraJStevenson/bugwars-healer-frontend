@@ -16,7 +16,7 @@
   </div>
 </template>
 
-<script scoped></script>
+<script setup lang="ts"></script>
 
 <style scoped>
 .how-to-play-card {
