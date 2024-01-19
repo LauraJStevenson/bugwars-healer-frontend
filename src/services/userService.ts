@@ -1,11 +1,11 @@
 import axios from 'axios';
 
 class UserService {
-    getUser(userId) {
+    getUser(userId: number) {
         return axios.get(`/users/${userId}`);
     }
 
-    async updateUser(userId: string, userDetails: any) {
+    async updateUser(userId: number, userDetails: any) {
         try {
             const token = localStorage.getItem('token');
 
