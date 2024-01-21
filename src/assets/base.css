@@ -1,3 +1,26 @@
+* {
+  box-sizing: border-box;
+  font-family: 'Space Mono', Arial, Helvetica, sans-serif;
+  background-color: #eae2b7;
+}
+
+html,
 body {
   margin: 0;
+  padding: 0;
+  height: 100vh;
+}
+
+.individual-card {
+  border: 2px solid black;
+  border-radius: 5px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 15px;
+  margin: 15px;
+  width: 345px;
+  height: 530px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
 }

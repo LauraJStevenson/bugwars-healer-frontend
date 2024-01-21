@@ -1,5 +1,13 @@
 import { createRouter, createWebHistory } from 'vue-router';
+import { useAuthStore } from '../stores/auth';
 import HomeView from '../views/HomeView.vue';
+import LoginView from '../views/LoginView.vue';
+import RegistrationView from '../views/RegistrationView.vue';
+
+const isAuthenticated = () => {
+  const authStore = useAuthStore();
+  return authStore.isAuthenticated;
+};
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -10,14 +18,67 @@ const router = createRouter({
       component: HomeView,
     },
     {
-      path: '/about',
-      name: 'about',
-      // route level code-splitting
-      // this generates a separate chunk (About.[hash].js) for this route
-      // which is lazy-loaded when the route is visited.
-      component: () => import('../views/AboutView.vue'),
+      path: '/register',
+      name: 'register',
+      component: RegistrationView,
     },
+    {
+      path: '/login',
+      name: 'login',
+      component: LoginView,
+    },
+
+    {
+      path: '/howtoplay',
+      name: 'howtoplay',
+      component: () => import('../views/HowToPlayView.vue'),
+    },
+
+    {
+      path: '/settings',
+      name: 'settings',
+      component: () => import('../views/SettingsView.vue'),
+      meta: { requiresAuth: true },
+    },
+
+    {
+      path: '/gamelobby',
+      name: 'gamelobby',
+      component: () => import('../views/GameLobbyView.vue'),
+      meta: { requiresAuth: true },
+    },
+    {
+      path: '/gameplay',
+      name: 'gameplay',
+      component: () => import('../views/GamePlayView.vue'),
+      meta: { requiresAuth: true },
+    },
+    {
+      path: '/credits',
+      name: 'credits',
+      component: () => import('../views/CreditsView.vue'),
+    },
+    {
+      path: '/behindthescenes',
+      name: 'behindthescenes',
+      component: () => import('../views/BehindTheScenesView.vue'),
+    },
+    {
+      path: '/scripteditor',
+      name: 'scripteditor',
+      component: () => import('../views/ScriptEditorView.vue'),
+      meta: { requiresAuth: true },
+    },
+    // When adding a route for ScriptEditor, please be sure to add "meta: { requiresAuth: true }" to give that route a navigation guard. See route for /gameplay to see example of this.
   ],
+});
+
+router.beforeEach((to, from, next) => {
+  if (to.meta.requiresAuth && !isAuthenticated()) {
+    next({ name: 'login' });
+  } else {
+    next();
+  }
 });
 
 export default router;
