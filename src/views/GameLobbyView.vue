@@ -40,15 +40,35 @@
       </label>
     </div>
   </div>
+  <div>
+    <h1>Or Make Your Own</h1>
+    <div class="individual-bug-card">
+      <img class="bug-card-photo" src="../../public/images/QuestionMark.png" />
+      <h1>Custom Bug</h1>
+      <div>
+        <RouterLink to="scripteditor">
+          <button type="submit">Choose Your Abilities</button>
+        </RouterLink>
+      </div>
+      <p>
+        <label for="option1">
+          <input type="radio" id="option5" name="options" />
+          Choose this bug!
+        </label>
+      </p>
+    </div>
+  </div>
   <p class="gameplay-link"><RouterLink to="/gameplay">I'm Ready to Play!</RouterLink></p>
 </template>
-
 
 <script setup lang="ts"></script>
 
 <style scoped>
 .game-lobby {
   padding: 50px;
+}
+h1 {
+  text-align: center;
 }
 .lobby-placeholder-logo {
   display: block;
@@ -91,5 +111,10 @@
   width: 345px;
   height: 530px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+button {
+  text-transform: uppercase;
+  background-color: rgb(247, 171, 101);
+  cursor: pointer;
 }
 </style>

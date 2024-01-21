@@ -1,8 +1,8 @@
 import { createRouter, createWebHistory } from 'vue-router';
-import HomeView from '../views/HomeView.vue';
-import RegistrationView from '../views/RegistrationView.vue';
-import LoginView from '../views/LoginView.vue';
 import { useAuthStore } from '../stores/auth';
+import HomeView from '../views/HomeView.vue';
+import LoginView from '../views/LoginView.vue';
+import RegistrationView from '../views/RegistrationView.vue';
 
 const isAuthenticated = () => {
   const authStore = useAuthStore();
@@ -34,14 +34,12 @@ const router = createRouter({
       component: () => import('../views/HowToPlayView.vue'),
     },
 
-
     {
       path: '/settings',
       name: 'settings',
       component: () => import('../views/SettingsView.vue'),
       meta: { requiresAuth: true },
     },
-
 
     {
       path: '/gamelobby',
@@ -65,9 +63,13 @@ const router = createRouter({
       name: 'behindthescenes',
       component: () => import('../views/BehindTheScenesView.vue'),
     },
-
+    {
+      path: '/scripteditor',
+      name: 'scripteditor',
+      component: () => import('../views/ScriptEditorView.vue'),
+      meta: { requiresAuth: true },
+    },
     // When adding a route for ScriptEditor, please be sure to add "meta: { requiresAuth: true }" to give that route a navigation guard. See route for /gameplay to see example of this.
-
   ],
 });
 
