@@ -71,13 +71,38 @@
 
     <section class="text-body">
       <p>
-        Rob has expressed that he would like to take ownership of testing, including unit and
-        integration tests. He has been doing diligent research on the process of implementing these
-        and will be adding his work to this sprint.
+        Our team has been utilizing Test-Driven Development whenever possible, we have a robust testing system in place,
+        including Unit and Integration testing.
       </p>
       <p>
         Laura is our Tech Lead and built the How To Play page, the Play page, and the Behind the
         Scenes Page you are reading.
+      </p>
+      <p>
+        Our application has the following features:
+        <ul>
+          -A CI/CD pipeline with testing to ensure we always have a demo link available <br />
+          -Responsive web design optimizing for Mobile views <br />
+          -Functioning User Registration <br />
+          -Functioning User Authentication (Login) <br />
+          -Functioning User Logout <br />
+          -Dynamic Navigation based on Authentication <br />
+          -Security using Spring Boot and JWT token <br />
+          -PostgreSQL database accessed via JPA in Spring Boot <br />
+          -Amazing graphics & color schemes <br />
+          -Every functioning page you see on this site <br />
+        </ul>
+      </p>
+      <p>We are currently working on:
+        <ul>
+          -Building the game engine <br />
+          -Increasing our testing <br />
+          -Implementing a Content Management System for this page <br />
+          -Implementing compiler logic to connect to the ScriptEditor Page <br />
+          -Building the game!<br />
+          -More robust error handling <br />
+
+        </ul>
       </p>
       <p>
         We will be updating this page as the project continues with a blog feature that allows us to
@@ -91,6 +116,11 @@
 <script setup lang="ts"></script>
   
 <style scoped>
+
+.text-body {
+  text-align: left;
+  padding: 30px;
+}
 .process {
   display: flex;
   flex-direction: column;
@@ -101,10 +131,6 @@
 
 h1 {
   font-family: 'Press Start 2P', 'Space Mono', Arial, Helvetica, sans-serif;
-}
-.text-body {
-  text-align: left;
-  padding: 30px;
 }
 p {
   padding: 10px;
