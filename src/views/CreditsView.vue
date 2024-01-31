@@ -28,13 +28,24 @@
         <img class="card-photo" src="../../public/images/laura-img.jpg" />
         <h1>Laura Stevenson</h1>
         <h3>Tech Lead / Full Stack Developer</h3>
-        <p class="contribution">Contributions:</p>
+        <ul>
+          CI/CD Pipeline, FrontEnd Views, & Team Leadership
+        </ul>
         <ul>
           <li>
-            <a class="contact-link" href="https://www.linkedin.com/in/laurajstevenson/">LinkedIn</a>
+            <a class="contact-link" href="https://www.linkedin.com/in/laurajstevenson/"
+              >LinkedIn
+            </a>
           </li>
           <li>
-            <a class="contact-link" href="https://github.com/LauraJStevenson">GitHub</a>
+            <a class="contact-link" href="https://github.com/LauraJStevenson">Github</a>
+          </li>
+          <li>
+            <a
+              class="contact-link"
+              href="https://docs.google.com/document/d/19zZd50qlK_VfeU3FhKS8wJPAnLWHlfMQ/edit?usp=sharing&ouid=108375348286204985727&rtpof=true&sd=true"
+              >Resume</a
+            >
           </li>
         </ul>
       </div>
@@ -43,12 +54,21 @@
         <img class="card-photo" src="../../public/images/ashley-img.jpg" />
         <h1>Ashley Mical</h1>
         <h3>Full Stack Developer</h3>
-        <p class="contribution">Contributions:</p>
+        <ul>
+          FrontEnd Design, Token Refresh, & Dynamic FrontEnd Views
+        </ul>
         <ul>
           <li>
             <a class="contact-link" href="https://www.linkedin.com/in/ashleymical/">LinkedIn</a>
           </li>
           <li><a class="contact-link" href="https://github.com/micamash">GitHub</a></li>
+          <li>
+            <a
+              class="contact-link"
+              href="https://docs.google.com/document/d/1YB_ujWSKRgBMhMjOBuAmhd5xlRapg2wt/edit?usp=sharing&ouid=103008679140595511419&rtpof=true&sd=true"
+              >Resume</a
+            >
+          </li>
         </ul>
       </div>
 
@@ -56,12 +76,21 @@
         <img class="card-photo" src="../../public/images/yagmur-img.jpg" />
         <h1>Yagmur Muslu</h1>
         <h3>Full Stack Developer</h3>
-        <p class="contribution">Contributions:</p>
+        <ul>
+          Backend Design, Authentication, Security, & Game Engine
+        </ul>
         <ul>
           <li>
             <a class="contact-link" href="https://www.linkedin.com/in/yagmurmuslu/">LinkedIn</a>
           </li>
           <li><a class="contact-link" href="https://github.com/yagmurmuslu">GitHub</a></li>
+          <li>
+            <a
+              class="contact-link"
+              href="https://drive.google.com/file/d/1hmUnOBYHVXTb0IoPmLIJr_rL0FhizAkq/view?usp=sharing"
+              >Resume</a
+            >
+          </li>
         </ul>
       </div>
 
@@ -69,13 +98,22 @@
         <img class="card-photo" src="../../public/images/kimlyn-img.jpg" />
         <h1>Kimlyn De Lara</h1>
         <h3>Full Stack Developer</h3>
-        <p class="contribution">Contributions:</p>
+        <ul>
+          Backend Design, Backend Testing, & Authentication
+        </ul>
         <ul>
           <li>
             <a class="contact-link" href="https://www.linkedin.com/in/kimlyn-de-lara/">LinkedIn</a>
           </li>
           <li>
             <a class="contact-link" href="https://github.com/klyndelara">GitHub</a>
+          </li>
+          <li>
+            <a
+              class="contact-link"
+              href="https://docs.google.com/document/d/1PbstSnlz3gSG7wtLBX66NNpkzfC79uJrP1M4iOMWh2A/edit?usp=sharing"
+              >Resume</a
+            >
           </li>
         </ul>
       </div>
@@ -84,7 +122,9 @@
         <img class="card-photo" src="../../public/images/viv-img.jpg" />
         <h1>Viviana Valentin</h1>
         <h3>Full Stack Developer</h3>
-        <p class="contribution">Contributions:</p>
+        <ul>
+          FrontEnd Design, Pixel Art, & Dynamic FrontEnd Views
+        </ul>
         <ul>
           <li>
             <a class="contact-link" href="https://www.linkedin.com/in/viviana-valentin/"
@@ -92,19 +132,13 @@
             >
           </li>
           <li><a class="contact-link" href="https://github.com/Viv-Valentin">GitHub</a></li>
-        </ul>
-      </div>
-
-      <div class="individual-card">
-        <img class="card-photo" src="../../public/images/rob-img.jpg" />
-        <h1>Robert Harris</h1>
-        <h3>Full Stack Developer</h3>
-        <p class="contribution">Contributions:</p>
-        <ul>
           <li>
-            <a class="contact-link" href="https://www.linkedin.com/in/robjamesharris/">LinkedIn</a>
+            <a
+              class="contact-link"
+              href="https://drive.google.com/file/d/1vU7DZSs4GNjDqENESPaV4LZALMNBziMM/view?usp=sharing"
+              >Resume</a
+            >
           </li>
-          <li><a class="contact-link" href="https://github.com/RHarris2014">GitHub</a></li>
         </ul>
       </div>
     </div>
@@ -112,7 +146,7 @@
 </template>
 
 <script setup lang="ts"></script>
-  
+
 <style scoped>
 .credits {
   display: flex;
@@ -161,10 +195,11 @@ svg {
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  text-align: center;
   padding: 15px;
   margin: 15px;
   width: 345px;
-  height: 530px;
+  height: 650px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
 }
 
@@ -183,19 +218,23 @@ svg {
 
 ul {
   list-style: none;
-  display: flex;
+  display: inline-block;
   padding: 0;
 }
 
 li {
-  margin: 10px;
   background-color: #182328;
+  margin: 10px;
   padding: 10px;
   border-radius: 5px;
 }
 
 .contact-link {
   background-color: #182328;
+  border-radius: 5px;
+  padding: 10px;
+  cursor: pointer;
+  align-items: center;
 }
 
 .contact-link,
@@ -210,4 +249,3 @@ li {
   color: #f77f00;
 }
 </style>
-  
