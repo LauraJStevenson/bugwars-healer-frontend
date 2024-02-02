@@ -107,6 +107,11 @@ h1 {
   cursor: pointer;
 }
 
+.image-container:hover .computer-illustration {
+  transform: scale(0.9);
+  filter: blur(3px);
+}
+
 .go-button:hover {
   filter: none;
 }
