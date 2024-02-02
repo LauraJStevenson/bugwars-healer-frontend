@@ -6,8 +6,8 @@
       <ul id="bug-scripts">
       <li v-for="script in scriptStore.scripts" :key="script.id" class="bug-script">
         <span>{{ script.name }}</span>
-        <!-- Use a router link with the script's ID as a parameter -->
-        <router-link :to="{ name: 'scripteditor', params: { id: script.id } }" class="edit-script">Edit</router-link>
+        <!-- This routerlink is dynamic and will route to the script editor page with the user's scriptID so that their script appears in the editor automatically.-->
+        <router-link :to="{ name: 'scriptEditor', params: { id: script.id } }" class="edit-script">Edit</router-link>
         <span class="delete-script" @click="() => deleteScript(script.id)">Delete</span>
       </li>
     </ul>
