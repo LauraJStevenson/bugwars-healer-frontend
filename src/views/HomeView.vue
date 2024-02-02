@@ -10,8 +10,8 @@
     <router-link
       :to="isAuthenticated ? '/gamelobby' : '/login'"
       class="image-container"
-      @mouseover="showGoButton = true"
-      @mouseout="showGoButton = false"
+      @mouseenter="showGoButton = true"
+      @mouseleave="showGoButton = false"
     >
       <div class="image-overlay"></div>
       <img
