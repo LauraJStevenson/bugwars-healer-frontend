@@ -146,7 +146,7 @@ function submit() {
     password: formData.value.password,
   };
 
-  login(loginDto);
+  login(loginDto, router);
 }
 
 const showPassword = () => {

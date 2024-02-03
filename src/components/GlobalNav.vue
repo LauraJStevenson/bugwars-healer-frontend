@@ -41,23 +41,25 @@
 
 <script lang="ts">
 import { useAuthStore } from '../stores/auth';
+import { useRouter } from 'vue-router';
 
 export default {
   setup() {
     const authStore = useAuthStore();
+    const router = useRouter(); 
+
+    const handleLogout = () => {
+      authStore.logout(router);
+    };
 
     return {
       authStore,
+      handleLogout,
     };
   },
   computed: {
     isAuthenticated() {
       return this.authStore.isAuthenticated;
-    },
-  },
-  methods: {
-    handleLogout() {
-      this.authStore.logout();
     },
   },
 };

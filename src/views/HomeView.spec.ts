@@ -1,35 +1,62 @@
-import { describe, it, expect, beforeEach } from 'vitest';
-import { mount } from '@vue/test-utils';
+import { describe, it, expect, beforeEach, afterEach } from 'vitest';
+import { mount, flushPromises } from '@vue/test-utils';
+import { createPinia, setActivePinia } from 'pinia';
+import { createRouter, createWebHistory } from 'vue-router';
+import { useAuthStore } from '../stores/auth';
 import HomeView from './HomeView.vue';
 import GameLobbyViewVue from './GameLobbyView.vue';
 import LoginViewVue from './LoginView.vue';
-import { createPinia, setActivePinia } from 'pinia';
-import { createRouter, createWebHistory } from 'vue-router';
-
-// This creates the router for use in the HomeView tests. When using the router in tests please use "await router.isReady();" to be sure router is ready for testing.
 
 const routes = [{ path: '/', component: HomeView }, { path: '/gamelobby', component: GameLobbyViewVue }, { path: '/login', component: LoginViewVue }];
-
 const router = createRouter({
     history: createWebHistory(),
     routes,
 });
 
-
 describe('HomeView', () => {
+    let pinia: any;
 
-    beforeEach(() => {
-        setActivePinia(createPinia());
+    beforeEach(async () => {
+        pinia = createPinia();
+        setActivePinia(pinia);
+        router.push('/');
+        await router.isReady();
+    });
+
+    afterEach(() => {
+        const authStore = useAuthStore();
+        authStore.reset();
     });
 
     it('displays welcome message for unauthenticated users', async () => {
-
         const wrapper = mount(HomeView, {
             global: {
-                plugins: [router],
+                plugins: [router, pinia],
             },
         });
         expect(wrapper.text()).toContain('Welcome, warriors!');
+    });
+
+    it('displays welcome message for authenticated users', async () => {
+        const authStore = useAuthStore();
+        authStore.$state.isAuthenticated = true;
+        authStore.$state.user = {
+            id: 1,
+            username: 'TestUser',
+            firstname: 'Test',
+            lastname: 'User',
+            email: 'testuser@test.com'
+        };
+
+        const wrapper = mount(HomeView, {
+            global: {
+                plugins: [router, pinia],
+            },
+        });
+
+        await flushPromises();
+
+        expect(wrapper.text()).toContain('Welcome, TestUser!');
     });
 
 

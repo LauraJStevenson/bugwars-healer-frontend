@@ -105,8 +105,9 @@ const router = useRouter();
 const { isAuthenticated } = useAuthStore();
 const authStore = useAuthStore();
 const user = computed(() => authStore.user);
-const logout = useAuthStore().logout;
-const deleteClicked = ref(false);
+const handleLogout = () => {
+  authStore.logout(router);
+};const deleteClicked = ref(false);
 
 /* USERNAME IS TIED TO JWT TOKEN AND WOULD NEED A TOKEN REFRESH. LEAVING OUT OPTION TO CHANGE IT FOR NOW- */
 // const newUsername = ref('');
@@ -269,14 +270,14 @@ const deleteUserAccount = async () => {
   } else {
     try {
       await UserService.deleteUser(user.value.id);
-      logout();
-      router.push({ name: 'login', query: { accountDeleted: 'true' } });
+      await authStore.logout(router);
     } catch (error) {
       console.error('An error occurred during account deletion: ', error);
       validationError.value = 'Failed to delete account.';
     }
   }
 };
+
 </script>
 
 <style scoped>

@@ -1,13 +1,11 @@
 import { defineStore } from 'pinia';
 import { ref } from 'vue';
-import { useRouter } from 'vue-router';
 import { authService } from '../services/authService';
 import type { LoginDto, User } from '../types';
 import { type SuccessResponse } from '../utils/makeRequest';
 import { objectsHaveSameKeys } from '../utils/objectsHaveSameKeys';
 
 export const useAuthStore = defineStore('auth', () => {
-  const router = useRouter();
   const emptyUser: User = {
     username: '',
     roles: [],
@@ -24,17 +22,17 @@ export const useAuthStore = defineStore('auth', () => {
 
   const authError = ref('');
 
-  async function login(loginDto: LoginDto) {
+  async function login(loginDto: LoginDto, router: any) {
     const response = await authService.login(loginDto);
 
     if (response.type === 'success') {
-      successfulLoginActions(response);
+      successfulLoginActions(response, router);
     } else {
       authError.value = response.error;
     }
   }
 
-  function successfulLoginActions(response: SuccessResponse) {
+  function successfulLoginActions(response: SuccessResponse, router: any) {
     const responseUser = {
       id: response.data.id,
       username: response.data.username,
@@ -44,7 +42,6 @@ export const useAuthStore = defineStore('auth', () => {
       roles: response.data.roles,
     };
 
-    // console.log(responseUser); //For debugging purposes only
     user.value = responseUser;
     isAuthenticated.value = true;
     localStorage.setItem('user', JSON.stringify(responseUser));
@@ -53,7 +50,7 @@ export const useAuthStore = defineStore('auth', () => {
     router.push({ name: 'home' });
   }
 
-  async function logout(): Promise<any> {
+  async function logout(router: any): Promise<any> {
     try {
       await authService.logout();
 
@@ -66,6 +63,12 @@ export const useAuthStore = defineStore('auth', () => {
     } catch (error) {
       console.error('Logout failed', error);
     }
+  }
+
+  function reset() {
+    user.value = { ...emptyUser };
+    isAuthenticated.value = false;
+    authError.value = '';
   }
 
   function clearAuthError() {
@@ -83,9 +86,9 @@ export const useAuthStore = defineStore('auth', () => {
         isAuthenticated.value = true;
         return;
       }
-      logout();
+      logout(undefined);
     } catch (error) {
-      logout();
+      logout(undefined);
     }
   }
 
@@ -96,5 +99,7 @@ export const useAuthStore = defineStore('auth', () => {
     login,
     logout,
     isAuthenticated,
+    emptyUser,
+    reset,
   };
 });
