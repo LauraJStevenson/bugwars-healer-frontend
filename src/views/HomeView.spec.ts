@@ -7,15 +7,23 @@ import HomeView from './HomeView.vue';
 import GameLobbyViewVue from './GameLobbyView.vue';
 import LoginViewVue from './LoginView.vue';
 
-const routes = [{ path: '/', component: HomeView }, { path: '/gamelobby', component: GameLobbyViewVue }, { path: '/login', component: LoginViewVue }];
+
+// This creates the router with specific routes needed for testing
+const routes = [{ path: '/', component: HomeView, name: 'home' }, { path: '/gamelobby', component: GameLobbyViewVue, name: 'gamelobby' }, { path: '/login', component: LoginViewVue, name: 'login' }];
 const router = createRouter({
     history: createWebHistory(),
     routes,
 });
 
+/**
+   * Tests for the HomeView component.
+   */
+
 describe('HomeView', () => {
+
     let pinia: any;
 
+    // This creates the store and ensures the router is set and ready before testing begins.
     beforeEach(async () => {
         pinia = createPinia();
         setActivePinia(pinia);
@@ -23,19 +31,24 @@ describe('HomeView', () => {
         await router.isReady();
     });
 
+    // This resets the auth store after test is complete.
     afterEach(() => {
         const authStore = useAuthStore();
         authStore.reset();
     });
 
+    /**
+   * Tests
+   */
+
     it('displays welcome message for unauthenticated users', async () => {
-        const wrapper = mount(HomeView, {
-            global: {
-                plugins: [router, pinia],
-            },
-        });
+        const authStore = useAuthStore();
+        authStore.$state.isAuthenticated = false;
+
+        const wrapper = mount(HomeView);
         expect(wrapper.text()).toContain('Welcome, warriors!');
     });
+
 
     it('displays welcome message for authenticated users', async () => {
         const authStore = useAuthStore();
@@ -50,31 +63,80 @@ describe('HomeView', () => {
 
         const wrapper = mount(HomeView, {
             global: {
-                plugins: [router, pinia],
+                plugins: [pinia],
             },
         });
-
-        await flushPromises();
 
         expect(wrapper.text()).toContain('Welcome, TestUser!');
     });
 
 
-    it('displays welcome message for unauthenticated users and navigates correctly', async () => {
-        const wrapper = mount(HomeView, {
-            global: {
-                plugins: [router],
-            },
-        });
+    it('displays paragraph element', async () => {
+        const wrapper = mount(HomeView);
+        const paragraphs = wrapper.findAll('p');
+        expect(paragraphs.length).toBe(1);
+    });
 
-        await router.isReady();
 
-        expect(wrapper.text()).toContain('Welcome, warriors!');
+    it('go-button displays on mouseenter', async () => {
+
+        const authStore = useAuthStore();
+        authStore.$state.isAuthenticated = false;
+
+        const wrapper = mount(HomeView);
+
         const routerLink = wrapper.find('.image-container');
         await routerLink.trigger('mouseenter');
         expect(wrapper.find('.go-button').isVisible()).toBe(true);
+    });
 
-        // Simulate click to test navigation - this part is trickier with Vue Test Utils as it doesn't actually navigate.
-        // Instead, you would check if the "to" prop of the router-link changes as expected or mock the $router.push method.
+
+    it('go-button disappears on mouseleave', async () => {
+
+        const authStore = useAuthStore();
+        authStore.$state.isAuthenticated = false;
+
+        const wrapper = mount(HomeView);
+
+        const routerLink = wrapper.find('.image-container');
+        await routerLink.trigger('mouseleave');
+        expect(wrapper.find('.go-button').exists()).toBe(false);
+    });
+
+
+    it('displays routerlink and go-button with correct route for unauthenticated user', async () => {
+
+        const authStore = useAuthStore();
+        authStore.$state.isAuthenticated = false;
+
+        const wrapper = mount(HomeView, {
+            global: {
+                plugins: [router, pinia],
+            },
+        });
+
+        const routerLinkComponent = wrapper.findComponent({ name: 'RouterLink' });
+        const toProp = routerLinkComponent.props('to');
+        expect(toProp).toBe('/login');
+    });
+
+
+    it('displays routerlink and go-button with correct route for authenticated user', async () => {
+
+        const authStore = useAuthStore();
+        authStore.$state.isAuthenticated = true;
+
+        const wrapper = mount(HomeView, {
+            global: {
+                plugins: [router, pinia],
+            },
+        });
+
+        const routerLinkComponent = wrapper.findComponent({ name: 'RouterLink' });
+        const toProp = routerLinkComponent.props('to');
+        expect(toProp).toBe('/gamelobby');
+
     });
 });
+
+

@@ -2,7 +2,12 @@ import { describe, it, expect } from 'vitest';
 import { mount } from '@vue/test-utils';
 import Credits from './CreditsView.vue';
 
+/**
+ * Tests for the CreditsView component.
+ */
+
 describe('Credits', () => {
+
     it('renders the team title correctly', () => {
         const wrapper = mount(Credits);
         expect(wrapper.find('.title').text()).toContain('We are Team Healer of Crusader Games');
