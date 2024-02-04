@@ -4,9 +4,9 @@ import Header from './HeaderComponent.vue';
 
 describe('Header', () => {
     it('renders correctly', () => {
-        const headerWrapper = mount(Header);
+        const wrapper = mount(Header);
 
-        expect(headerWrapper.text()).toContain('Bug Wars');
+        expect(wrapper.text()).toContain('Bug Wars');
 
     });
 });

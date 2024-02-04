@@ -13,6 +13,7 @@ export const useAuthStore = defineStore('auth', () => {
     firstname: '',
     lastname: '',
     email: '',
+    scripts: [],
   };
 
   const user = ref<User>(emptyUser);
@@ -40,6 +41,7 @@ export const useAuthStore = defineStore('auth', () => {
       lastname: response.data.lastname,
       email: response.data.email,
       roles: response.data.roles,
+      scripts: response.data.scripts || [],
     };
 
     user.value = responseUser;

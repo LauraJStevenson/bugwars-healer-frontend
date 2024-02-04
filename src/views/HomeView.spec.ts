@@ -58,7 +58,8 @@ describe('HomeView', () => {
             username: 'TestUser',
             firstname: 'Test',
             lastname: 'User',
-            email: 'testuser@test.com'
+            email: 'testuser@test.com',
+            scripts: []
         };
 
         const wrapper = mount(HomeView, {
@@ -115,8 +116,8 @@ describe('HomeView', () => {
             },
         });
 
-        const routerLinkComponent = wrapper.findComponent({ name: 'RouterLink' });
-        const toProp = routerLinkComponent.props('to');
+        const routerLink = wrapper.findComponent({ name: 'RouterLink' });
+        const toProp = routerLink.props('to');
         expect(toProp).toBe('/login');
     });
 
@@ -132,8 +133,8 @@ describe('HomeView', () => {
             },
         });
 
-        const routerLinkComponent = wrapper.findComponent({ name: 'RouterLink' });
-        const toProp = routerLinkComponent.props('to');
+        const routerLink = wrapper.findComponent({ name: 'RouterLink' });
+        const toProp = routerLink.props('to');
         expect(toProp).toBe('/gamelobby');
 
     });
