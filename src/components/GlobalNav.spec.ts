@@ -88,7 +88,8 @@ describe('GlobalNav', () => {
             username: 'TestUser',
             firstname: 'Test',
             lastname: 'User',
-            email: 'testuser@test.com'
+            email: 'testuser@test.com',
+            scripts: []
         };
 
         const wrapper = mount(GlobalNav, {

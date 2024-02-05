@@ -93,6 +93,7 @@ import { useAuthStore } from '../stores/auth';
 import UserService from '../services/userService';
 import { useRouter } from 'vue-router';
 import ScriptSettingsComponent from '../components/ScriptSettingsComponent.vue';
+import validationService from '../services/validationService'
 
 /* Define refs for new values */
 const newPassword = ref('');
@@ -155,11 +156,7 @@ watch(validationError, (newValue: string) => {
   }
 });
 
-/* Validation and update methods for inputs */
-
-// Validation method for password
-
-// Constraints are not set up yet on backend. Once implemented on backend, validation will need to be added for password constraints.
+/* Update methods for inputs */
 
 // Method to update password
 const updatePassword = async () => {
@@ -175,52 +172,28 @@ const updatePassword = async () => {
   }
 };
 
-// Validation method for email
-const validateEmail = () => {
-  const emailRegex = /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/;
-
-  if (newEmail.value.length < 5 || newEmail.value.length > 50) {
-    validationError.value = 'Username must be between 5 and 50 characters.';
-    return false;
-  }
-
-  // Check if the email matches the regex
-  if (!emailRegex.test(newEmail.value)) {
-    validationError.value = 'Please enter a valid email address.';
-    return false;
-  }
-
-  return true;
-};
-
 // Method to update email
 const updateEmail = async () => {
-  if (validateEmail()) {
+  const emailError = validationService.validateEmail(newEmail.value);
+  if (emailError === '') {
     try {
       const response = await UserService.updateUser(user.value.id, { email: newEmail.value });
       user.value.email = response.data.email;
       successMessage.value = 'Email updated successfully!';
-      user.value.email = newEmail.value;
       newEmail.value = '';
     } catch (error) {
       console.error('An error occurred: ', error);
       validationError.value = 'Failed to update email.';
     }
+  } else {
+    validationError.value = emailError;
   }
-};
-
-// Validation method for first name
-const validateFirstName = () => {
-  if (newFirstName.value.length < 2 || newFirstName.value.length > 15) {
-    validationError.value = 'First name must be between 2 and 15 characters.';
-    return false;
-  }
-  return true;
 };
 
 // Method to update first name
 const updateFirstName = async () => {
-  if (validateFirstName()) {
+  const firstNameError = validationService.validateFirstName(newFirstName.value);
+  if (firstNameError === '') {
     try {
       const response = await UserService.updateUser(user.value.id, {
         firstname: newFirstName.value,
@@ -233,21 +206,16 @@ const updateFirstName = async () => {
       console.error('An error occurred: ', error);
       validationError.value = 'Failed to update first name.';
     }
+  } else {
+    validationError.value = firstNameError;
   }
 };
 
-// Validation method for last name
-const validateLastName = () => {
-  if (newLastName.value.length < 2 || newLastName.value.length > 15) {
-    validationError.value = 'Last name must be between 2 and 15 characters.';
-    return false;
-  }
-  return true;
-};
 
 // Method to update last name
-const updateLastName = async () => {
-  if (validateLastName()) {
+  const updateLastName = async () => {
+  const lastNameError = validationService.validateLastName(newLastName.value);
+  if (lastNameError === '') {
     try {
       const response = await UserService.updateUser(user.value.id, { lastname: newLastName.value });
       user.value.lastname = response.data.lastname;
@@ -258,10 +226,12 @@ const updateLastName = async () => {
       console.error('An error occurred: ', error);
       validationError.value = 'Failed to update last name.';
     }
+  } else {
+    validationError.value = lastNameError;
   }
+};
 
   /* USERNAME IS TIED TO JWT TOKEN AND WOULD NEED A TOKEN REFRESH. LEAVING OUT OPTION TO CHANGE IT FOR NOW- */
-};
 
 /*  Method to delete user account */
 const deleteUserAccount = async () => {

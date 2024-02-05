@@ -3,7 +3,6 @@ import { mount } from '@vue/test-utils';
 import { createPinia, setActivePinia } from 'pinia';
 import { createRouter, createWebHistory } from 'vue-router';
 import { useAuthStore } from '../stores/auth';
-import SettingsView from '../views/SettingsView.vue';
 import HomeView from '../views/HomeView.vue';
 import ScriptEditorWithParam from '../views/ScriptEditorView.vue';
 import ScriptSettingsComponent from '../components/ScriptSettingsComponent.vue';
