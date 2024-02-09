@@ -69,7 +69,13 @@ const router = createRouter({
       component: () => import('../views/ScriptEditorView.vue'),
       meta: { requiresAuth: true },
     },
-    // When adding a route for ScriptEditor, please be sure to add "meta: { requiresAuth: true }" to give that route a navigation guard. See route for /gameplay to see example of this.
+    //The following route is a dynamic route used from thr Settings View. It routes to the ScriptEditor View with the Script ID as a param so the user will automatically see their script in the editor.
+    {
+      path: '/scripteditor/:id',
+      name: 'scriptEditor',
+      component: () => import('../views/ScriptEditorView.vue'),
+      meta: { requiresAuth: true },
+    },
   ],
 });
 

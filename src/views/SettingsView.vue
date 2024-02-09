@@ -71,23 +71,8 @@
       <input type="checkbox" id="music-toggle" checked />
     </div>
 
-    <p><br /></p>
-
-    <!--The following form will need to be updated with an API request for a users saved bug scripts once we get everything connected -->
-    <div class="form-group bug-script-div">
-      <h3>Saved Bug Scripts:</h3>
-      <ul id="bug-scripts">
-        <li class="bug-script">
-          <span>Sample Script 1</span>
-          <span class="delete-script">Edit</span>
-          <span class="delete-script">Delete</span>
-        </li>
-        <li class="bug-script">
-          <span>Sample Script 2</span>
-          <span class="delete-script">Edit</span>
-          <span class="delete-script">Delete</span>
-        </li>
-      </ul>
+    <div class="form-group bug-script">
+      <ScriptSettingsComponent />
     </div>
 
     <p><br /></p>
@@ -107,6 +92,7 @@ import { ref, watch, nextTick, computed } from 'vue';
 import { useAuthStore } from '../stores/auth';
 import UserService from '../services/userService';
 import { useRouter } from 'vue-router';
+import ScriptSettingsComponent from '../components/ScriptSettingsComponent.vue';
 
 /* Define refs for new values */
 const newPassword = ref('');
@@ -328,32 +314,8 @@ const deleteUserAccount = async () => {
   margin-bottom: 30px;
 }
 
-.bug-script-div {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  border-bottom: 1px solid black;
-  width: 100%;
-  padding-bottom: 50px;
-}
-
-.delete-option {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  width: 100%;
-  padding-bottom: 30px;
-}
-
-h2,
-h3 {
+h2 {
   font-family: 'Press Start 2P', 'Space Mono', Arial, Helvetica, sans-serif;
-}
-
-h3 {
-  font-size: 0.9em;
 }
 
 /* Music checkbox toggle styling */
@@ -379,24 +341,15 @@ h3 {
   margin: 5px;
 }
 
-/* Styling for bug script section */
+/* Bug Script div styling */
 
 .bug-script {
+  width: 100%;
+  border-bottom: 1px solid black;;
   display: flex;
-  justify-content: space-between;
+  flex-direction: column;
+  justify-content: center;
   align-items: center;
-  padding: 10px 0;
-}
-
-.delete-script {
-  color: #d62828;
-  cursor: pointer;
-  margin-left: 55px;
-}
-
-ul {
-  list-style: none;
-  padding: 0;
 }
 
 /* Form and input box styling */
@@ -454,6 +407,15 @@ button {
   flex-direction: column;
   justify-content: center;
   align-items: center;
+}
+
+.delete-option {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  padding-bottom: 30px;
 }
 
 /* Color and positioning for top of page error and success message spans */

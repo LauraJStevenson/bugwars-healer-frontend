@@ -10,8 +10,8 @@
     <router-link
       :to="isAuthenticated ? '/gamelobby' : '/login'"
       class="image-container"
-      @mouseover="showGoButton = true"
-      @mouseout="showGoButton = false"
+      @mouseenter="showGoButton = true"
+      @mouseleave="showGoButton = false"
     >
       <div class="image-overlay"></div>
       <img
@@ -105,6 +105,11 @@ h1 {
   transform: scale(0.9);
   filter: blur(3px);
   cursor: pointer;
+}
+
+.image-container:hover .computer-illustration {
+  transform: scale(0.9);
+  filter: blur(3px);
 }
 
 .go-button:hover {
