@@ -44,7 +44,13 @@ describe('GlobalNav', () => {
 
 
     it('displays the logo img element with the correct src', async () => {
-        const wrapper = mount(GlobalNav);
+
+        const wrapper = mount(GlobalNav, {
+            global: {
+                plugins: [pinia, router],
+            },
+        });
+
         const logoImg = wrapper.find('img');
         const src = logoImg.attributes('src');
 

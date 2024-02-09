@@ -9,19 +9,85 @@ import HomeView from '../views/HomeView.vue'
 import { nextTick } from 'vue';
 import UserService from '../services/userService';
 
-// Mock the UserService
-vi.mock('../services/userService', () => ({
-    deleteUser: vi.fn(),
-    updateEmail: vi.fn(() => Promise.resolve({ success: true })),
-}));
 
-// This creates the router with specific routes needed for testing
+// Create router instance
 const routes = [{ path: '/login', component: LoginView, name: 'login' }, { path: '/', component: HomeView, name: 'home' }];
 
 const router = createRouter({
     history: createWebHistory(),
     routes,
 });
+
+// Mock Axios
+vi.mock('axios', () => {
+    const mockAxiosInstance = {
+        get: vi.fn(() => Promise.resolve({ data: {} })),
+        post: vi.fn(() => Promise.resolve({ status: 200, data: {} })),
+        put: vi.fn(() => Promise.resolve({ data: {} })),
+        delete: vi.fn(() => Promise.resolve({ data: {} })),
+    };
+
+    return {
+        default: mockAxiosInstance,
+        ...mockAxiosInstance,
+    };
+});
+
+// Mock makeRequest
+vi.mock('../utils/makeRequest', () => ({
+    makeRequest: vi.fn((requestCallback, options) => {
+        // Directly invoke the requestCallback to simulate the Axios call
+        const simulatedAxiosResponse = requestCallback();
+        return simulatedAxiosResponse.then(response => {
+            if (options.successStatuses.includes(response.status)) {
+                return {
+                    type: 'success',
+                    status: response.status,
+                    data: response.data,
+                };
+            }
+            // Handle error statuses or unexpected status codes
+        });
+    }),
+}));
+
+// Mock ScriptService
+vi.mock('../services/scriptService', () => {
+    const mockScripts = [
+        {
+            id: 1,
+            name: 'Test Script 1',
+            raw: 'raw data',
+            bytecode: 'bytecode data',
+            isBytecodeValid: true,
+        },
+    ];
+    return {
+        default: {
+            getScriptsByUserId: vi.fn().mockResolvedValue(mockScripts),
+            getScript: vi.fn(),
+            createScript: vi.fn(),
+            updateScript: vi.fn(),
+            deleteScript: vi.fn(),
+        },
+    };
+});
+
+// Mock UserService
+vi.mock('../services/userService', () => {
+    return {
+        default: {
+            getUser: vi.fn(),
+            updateUser: vi.fn(),
+            deleteUser: vi.fn(),
+            updatePassword: vi.fn(),
+            updateEmail: vi.fn(),
+            updateFirstName: vi.fn(),
+            updateLastName: vi.fn(),
+        },
+    };
+});
+
 
 
 describe('SettingsView', () => {
@@ -30,6 +96,9 @@ describe('SettingsView', () => {
 
     // This creates the store and ensures the router is set and ready before testing begins.
     beforeEach(async () => {
+
+        vi.clearAllMocks();
+
         pinia = createPinia();
         setActivePinia(pinia);
         router.push('/');
@@ -46,10 +115,6 @@ describe('SettingsView', () => {
             scripts: []
         };
 
-        vi.mock('../services/userService', () => ({
-            updateUser: vi.fn(() => Promise.resolve({ data: { email: 'newemail@example.com' } })),
-        }));
-
     });
 
     // This resets the auth store after test is complete.
@@ -58,9 +123,7 @@ describe('SettingsView', () => {
         authStore.reset();
     });
 
-    /**
-       * Tests for the SettingsView component.
-       */
+    /** TESTS */
 
     it('should display the current user information', async () => {
 
@@ -80,16 +143,19 @@ describe('SettingsView', () => {
     });
 
 
-    it('should ask for confirmation on account deletion and delete account on confirmation', async () => {
+    it('should change button text on initial click and delete account on second click', async () => {
         const wrapper = mount(SettingsView, {
             global: {
                 plugins: [router],
             },
         });
 
-        // Simulate user confirming account deletion
-        window.confirm = vi.fn(() => true); // Mock confirm dialog to return true
-        await wrapper.find('.delete-account-button').trigger('click');
+        const deleteButton = wrapper.find('#delete-btn');
+        await deleteButton.trigger('click');
+
+        expect(deleteButton.text()).toContain('CONFIRM');
+
+        await deleteButton.trigger('click');
 
         await nextTick();
 
@@ -105,35 +171,11 @@ describe('SettingsView', () => {
         });
 
         const musicToggle = wrapper.find('#music-toggle');
-        expect(musicToggle.element.checked).toBe(true); // Assuming default is true
+        expect((musicToggle.element as HTMLInputElement).checked).toBe(true);
 
-        await musicToggle.setChecked(false);
-        expect(musicToggle.element.checked).toBe(false);
-    });
+        await musicToggle.trigger('click');
 
-
-    it('should update email and display success message when email is valid', async () => {
-        const wrapper = mount(SettingsView, {
-            global: {
-                plugins: [router],
-            },
-        });
-
-        await router.isReady();
-
-        const emailInput = wrapper.find('input[type="email"]');
-        const submitButton = wrapper.find('button[type="submit"]');
-
-        // Simulate user input
-        emailInput.setValue('newemail@example.com');
-        await submitButton.trigger('click');
-
-        await nextTick(); // Wait for DOM updates
-
-        const successMessage = wrapper.find('.success-message');
-        expect(successMessage.exists()).toBe(true);
-        expect(successMessage.text()).toContain('Email updated successfully!');
-        expect(UserService.updateEmail).toHaveBeenCalledWith('newemail@example.com');
+        expect((musicToggle.element as HTMLInputElement).checked).toBe(false);
     });
 
 

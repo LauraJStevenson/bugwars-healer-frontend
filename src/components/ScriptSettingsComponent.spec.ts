@@ -1,4 +1,4 @@
-import { describe, it, expect, beforeEach, afterEach } from 'vitest';
+import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest';
 import { mount } from '@vue/test-utils';
 import { createPinia, setActivePinia } from 'pinia';
 import { createRouter, createWebHistory } from 'vue-router';
@@ -9,11 +9,81 @@ import ScriptSettingsComponent from '../components/ScriptSettingsComponent.vue';
 import { useScriptStore } from '../stores/scriptStore';
 
 
-// This creates the router with specific routes needed for testing
+// Create router instance
 const routes = [{ path: '/', component: HomeView, name: 'home' }, { path: '/scripteditor/:id', component: ScriptEditorWithParam, name: 'scriptEditorWithParam' }];
 const router = createRouter({
     history: createWebHistory(),
     routes,
+});
+
+// Mock Axios
+vi.mock('axios', () => {
+    const mockAxiosInstance = {
+        get: vi.fn(() => Promise.resolve({ data: {} })),
+        post: vi.fn(() => Promise.resolve({ status: 200, data: {} })),
+        put: vi.fn(() => Promise.resolve({ data: {} })),
+        delete: vi.fn(() => Promise.resolve({ data: {} })),
+    };
+
+    return {
+        default: mockAxiosInstance,
+        ...mockAxiosInstance,
+    };
+});
+
+// Mock makeRequest
+vi.mock('../utils/makeRequest', () => ({
+    makeRequest: vi.fn((requestCallback, options) => {
+        // Directly invoke the requestCallback to simulate the Axios call
+        const simulatedAxiosResponse = requestCallback();
+        return simulatedAxiosResponse.then(response => {
+            if (options.successStatuses.includes(response.status)) {
+                return {
+                    type: 'success',
+                    status: response.status,
+                    data: response.data,
+                };
+            }
+            // Handle error statuses or unexpected status codes
+        });
+    }),
+}));
+
+// Mock ScriptService
+vi.mock('../services/scriptService', () => {
+    const mockScripts = [
+        {
+            id: 1,
+            name: 'Test Script 1',
+            raw: 'raw data',
+            bytecode: 'bytecode data',
+            isBytecodeValid: true,
+        },
+    ];
+    return {
+        default: {
+            getScriptsByUserId: vi.fn().mockResolvedValue(mockScripts),
+            getScript: vi.fn(),
+            createScript: vi.fn(),
+            updateScript: vi.fn(),
+            deleteScript: vi.fn(),
+        },
+    };
+});
+
+// Mock UserService
+vi.mock('../services/userService', () => {
+    return {
+        default: {
+            getUser: vi.fn(),
+            updateUser: vi.fn(),
+            deleteUser: vi.fn(),
+            updatePassword: vi.fn(),
+            updateEmail: vi.fn(),
+            updateFirstName: vi.fn(),
+            updateLastName: vi.fn(),
+        },
+    };
 });
 
 // These are mock scripts to be used during testing
@@ -74,8 +144,11 @@ describe('ScriptSettingsComponent', () => {
 
 
     it('renders h3 title header correctly', () => {
-        const wrapper = mount(ScriptSettingsComponent);
-
+        const wrapper = mount(ScriptSettingsComponent, {
+            global: {
+                plugins: [pinia, router],
+            },
+        });
         const h3 = wrapper.find('h3');
 
         expect(h3.text()).toContain('Saved Bug Scripts:');

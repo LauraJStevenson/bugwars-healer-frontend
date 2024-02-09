@@ -45,7 +45,12 @@ describe('HomeView', () => {
         const authStore = useAuthStore();
         authStore.$state.isAuthenticated = false;
 
-        const wrapper = mount(HomeView);
+        const wrapper = mount(HomeView, {
+            global: {
+                plugins: [pinia, router],
+            },
+        });
+
         expect(wrapper.text()).toContain('Welcome, warriors!');
     });
 
@@ -64,7 +69,7 @@ describe('HomeView', () => {
 
         const wrapper = mount(HomeView, {
             global: {
-                plugins: [pinia],
+                plugins: [pinia, router],
             },
         });
 
@@ -73,7 +78,12 @@ describe('HomeView', () => {
 
 
     it('displays paragraph element', async () => {
-        const wrapper = mount(HomeView);
+        const wrapper = mount(HomeView, {
+            global: {
+                plugins: [pinia, router],
+            },
+        });
+
         const paragraphs = wrapper.findAll('p');
         expect(paragraphs.length).toBe(1);
     });
@@ -84,8 +94,11 @@ describe('HomeView', () => {
         const authStore = useAuthStore();
         authStore.$state.isAuthenticated = false;
 
-        const wrapper = mount(HomeView);
-
+        const wrapper = mount(HomeView, {
+            global: {
+                plugins: [pinia, router],
+            },
+        });
         const routerLink = wrapper.find('.image-container');
         await routerLink.trigger('mouseenter');
         expect(wrapper.find('.go-button').isVisible()).toBe(true);
@@ -97,8 +110,11 @@ describe('HomeView', () => {
         const authStore = useAuthStore();
         authStore.$state.isAuthenticated = false;
 
-        const wrapper = mount(HomeView);
-
+        const wrapper = mount(HomeView, {
+            global: {
+                plugins: [pinia, router],
+            },
+        });
         const routerLink = wrapper.find('.image-container');
         await routerLink.trigger('mouseleave');
         expect(wrapper.find('.go-button').exists()).toBe(false);

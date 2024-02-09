@@ -237,8 +237,6 @@ const updateLastName = async () => {
 };
 
 
-
-
 /*  Method to delete user account */
 const deleteUserAccount = async () => {
   if (!deleteClicked.value) {
