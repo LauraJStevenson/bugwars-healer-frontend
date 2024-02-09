@@ -1,17 +1,17 @@
 import { describe, it, expect } from 'vitest'
 import { mount } from '@vue/test-utils'
-import MyComponent from '../views/BehindTheScenesView.vue'
+import BehindTheScenesView from '../views/BehindTheScenesView.vue'
 
 describe('MyComponent', () => {
 
     it('renders the component and checks the main heading', () => {
-        const wrapper = mount(MyComponent)
+        const wrapper = mount(BehindTheScenesView)
         expect(wrapper.text()).toContain('Behind the Scenes')
     })
 
 
     it('checks if the images are correctly rendered', () => {
-        const wrapper = mount(MyComponent)
+        const wrapper = mount(BehindTheScenesView)
         const images = wrapper.findAll('img')
 
         const expectedSrcs = [
@@ -33,7 +33,7 @@ describe('MyComponent', () => {
 
 
     it('checks if external links are correctly set', () => {
-        const wrapper = mount(MyComponent)
+        const wrapper = mount(BehindTheScenesView)
         const links = wrapper.findAll('a')
 
         const expectedHrefs = [
