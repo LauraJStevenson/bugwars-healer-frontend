@@ -45,9 +45,8 @@ export function configureAxios() {
         if (data.accessToken && refreshToken) {
           authStore.setTokens(data.accessToken, refreshToken);
         } else {
-          // Handle the case where tokens are not available as expected
           console.error('Access token or refresh token is missing');
-          authStore.logout(); // For instance, logout the user or prompt re-authentication
+          authStore.logout();
         }
 
         axios.defaults.headers['Authorization'] = `Bearer ${data.accessToken}`;
