@@ -89,6 +89,16 @@ export const useAuthStore = defineStore('auth', () => {
     }
   }
 
+  function setTokens(accessToken: string, refreshToken: string) {
+    localStorage.setItem('accessToken', accessToken);
+    localStorage.setItem('refreshToken', refreshToken);
+  }
+
+  function clearTokens() {
+    localStorage.removeItem('accessToken');
+    localStorage.removeItem('refreshToken');
+  }
+
   return {
     user,
     authError,
@@ -96,5 +106,7 @@ export const useAuthStore = defineStore('auth', () => {
     login,
     logout,
     isAuthenticated,
+    setTokens,
+    clearTokens
   };
 });
