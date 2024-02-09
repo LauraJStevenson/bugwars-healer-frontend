@@ -17,11 +17,13 @@
     </div>
 
     <div class="change-properties-div">
-      <!-- Spans to display messages */ -->
+
+      <!-- Span to display messages */ -->
       <div class="messages">
-        <span v-if="validationError" class="error-message">{{ validationError }}</span>
-        <span v-if="successMessage" class="success-message">{{ successMessage }}</span>
+        <span :class="messageClass" class='messageSpan'>{{ displayMessage }}</span>
       </div>
+
+
 
       <div class="form-group">
         <label for="change-password">Change Password:</label>
@@ -37,7 +39,7 @@
       <div class="form-group">
         <label for="change-email">Change Email:</label>
         <input type="email" id="change-email" placeholder="Enter new email" v-model="newEmail" />
-        <button @click="updateEmail" type="submit" class="submit-btn">Submit</button>
+        <button @click="updateEmail" type="submit" class="submit-btn email-submit">Submit</button>
       </div>
 
       <div class="form-group">
@@ -110,8 +112,16 @@ const handleLogout = () => {
   authStore.logout(router);
 };const deleteClicked = ref(false);
 
-/* USERNAME IS TIED TO JWT TOKEN AND WOULD NEED A TOKEN REFRESH. LEAVING OUT OPTION TO CHANGE IT FOR NOW- */
-// const newUsername = ref('');
+
+const displayMessage = computed(() => {
+  return successMessage.value || validationError.value;
+});
+
+const messageClass = computed(() => {
+  if (successMessage.value) return 'success-message fade-in';
+  if (validationError.value) return 'error-message fade-in';
+  return '';
+});
 
 /* Watchers for adding fade-in/fade-out animations and timeouts to error and success spans */
 watch(successMessage, (newValue: string) => {
@@ -156,13 +166,14 @@ watch(validationError, (newValue: string) => {
   }
 });
 
+
 /* Update methods for inputs */
 
 // Method to update password
 const updatePassword = async () => {
   try {
     if (newPassword.value) {
-      await UserService.updateUser(user.value.id, { password: newPassword.value });
+      await UserService.updatePassword(user.value.id, newPassword.value);
       successMessage.value = 'Password updated successfully!';
       newPassword.value = '';
     }
@@ -177,8 +188,7 @@ const updateEmail = async () => {
   const emailError = validationService.validateEmail(newEmail.value);
   if (emailError === '') {
     try {
-      const response = await UserService.updateUser(user.value.id, { email: newEmail.value });
-      user.value.email = response.data.email;
+      await UserService.updateEmail(user.value.id, newEmail.value);
       successMessage.value = 'Email updated successfully!';
       newEmail.value = '';
     } catch (error) {
@@ -190,17 +200,14 @@ const updateEmail = async () => {
   }
 };
 
+
 // Method to update first name
 const updateFirstName = async () => {
   const firstNameError = validationService.validateFirstName(newFirstName.value);
   if (firstNameError === '') {
     try {
-      const response = await UserService.updateUser(user.value.id, {
-        firstname: newFirstName.value,
-      });
-      user.value.firstname = response.data.firstname;
+      await UserService.updateFirstName(user.value.id, newFirstName.value);
       successMessage.value = 'First name updated successfully!';
-      user.value.firstname = newFirstName.value;
       newFirstName.value = '';
     } catch (error) {
       console.error('An error occurred: ', error);
@@ -213,14 +220,12 @@ const updateFirstName = async () => {
 
 
 // Method to update last name
-  const updateLastName = async () => {
+const updateLastName = async () => {
   const lastNameError = validationService.validateLastName(newLastName.value);
   if (lastNameError === '') {
     try {
-      const response = await UserService.updateUser(user.value.id, { lastname: newLastName.value });
-      user.value.lastname = response.data.lastname;
+      await UserService.updateLastName(user.value.id, newLastName.value);
       successMessage.value = 'Last name updated successfully!';
-      user.value.lastname = newLastName.value;
       newLastName.value = '';
     } catch (error) {
       console.error('An error occurred: ', error);
@@ -231,7 +236,8 @@ const updateFirstName = async () => {
   }
 };
 
-  /* USERNAME IS TIED TO JWT TOKEN AND WOULD NEED A TOKEN REFRESH. LEAVING OUT OPTION TO CHANGE IT FOR NOW- */
+
+
 
 /*  Method to delete user account */
 const deleteUserAccount = async () => {

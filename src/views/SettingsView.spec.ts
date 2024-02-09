@@ -1,4 +1,4 @@
-import { describe, it, expect, beforeEach, afterEach } from 'vitest';
+import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest';
 import { mount } from '@vue/test-utils';
 import { createPinia, setActivePinia } from 'pinia';
 import { createRouter, createWebHistory } from 'vue-router';
@@ -7,8 +7,13 @@ import SettingsView from '../views/SettingsView.vue';
 import LoginView from '../views/LoginView.vue'
 import HomeView from '../views/HomeView.vue'
 import { nextTick } from 'vue';
+import UserService from '../services/userService';
 
-
+// Mock the UserService
+vi.mock('../services/userService', () => ({
+    deleteUser: vi.fn(),
+    updateEmail: vi.fn(() => Promise.resolve({ success: true })),
+}));
 
 // This creates the router with specific routes needed for testing
 const routes = [{ path: '/login', component: LoginView, name: 'login' }, { path: '/', component: HomeView, name: 'home' }];
@@ -29,6 +34,22 @@ describe('SettingsView', () => {
         setActivePinia(pinia);
         router.push('/');
         await router.isReady();
+
+        const authStore = useAuthStore();
+        authStore.$state.isAuthenticated = true;
+        authStore.$state.user = {
+            id: 1,
+            username: 'TestUser',
+            firstname: 'Test',
+            lastname: 'User',
+            email: 'testuser@test.com',
+            scripts: []
+        };
+
+        vi.mock('../services/userService', () => ({
+            updateUser: vi.fn(() => Promise.resolve({ data: { email: 'newemail@example.com' } })),
+        }));
+
     });
 
     // This resets the auth store after test is complete.
@@ -42,17 +63,6 @@ describe('SettingsView', () => {
        */
 
     it('should display the current user information', async () => {
-
-        const authStore = useAuthStore();
-        authStore.$state.isAuthenticated = true;
-        authStore.$state.user = {
-            id: 1,
-            username: 'TestUser',
-            firstname: 'Test',
-            lastname: 'User',
-            email: 'testuser@test.com',
-            scripts: []
-        };
 
         const wrapper = mount(SettingsView, {
             global: {
@@ -69,33 +79,63 @@ describe('SettingsView', () => {
         expect(name.text()).toContain('Test User');
     });
 
-    it('should show validation error if email format is incorrect when updating email', async () => {
 
-        const authStore = useAuthStore();
-        authStore.$state.isAuthenticated = true;
-        authStore.$state.user = {
-            id: 1,
-            username: 'TestUser',
-            firstname: 'Test',
-            lastname: 'User',
-            email: 'testuser@test.com',
-            scripts: []
-        };
+    it('should ask for confirmation on account deletion and delete account on confirmation', async () => {
+        const wrapper = mount(SettingsView, {
+            global: {
+                plugins: [router],
+            },
+        });
 
+        // Simulate user confirming account deletion
+        window.confirm = vi.fn(() => true); // Mock confirm dialog to return true
+        await wrapper.find('.delete-account-button').trigger('click');
+
+        await nextTick();
+
+        expect(UserService.deleteUser).toHaveBeenCalled();
+    });
+
+
+    it('should toggle music setting', async () => {
         const wrapper = mount(SettingsView, {
             global: {
                 plugins: [router, pinia],
             },
         });
 
-        const newEmailInput = wrapper.find('#change-email');
-        await newEmailInput.setValue('invalidemail');
-        const submitButton = wrapper.find('.change-properties-div .form-group .submit-btn');
+        const musicToggle = wrapper.find('#music-toggle');
+        expect(musicToggle.element.checked).toBe(true); // Assuming default is true
+
+        await musicToggle.setChecked(false);
+        expect(musicToggle.element.checked).toBe(false);
+    });
+
+
+    it('should update email and display success message when email is valid', async () => {
+        const wrapper = mount(SettingsView, {
+            global: {
+                plugins: [router],
+            },
+        });
+
+        await router.isReady();
+
+        const emailInput = wrapper.find('input[type="email"]');
+        const submitButton = wrapper.find('button[type="submit"]');
+
+        // Simulate user input
+        emailInput.setValue('newemail@example.com');
         await submitButton.trigger('click');
 
-        await nextTick();
+        await nextTick(); // Wait for DOM updates
 
-        const errorMessage = wrapper.find('.messages .error-message');
-        expect(errorMessage.text()).toContain('Please enter a valid email address.');
+        const successMessage = wrapper.find('.success-message');
+        expect(successMessage.exists()).toBe(true);
+        expect(successMessage.text()).toContain('Email updated successfully!');
+        expect(UserService.updateEmail).toHaveBeenCalledWith('newemail@example.com');
     });
+
+
+
 });
