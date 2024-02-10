@@ -6,22 +6,23 @@
         <span v-if="validationError" class="error-message">{{ validationError }}</span>
         <span v-if="successMessage" class="success-message">{{ successMessage }}</span>
       </div>
-      
+
       <h3>Saved Bug Scripts:</h3>
 
       <ul id="bug-scripts">
 
           <li v-for="script in scriptStore.scripts" :key="script.id" class="bug-script">
  
-          <span v-if="editingScriptId !== script.id">{{ script.name }}</span>
-      <template v-if="editingScriptId === script.id">
-        <input v-model="newScriptName" placeholder="New script name">
-        <button @click="saveNewScriptName" class="save-name">Save</button>
-      </template>
-      <button v-else @click="renameScript(script.id)" class="rename-script">Rename</button>
+            <span v-if="editingScriptId !== script.id">{{ script.name }}</span>
+            <template v-if="editingScriptId === script.id">
+              <input v-model="newScriptName" placeholder="New script name">
+              <button @click="updateScriptName" class="save-name">Save</button>
+            </template>
+            <button v-else @click="renameScript(script.id)" class="rename-script">Rename</button>
 
-          <router-link :to="{ name: 'scriptEditor', params: { id: script.id } }" class="edit-script">Edit</router-link>
-          <span class="delete-script" @click="() => deleteScript(script.id)">Delete</span>
+            <router-link :to="{ name: 'scriptEditor', params: { id: script.id } }" class="edit-script">Edit</router-link>
+            <span class="delete-script" @click="() => deleteScript(script.id)">Delete</span>
+
         </li>
 
     </ul>
@@ -45,6 +46,11 @@ const editingScriptId = ref(null);
 const newScriptName = ref('');
 const validationError = ref('');
 const successMessage = ref('');
+
+const script = ref({
+  id: null,
+  name: ''
+});
 
 
 /* Watchers for adding fade-in/fade-out animations and timeouts to error and success spans */
@@ -90,34 +96,56 @@ watch(validationError, (newValue: string) => {
   }
 });
 
-// Method to update script name
-const renameScript = (scriptId:any) => {
+// Method to start renaming a script (makes input box appear)
+const renameScript = (scriptId: any) => {
   editingScriptId.value = scriptId;
-  const script = scriptStore.scripts.find(script => script.id === scriptId);
-  newScriptName.value = script ? script.name : '';
+  const scriptToRename = scriptStore.scripts.find(s => s.id === scriptId);
+  if (scriptToRename) {
+    newScriptName.value = scriptToRename.name;
+  }
 };
 
-const saveNewScriptName = async () => {
-  if (!newScriptName.value) {
-    validationError.value = "Script name cannot be empty.";
-    return;
+
+// Validation method for script name
+const validateScriptName = () => {
+  const nameRegex = /^[a-zA-Z0-9_\- ]+$/;
+
+  if (!newScriptName.value || newScriptName.value.length < 1 || newScriptName.value.length > 50) {
+    validationError.value = 'Script name must be between 1 and 50 characters.';
+    return false;
   }
-  try {
-    await ScriptService.updateScript(editingScriptId.value, { name: newScriptName.value });
-    const scriptIndex = scriptStore.scripts.findIndex(script => script.id === editingScriptId.value);
-    if (scriptIndex !== -1) {
-      scriptStore.scripts[scriptIndex].name = newScriptName.value;
-      successMessage.value = "Script name updated successfully.";
+
+  if (!nameRegex.test(newScriptName.value)) {
+    validationError.value = 'Script name contains invalid characters.';
+    return false;
+  }
+
+  return true;
+};
+
+// Method to update script name
+// Method to update script name
+const updateScriptName = async () => {
+  if (!editingScriptId.value) return;
+  if (validateScriptName()) {
+    try {
+      const response = await ScriptService.updateScript(editingScriptId.value, { name: newScriptName.value });
+      if (response && response.data) {
+        scriptStore.updateScript(editingScriptId.value, response.data);
+        successMessage.value = 'Script name updated successfully!';
+        newScriptName.value = '';
+        editingScriptId.value = null;
+      }
+    } catch (error) {
+      console.error('An error occurred: ', error);
+      validationError.value = 'Failed to update script name.';
     }
-    editingScriptId.value = null;
-    newScriptName.value = '';
-  } catch (error) {
-    console.error('Error updating script name:', error);
-    validationError.value = "Failed to update script name.";
   }
 };
 
 
+
+// Fetches user scripts
 onMounted(() => {
   if (userId.value) {
     scriptStore.fetchScriptsByUserId(userId.value);
@@ -126,6 +154,7 @@ onMounted(() => {
   }
 });
 
+// Deletes a script
 const deleteScript = async (scriptId: number) => {
   await scriptStore.deleteScript(scriptId);
 };
