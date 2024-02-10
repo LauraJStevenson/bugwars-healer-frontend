@@ -41,16 +41,12 @@ import { useAuthStore } from '../stores/auth';
 /* Define refs for new values */
 const scriptStore = useScriptStore();
 const authStore = useAuthStore();
+const scriptService = new ScriptService();
 const userId = ref(authStore.user.id);
 const editingScriptId = ref(null);
 const newScriptName = ref('');
 const validationError = ref('');
 const successMessage = ref('');
-
-const script = ref({
-  id: null,
-  name: ''
-});
 
 
 /* Watchers for adding fade-in/fade-out animations and timeouts to error and success spans */
@@ -124,12 +120,12 @@ const validateScriptName = () => {
 };
 
 // Method to update script name
-// Method to update script name
 const updateScriptName = async () => {
   if (!editingScriptId.value) return;
   if (validateScriptName()) {
     try {
-      const response = await ScriptService.updateScript(editingScriptId.value, { name: newScriptName.value });
+      const response = await scriptService.updateScript(editingScriptId.value, { name: newScriptName.value });
+
       if (response && response.data) {
         scriptStore.updateScript(editingScriptId.value, response.data);
         successMessage.value = 'Script name updated successfully!';
@@ -156,7 +152,29 @@ onMounted(() => {
 
 // Deletes a script
 const deleteScript = async (scriptId: number) => {
-  await scriptStore.deleteScript(scriptId);
+  try {
+      await scriptStore.deleteScript(scriptId);
+      successMessage.value = 'Script deleted successfully!';
+    } catch (error) {
+      console.error('An error occurred: ', error);
+      validationError.value = 'Failed to delete script.';
+    }
+};
+
+
+const updateEmail = async () => {
+  if (validateEmail()) {
+    try {
+      const response = await UserService.updateUser(user.value.id, { email: newEmail.value });
+      user.value.email = response.data.email;
+      successMessage.value = 'Email updated successfully!';
+      user.value.email = newEmail.value;
+      newEmail.value = '';
+    } catch (error) {
+      console.error('An error occurred: ', error);
+      validationError.value = 'Failed to update email.';
+    }
+  }
 };
 </script>
 
