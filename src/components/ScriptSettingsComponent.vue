@@ -37,11 +37,11 @@ import { onMounted, ref, watch, nextTick } from 'vue';
 import ScriptService from '../services/scriptService';
 import { useScriptStore } from '../stores/scriptStore';
 import { useAuthStore } from '../stores/auth';
+import axios from 'axios';
 
 /* Define refs for new values */
 const scriptStore = useScriptStore();
 const authStore = useAuthStore();
-const scriptService = new ScriptService();
 const userId = ref(authStore.user.id);
 const editingScriptId = ref(null);
 const newScriptName = ref('');
@@ -121,23 +121,62 @@ const validateScriptName = () => {
 
 // Method to update script name
 const updateScriptName = async () => {
-  if (!editingScriptId.value) return;
+  console.log('Starting updateScriptName function');
+
+  if (!editingScriptId.value) {
+    console.log('Validation error: No script selected for update.');
+    validationError.value = 'No script selected for update.';
+    return;
+  }
+
   if (validateScriptName()) {
+    console.log(`Attempting to update script with ID: ${editingScriptId.value}, New Name: ${newScriptName.value}`);
     try {
-      const response = await scriptService.updateScript(editingScriptId.value, { name: newScriptName.value });
+      const response = await ScriptService.updateScript(editingScriptId.value, { name: newScriptName.value });
+      console.log('Update script response:', response);
 
       if (response && response.data) {
-        scriptStore.updateScript(editingScriptId.value, response.data);
-        successMessage.value = 'Script name updated successfully!';
+        const index = scriptStore.scripts.findIndex(script => script.id === editingScriptId.value);
+        if (index !== -1) {
+          scriptStore.scripts[index] = response.data;
+          console.log(`Script with ID: ${editingScriptId.value} updated successfully in the local store.`);
+          successMessage.value = 'Script name updated successfully!';
+        } else {
+          console.log('Error: Failed to find the script in the local store.');
+          throw new Error('Failed to find the script in the local store.');
+        }
+
         newScriptName.value = '';
         editingScriptId.value = null;
+      } else {
+        console.log('Error: No data returned from the update operation.');
+        throw new Error('No data returned from the update operation.');
       }
     } catch (error) {
-      console.error('An error occurred: ', error);
-      validationError.value = 'Failed to update script name.';
+      console.error('An error occurred during script update:', error);
+
+      // Check if error is an instance of Error and has a response property
+      if (axios.isAxiosError(error)) {
+        // Now TypeScript knows error is an AxiosError, you can access error.response safely
+        console.log(`Axios error response: ${error.response ? JSON.stringify(error.response.data) : 'No response data'}`);
+        validationError.value = error.response && error.response.data && error.response.data.message 
+                                ? error.response.data.message 
+                                : 'Failed to update script name.';
+      } else if (error instanceof Error) {
+        // Handle non-Axios errors
+        console.log(`Error details: ${error.message}`);
+        validationError.value = error.message;
+      } else {
+        // Handle cases where the error is not an Error instance
+        console.log('An unknown error occurred');
+        validationError.value = 'An unknown error occurred';
+      }
     }
   }
 };
+
+
+
 
 
 
@@ -159,22 +198,6 @@ const deleteScript = async (scriptId: number) => {
       console.error('An error occurred: ', error);
       validationError.value = 'Failed to delete script.';
     }
-};
-
-
-const updateEmail = async () => {
-  if (validateEmail()) {
-    try {
-      const response = await UserService.updateUser(user.value.id, { email: newEmail.value });
-      user.value.email = response.data.email;
-      successMessage.value = 'Email updated successfully!';
-      user.value.email = newEmail.value;
-      newEmail.value = '';
-    } catch (error) {
-      console.error('An error occurred: ', error);
-      validationError.value = 'Failed to update email.';
-    }
-  }
 };
 </script>
 
