@@ -36,9 +36,8 @@ vi.mock('axios', () => {
 // Mock makeRequest
 vi.mock('../utils/makeRequest', () => ({
     makeRequest: vi.fn((requestCallback, options) => {
-        // Directly invoke the requestCallback to simulate the Axios call
         const simulatedAxiosResponse = requestCallback();
-        return simulatedAxiosResponse.then(response => {
+        return simulatedAxiosResponse.then((response: { status: any; data: any; }) => {
             if (options.successStatuses.includes(response.status)) {
                 return {
                     type: 'success',
@@ -46,7 +45,6 @@ vi.mock('../utils/makeRequest', () => ({
                     data: response.data,
                 };
             }
-            // Handle error statuses or unexpected status codes
         });
     }),
 }));
@@ -90,11 +88,11 @@ vi.mock('../services/userService', () => {
 
 
 
+
 describe('SettingsView', () => {
 
     let pinia: any;
 
-    // This creates the store and ensures the router is set and ready before testing begins.
     beforeEach(async () => {
 
         vi.clearAllMocks();
@@ -117,19 +115,22 @@ describe('SettingsView', () => {
 
     });
 
-    // This resets the auth store after test is complete.
     afterEach(() => {
         const authStore = useAuthStore();
         authStore.reset();
     });
 
+
     /** TESTS */
 
-    it('should display the current user information', async () => {
+    it('should display the current user username, email, name information', async () => {
 
         const wrapper = mount(SettingsView, {
             global: {
                 plugins: [router, pinia],
+                stubs: {
+                    RouterLink: true
+                },
             },
         });
 
@@ -147,6 +148,9 @@ describe('SettingsView', () => {
         const wrapper = mount(SettingsView, {
             global: {
                 plugins: [router],
+                stubs: {
+                    RouterLink: true
+                },
             },
         });
 
@@ -167,6 +171,9 @@ describe('SettingsView', () => {
         const wrapper = mount(SettingsView, {
             global: {
                 plugins: [router, pinia],
+                stubs: {
+                    RouterLink: true
+                },
             },
         });
 
@@ -177,7 +184,6 @@ describe('SettingsView', () => {
 
         expect((musicToggle.element as HTMLInputElement).checked).toBe(false);
     });
-
 
 
 });

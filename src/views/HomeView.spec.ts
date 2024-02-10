@@ -8,22 +8,20 @@ import GameLobbyViewVue from './GameLobbyView.vue';
 import LoginViewVue from './LoginView.vue';
 
 
-// This creates the router with specific routes needed for testing
+//Create router insatnce
 const routes = [{ path: '/', component: HomeView, name: 'home' }, { path: '/gamelobby', component: GameLobbyViewVue, name: 'gamelobby' }, { path: '/login', component: LoginViewVue, name: 'login' }];
 const router = createRouter({
     history: createWebHistory(),
     routes,
 });
 
-/**
-   * Tests for the HomeView component.
-   */
+
+
 
 describe('HomeView', () => {
 
     let pinia: any;
 
-    // This creates the store and ensures the router is set and ready before testing begins.
     beforeEach(async () => {
         pinia = createPinia();
         setActivePinia(pinia);
@@ -31,15 +29,13 @@ describe('HomeView', () => {
         await router.isReady();
     });
 
-    // This resets the auth store after test is complete.
     afterEach(() => {
         const authStore = useAuthStore();
         authStore.reset();
     });
 
-    /**
-   * Tests
-   */
+
+    /** TESTS */
 
     it('displays welcome message for unauthenticated users', async () => {
         const authStore = useAuthStore();
@@ -154,6 +150,8 @@ describe('HomeView', () => {
         expect(toProp).toBe('/gamelobby');
 
     });
+
+
 });
 
 

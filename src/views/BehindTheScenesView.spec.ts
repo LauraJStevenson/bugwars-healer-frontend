@@ -2,12 +2,18 @@ import { describe, it, expect } from 'vitest'
 import { mount } from '@vue/test-utils'
 import BehindTheScenesView from '../views/BehindTheScenesView.vue'
 
+
+
+
 describe('MyComponent', () => {
+
+
+    /** TESTS */
 
     it('renders the component and checks the main heading', () => {
         const wrapper = mount(BehindTheScenesView)
         expect(wrapper.text()).toContain('Behind the Scenes')
-    })
+    });
 
 
     it('checks if the images are correctly rendered', () => {
@@ -28,8 +34,8 @@ describe('MyComponent', () => {
 
         images.forEach((img, index) => {
             expect(img.attributes('src')).toBe(expectedSrcs[index])
-        })
-    })
+        });
+    });
 
 
     it('checks if external links are correctly set', () => {
@@ -47,6 +53,8 @@ describe('MyComponent', () => {
 
         links.forEach((link, index) => {
             expect(link.attributes('href')).toBe(expectedHrefs[index])
-        })
-    })
-})
+        });
+    });
+
+
+});

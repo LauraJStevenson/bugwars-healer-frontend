@@ -34,9 +34,8 @@ vi.mock('axios', () => {
 // Mock makeRequest
 vi.mock('../utils/makeRequest', () => ({
     makeRequest: vi.fn((requestCallback, options) => {
-        // Directly invoke the requestCallback to simulate the Axios call
         const simulatedAxiosResponse = requestCallback();
-        return simulatedAxiosResponse.then(response => {
+        return simulatedAxiosResponse.then((response: { status: any; data: any; }) => {
             if (options.successStatuses.includes(response.status)) {
                 return {
                     type: 'success',
@@ -44,7 +43,6 @@ vi.mock('../utils/makeRequest', () => ({
                     data: response.data,
                 };
             }
-            // Handle error statuses or unexpected status codes
         });
     }),
 }));
@@ -97,15 +95,13 @@ const mockScripts = [
     }
 ];
 
-/**
-   * Tests for the HomeView component.
-   */
+
+
 
 describe('ScriptSettingsComponent', () => {
 
     let pinia: any;
 
-    // This creates the store and ensures the router is set and ready before testing begins. This also sets the user with their mock script.
     beforeEach(async () => {
         pinia = createPinia();
         setActivePinia(pinia);
@@ -128,7 +124,6 @@ describe('ScriptSettingsComponent', () => {
         await router.isReady();
     });
 
-    // This resets the auth and script stores after test is complete.
     afterEach(() => {
         const authStore = useAuthStore();
         authStore.reset();
@@ -138,10 +133,7 @@ describe('ScriptSettingsComponent', () => {
     });
 
 
-    /**
-   * Tests
-   */
-
+    /** TESTS */
 
     it('renders h3 title header correctly', () => {
         const wrapper = mount(ScriptSettingsComponent, {
@@ -153,6 +145,7 @@ describe('ScriptSettingsComponent', () => {
 
         expect(h3.text()).toContain('Saved Bug Scripts:');
     });
+
 
     it('loads and displays scripts for authenticated users', async () => {
 
@@ -176,6 +169,7 @@ describe('ScriptSettingsComponent', () => {
         });
     });
 
+
     it('delete link exists', async () => {
         const authStore = useAuthStore();
         authStore.$state.isAuthenticated = true;
@@ -189,6 +183,8 @@ describe('ScriptSettingsComponent', () => {
         expect(wrapper.find('.delete-script').exists()).toBe(true);
 
     });
+
+
 });
 
 

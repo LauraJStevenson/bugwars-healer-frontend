@@ -2,16 +2,18 @@ import { describe, it, expect } from 'vitest';
 import { mount } from '@vue/test-utils';
 import Credits from './CreditsView.vue';
 
-/**
- * Tests for the CreditsView component.
- */
+
+
 
 describe('Credits', () => {
+
+    /** TESTS */
 
     it('renders the team title correctly', () => {
         const wrapper = mount(Credits);
         expect(wrapper.find('.title').text()).toContain('We are Team Healer of Crusader Games');
     });
+
 
     it('has the correct link to Crusader Games about page', () => {
         const wrapper = mount(Credits);
@@ -19,20 +21,20 @@ describe('Credits', () => {
         expect(aboutLink.attributes('href')).toBe('https://www.crusadergames.net/about');
     });
 
+
     it('renders the pixel bug svg correctly', () => {
         const wrapper = mount(Credits);
         expect(wrapper.find('svg').exists()).toBe(true);
 
     });
 
+
     it('loads team member cards and content elements correctly', () => {
         const wrapper = mount(Credits);
         const individualCards = wrapper.findAll('.individual-card');
 
-        // Expected to contain cards for 5 team memebers.
         expect(individualCards.length).toEqual(5);
 
-        // Checks that each element of a card exists.
         individualCards.forEach(card => {
             expect(card.findAll('h1').length).toEqual(1);
             expect(card.findAll('h3').length).toEqual(1);
@@ -58,6 +60,7 @@ describe('Credits', () => {
         });
     });
 
+
     it('loads team member images correctly', () => {
         const wrapper = mount(Credits);
         const images = wrapper.findAll('.card-photo');
@@ -68,4 +71,6 @@ describe('Credits', () => {
         expect(images.at(3)?.attributes('src')).toContain('kimlyn-img.jpg');
         expect(images.at(4)?.attributes('src')).toContain('viv-img.jpg');
     });
+
+
 });

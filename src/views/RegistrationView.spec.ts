@@ -1,7 +1,6 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
-import { mount, flushPromises } from '@vue/test-utils';
+import { mount } from '@vue/test-utils';
 import RegistrationView from '../views/RegistrationView.vue';
-import { authService } from '../services/authService';
 import { createPinia, setActivePinia } from 'pinia';
 import { useAuthStore } from '../stores/auth';
 import { createRouter, createWebHistory } from 'vue-router';
@@ -43,12 +42,11 @@ vi.mock('../stores/useAuthStore', () => {
     };
 });
 
-
 // Mock makeRequest
 vi.mock('../utils/makeRequest', () => ({
     makeRequest: vi.fn((requestCallback, options) => {
         const simulatedAxiosResponse = requestCallback();
-        return simulatedAxiosResponse.then(response => {
+        return simulatedAxiosResponse.then((response: { status: any; data: any; }) => {
             if (options.successStatuses.includes(response.status)) {
                 return {
                     type: 'success',
@@ -56,7 +54,6 @@ vi.mock('../utils/makeRequest', () => ({
                     data: response.data,
                 };
             }
-            // Handle error statuses or unexpected status codes
         });
     }),
 }));
@@ -83,10 +80,12 @@ vi.mock('../services/scriptService', () => {
     };
 });
 
+
+
+
 describe('Registration.vue', () => {
     let pinia: any;
 
-    // This creates the store and ensures the router is set and ready before testing begins.
     beforeEach(async () => {
 
         vi.clearAllMocks();
@@ -109,11 +108,13 @@ describe('Registration.vue', () => {
 
     });
 
-    // This resets the auth store after test is complete.
     afterEach(() => {
         const authStore = useAuthStore();
         authStore.reset();
     });
+
+
+    /** TESTS */
 
     it('should disable the submit button if passwords do not match', async () => {
 
@@ -126,11 +127,13 @@ describe('Registration.vue', () => {
         await wrapper.find('#password').setValue('password123');
         await wrapper.find('#confirmPassword').setValue('password456');
 
-        expect(wrapper.find('#submitButton').element.disabled).toBe(true);
+        const submitButton = wrapper.find('#submitButton').element as HTMLInputElement;
+
+        expect(submitButton.disabled).toBe(true);
     });
 
-    it('should enable the submit button if passwords match', async () => {
 
+    it('should enable the submit button if passwords match', async () => {
         const wrapper = mount(RegistrationView, {
             global: {
                 plugins: [router, pinia],
@@ -140,7 +143,10 @@ describe('Registration.vue', () => {
         await wrapper.find('#password').setValue('password123');
         await wrapper.find('#confirmPassword').setValue('password123');
 
-        expect(wrapper.find('#submitButton').element.disabled).toBe(false);
+        const submitButton = wrapper.find('#submitButton').element as HTMLInputElement;
+
+        expect(submitButton.disabled).toBe(false);
     });
+
 
 });

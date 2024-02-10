@@ -14,8 +14,14 @@ const router = createRouter({
     routes,
 });
 
+
+
+
 describe('ScriptEditor.vue', () => {
-    // Test to verify that the main elements render correctly
+
+
+    /** TESTS */
+
     it('renders the script editor elements', async () => {
         const wrapper = mount(ScriptEditor, {
             global: {
@@ -26,21 +32,29 @@ describe('ScriptEditor.vue', () => {
             }
         });
 
-        // Check for main heading
         expect(wrapper.find('h1').text()).toContain('Script Editor Page');
 
-        // Check for textarea and buttons
         expect(wrapper.find('.multilineInput').exists()).toBe(true);
         expect(wrapper.find('#immutableTextarea').exists()).toBe(true);
         expect(wrapper.findAll('button').length).toBe(1);
         expect(wrapper.find('button').text()).toContain('Save Script');
     });
 
-    // Test to verify the readonly property of the example code textarea
-    it('ensures example code textarea is readonly', () => {
-        const wrapper = mount(ScriptEditor);
 
+    //This will need to be updated once Script Editor is complete!
+    it('ensures example code textarea is readonly', () => {
+
+        const wrapper = mount(ScriptEditor, {
+            global: {
+                plugins: [router],
+                stubs: {
+                    RouterLink: true
+                },
+            }
+        });
         const immutableTextarea = wrapper.find('#immutableTextarea');
         expect(immutableTextarea.attributes('readonly')).toBeDefined();
     });
+
+
 });

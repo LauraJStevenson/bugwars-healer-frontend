@@ -1,10 +1,14 @@
-import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest';
+import { describe, it, expect, beforeEach, vi } from 'vitest';
 import { mount } from '@vue/test-utils';
 import { createPinia, setActivePinia } from 'pinia';
 import { createRouter, createWebHistory } from 'vue-router';
 import GameLobby from '../views/GameLobbyView.vue';
 import HomeView from './HomeView.vue';
 
+
+
+
+// Create router instance
 const routes = [
     { path: '/scripteditor', name: 'scripteditor', component: { template: '<div>Script Editor</div>' } },
     { path: '/gameplay', name: 'gameplay', component: { template: '<div>Gameplay</div>' } }, { path: '/', component: HomeView, name: 'home' }
@@ -15,7 +19,11 @@ const router = createRouter({
     routes,
 });
 
+
+
+
 describe('GameLobby.vue', () => {
+
     beforeEach(() => {
         const pinia = createPinia();
         setActivePinia(pinia);
@@ -24,6 +32,8 @@ describe('GameLobby.vue', () => {
 
         router.push('/');
     });
+
+    /** TESTS */
 
     it('renders all predefined bug options and a custom bug option', async () => {
         const wrapper = mount(GameLobby, {
@@ -42,6 +52,7 @@ describe('GameLobby.vue', () => {
         expect(wrapper.find('.bug-card-photo[src="/public/images/Red-Bug.png"]').exists()).toBe(true);
         expect(wrapper.find('.bug-card-photo[src="/public/images/QuestionMark.png"]').exists()).toBe(true);
     });
+
 
     it('allows selection of a bug option', async () => {
         const wrapper = mount(GameLobby, {
@@ -68,5 +79,6 @@ describe('GameLobby.vue', () => {
         await option5.setValue(true);
 
     });
+
 
 });

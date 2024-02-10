@@ -44,12 +44,11 @@ vi.mock('../stores/useAuthStore', () => {
     };
 });
 
-
 // Mock makeRequest
 vi.mock('../utils/makeRequest', () => ({
     makeRequest: vi.fn((requestCallback, options) => {
         const simulatedAxiosResponse = requestCallback();
-        return simulatedAxiosResponse.then(response => {
+        return simulatedAxiosResponse.then((response: { status: any; data: any; }) => {
             if (options.successStatuses.includes(response.status)) {
                 return {
                     type: 'success',
@@ -57,7 +56,6 @@ vi.mock('../utils/makeRequest', () => ({
                     data: response.data,
                 };
             }
-            // Handle error statuses or unexpected status codes
         });
     }),
 }));
@@ -106,7 +104,6 @@ describe('LoginView', () => {
 
     let pinia: any;
 
-    // This creates the store and ensures the router is set and ready before testing begins.
     beforeEach(async () => {
 
         vi.clearAllMocks();
@@ -129,11 +126,11 @@ describe('LoginView', () => {
 
     });
 
-    // This resets the auth store after test is complete.
     afterEach(() => {
         const authStore = useAuthStore();
         authStore.reset();
     });
+
 
     /** TESTS */
 
@@ -148,7 +145,6 @@ describe('LoginView', () => {
         expect(wrapper.find('#password').exists()).toBe(true);
         expect(wrapper.find('button[type="submit"]').exists()).toBe(true);
     });
-
 
 
     it('handles successful login', async () => {
@@ -169,28 +165,6 @@ describe('LoginView', () => {
 
         expect(mockLogin).toHaveBeenCalled();
     });
-
-
-
-    // it('shows an error message on failed login', async () => {
-    //     const mockLogin = vi.fn().mockRejectedValue(new Error('Invalid credentials'));
-    //     useAuthStore().login = mockLogin;
-
-    //     const wrapper = mount(LoginView, {
-    //         global: {
-    //             plugins: [router, pinia],
-    //         },
-    //     });
-
-    //     await wrapper.find('#email').setValue('wrong@example.com');
-    //     await wrapper.find('#password').setValue('wrongpassword');
-    //     await wrapper.find('form').trigger('submit.prevent');
-
-    //     await nextTick(); // Wait for the DOM to update
-
-
-    //     expect(wrapper.find('.error-message').text()).toContain('Invalid credentials');
-    // });
 
 
 });

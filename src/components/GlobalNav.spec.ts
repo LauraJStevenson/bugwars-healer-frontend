@@ -15,7 +15,7 @@ import LoginViewVue from '../views/LoginView.vue';
 import RegistrationViewVue from '../views/RegistrationView.vue';
 
 
-// This creates the router with specific routes needed for testing
+//Create router instance
 const routes = [{ path: '/', component: HomeView, name: 'home' }, { path: '/gamelobby', component: GameLobbyViewVue, name: 'gamelobby' }, { path: '/howtoplay', component: HowToPlayViewVue, name: 'howtoplay' }, { path: '/credits', component: CreditsViewVue, name: 'credits' }, { path: '/behindthescenes', component: BehindTheScenesViewVue, name: 'behindthescenes' }, { path: '/settings', component: SettingsViewVue, name: 'settings' }, { path: '/login', component: LoginViewVue, name: 'login' }, { path: '/register', component: RegistrationViewVue, name: 'register' }];
 
 const router = createRouter({
@@ -23,11 +23,11 @@ const router = createRouter({
     routes,
 });
 
-/**
-   * Tests for the GlobalNav component.
-   */
+
+
 
 describe('GlobalNav', () => {
+
     let pinia: any;
 
     beforeEach(async () => {
@@ -42,6 +42,8 @@ describe('GlobalNav', () => {
         authStore.reset();
     });
 
+
+    /** TESTS */
 
     it('displays the logo img element with the correct src', async () => {
 
@@ -62,6 +64,7 @@ describe('GlobalNav', () => {
             throw new Error('Logo image src attribute is undefined.');
         }
     });
+
 
     it('shows correct navigation links when user is not authenticated', async () => {
 
@@ -84,6 +87,7 @@ describe('GlobalNav', () => {
         expect(wrapper.html()).toContain('Register');
 
     });
+
 
     it('shows correct navigation links when user is authenticated', async () => {
 
@@ -113,6 +117,8 @@ describe('GlobalNav', () => {
         expect(wrapper.html()).not.toContain('Login');
         expect(wrapper.html()).not.toContain('Register');
     });
+
+
 });
 
 
