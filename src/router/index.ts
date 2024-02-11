@@ -79,8 +79,19 @@ const router = createRouter({
   ],
 });
 
+// router.beforeEach((to, from, next) => {
+//   if (to.meta.requiresAuth && !isAuthenticated()) {
+//     next({ name: 'login' });
+//   } else {
+//     next();
+//   }
+// });
+
 router.beforeEach((to, from, next) => {
-  if (to.meta.requiresAuth && !isAuthenticated()) {
+  const authStore = useAuthStore();
+  const requiresAuth = to.matched.some(record => record.meta.requiresAuth);
+
+  if (requiresAuth && !authStore.isAuthenticated) {
     next({ name: 'login' });
   } else {
     next();

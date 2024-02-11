@@ -19,10 +19,36 @@ export const useAuthStore = defineStore('auth', () => {
 
   const user = ref<User>(emptyUser);
   const isAuthenticated = ref<boolean>(false);
-
-  loadUserFromLocalStorage();
-
   const authError = ref('');
+
+
+  function initializeAuth() {
+    console.log("Initializing auth...");
+
+    const token = localStorage.getItem('token');
+    const localUser = localStorage.getItem('user');
+
+    console.log("Loaded token: ", token);
+    console.log("Loaded user: ", localUser);
+
+    if (token && localUser) {
+      try {
+        const parsedUser = JSON.parse(localUser);
+        if (objectsHaveSameKeys(parsedUser, emptyUser)) {
+          user.value = parsedUser;
+          isAuthenticated.value = true;
+        } else {
+          logout();
+        }
+      } catch (error) {
+        console.log("No token or user found in localStorage.");
+        console.error("Error parsing user from localStorage:", error);
+        logout();
+      }
+    }
+  }
+
+  initializeAuth();
 
   async function login(loginDto: LoginDto) {
     const response = await authService.login(loginDto);
@@ -30,7 +56,7 @@ export const useAuthStore = defineStore('auth', () => {
     if (response.type === 'success') {
       const successResponse = response as SuccessResponse;
       const errorMessage = successResponse.data.errorMessage;
-      if(errorMessage == null) {
+      if (errorMessage == null) {
         successfulLoginActions(response);
       } else {
         authError.value = errorMessage;
@@ -78,30 +104,13 @@ export const useAuthStore = defineStore('auth', () => {
     authError.value = '';
   }
 
-  async function loadUserFromLocalStorage() {
-    const localUser = localStorage.getItem('user');
-    if (localUser == null) return;
-
-    try {
-      const parsedUser = JSON.parse(localUser);
-      if (objectsHaveSameKeys(parsedUser, emptyUser)) {
-        user.value = parsedUser;
-        isAuthenticated.value = true;
-        return;
-      }
-      logout();
-    } catch (error) {
-      logout();
-    }
-  }
-
-  function setTokens(accessToken: string, refreshToken: string) {
-    localStorage.setItem('accessToken', accessToken);
+  function setTokens(token: string, refreshToken: string) {
+    localStorage.setItem('token', token);
     localStorage.setItem('refreshToken', refreshToken);
   }
 
   function clearTokens() {
-    localStorage.removeItem('accessToken');
+    localStorage.removeItem('token');
     localStorage.removeItem('refreshToken');
   }
 
@@ -113,6 +122,7 @@ export const useAuthStore = defineStore('auth', () => {
     logout,
     isAuthenticated,
     setTokens,
-    clearTokens
+    clearTokens,
+    initializeAuth
   };
 });

@@ -16,7 +16,6 @@ let failedQueue: FailedRequestQueueItem[] = [];
 
 const processQueue = (error: string | null, token: string | null) => {
   failedQueue.forEach((prom) => {
-    // Ensure headers exist on the config object
     if (!prom.config.headers) {
       prom.config.headers = {};
     }
@@ -24,13 +23,12 @@ const processQueue = (error: string | null, token: string | null) => {
     if (error) {
       prom.reject(new Error(error));
     } else if (token) {
-      // Now we're sure headers is not undefined
       prom.config.headers['Authorization'] = `Bearer ${token}`;
-      prom.resolve(token); // Resolve the promise with the new token
+      prom.resolve(token);
     }
   });
 
-  failedQueue = []; // Clear the queue once processed
+  failedQueue = [];
 };
 
 export function configureAxios() {
@@ -40,9 +38,9 @@ export function configureAxios() {
   axios.defaults.headers['Content-Type'] = 'application/json';
 
   axios.interceptors.request.use((config) => {
-    const accessToken = localStorage.getItem('accessToken');
-    if (accessToken) {
-      config.headers['Authorization'] = `Bearer ${accessToken}`;
+    const token = localStorage.getItem('token');
+    if (token) {
+      config.headers['Authorization'] = `Bearer ${token}`;
     }
     return config;
   }, (error) => {
@@ -80,14 +78,14 @@ export function configureAxios() {
           },
         }).then(({ data }) => {
           const authStore = useAuthStore();
-          if (data.accessToken && refreshToken) {
-            authStore.setTokens(data.accessToken, refreshToken); // Update store
-            localStorage.setItem('accessToken', data.accessToken); // Update local storage
-            axios.defaults.headers['Authorization'] = `Bearer ${data.accessToken}`; // Update axios header globally
-            processQueue(null, data.accessToken); // Process all queued requests with the new token
+          if (data.token && refreshToken) {
+            authStore.setTokens(data.token, refreshToken);
+            localStorage.setItem('token', data.token);
+            axios.defaults.headers['Authorization'] = `Bearer ${data.token}`;
+            processQueue(null, data.token);
             resolve();
           } else {
-            processQueue('Access token or refresh token is missing', null); // Reject all queued requests
+            processQueue('Access token or refresh token is missing', null);
             authStore.logout();
             reject(new Error('Access token or refresh token is missing'));
           }
