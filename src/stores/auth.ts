@@ -28,7 +28,13 @@ export const useAuthStore = defineStore('auth', () => {
     const response = await authService.login(loginDto);
 
     if (response.type === 'success') {
-      successfulLoginActions(response);
+      const successResponse = response as SuccessResponse;
+      const errorMessage = successResponse.data.errorMessage;
+      if(errorMessage == null) {
+        successfulLoginActions(response);
+      } else {
+        authError.value = errorMessage;
+      }
     } else {
       authError.value = response.error;
     }
