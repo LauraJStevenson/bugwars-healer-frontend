@@ -10,7 +10,7 @@ class validationService {
     static validateEmail(email: any) {
         const emailRegex = /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/;
         if (email.length < 5 || email.length > 50) {
-            return 'Username must be between 5 and 50 characters.';
+            return 'Email must be between 5 and 50 characters.';
         }
         if (!emailRegex.test(email)) {
             return 'Please enter a valid email address.';
