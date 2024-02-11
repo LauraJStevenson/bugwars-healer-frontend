@@ -72,6 +72,7 @@ import { computed, ref } from 'vue';
 import { useRouter } from 'vue-router';
 import { authService } from '../services/authService';
 import type { RegisterDto } from '../types';
+import { SuccessResponse } from '../utils/makeRequest';
 
 const router = useRouter();
 
@@ -102,7 +103,13 @@ const submitForm = async () => {
   };
   const response = await authService.register(registerDTO);
   if (response.type === 'success') {
-    router.push({ name: 'login', query: { registered: 'true' } });
+    const successResponse = response as SuccessResponse;
+    const errorMessage = successResponse.data.errorMessage;
+    if(errorMessage == null) {
+      router.push({ name: 'login', query: { registered: 'true' } });
+    } else {
+      console.error(errorMessage);
+    }
   } else {
     console.error(response.error);
   }
