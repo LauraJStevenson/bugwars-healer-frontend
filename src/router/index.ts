@@ -4,10 +4,6 @@ import HomeView from '../views/HomeView.vue';
 import LoginView from '../views/LoginView.vue';
 import RegistrationView from '../views/RegistrationView.vue';
 
-const isAuthenticated = () => {
-  const authStore = useAuthStore();
-  return authStore.isAuthenticated;
-};
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -79,8 +75,12 @@ const router = createRouter({
   ],
 });
 
+
 router.beforeEach((to, from, next) => {
-  if (to.meta.requiresAuth && !isAuthenticated()) {
+  const authStore = useAuthStore();
+  const requiresAuth = to.matched.some(record => record.meta.requiresAuth);
+
+  if (requiresAuth && !authStore.isAuthenticated) {
     next({ name: 'login' });
   } else {
     next();
