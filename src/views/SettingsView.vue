@@ -179,7 +179,7 @@ const validateEmail = () => {
   const emailRegex = /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/;
 
   if (newEmail.value.length < 5 || newEmail.value.length > 50) {
-    validationError.value = 'Username must be between 5 and 50 characters.';
+    validationError.value = 'Email must be between 5 and 50 characters.';
     return false;
   }
 
