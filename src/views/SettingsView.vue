@@ -80,7 +80,7 @@
     <p><br /></p>
 
     <div class="form-group delete-option">
-      <label for="delete-account">Want to delete your account?</label>
+      <label for="delete-btn">Want to delete your account?</label>
       <button @click="deleteUserAccount" type="submit" id="delete-btn">
         {{ deleteClicked ? 'CONFIRM' : 'DELETE' }}
       </button>
