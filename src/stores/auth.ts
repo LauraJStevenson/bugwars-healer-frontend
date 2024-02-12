@@ -91,6 +91,11 @@ export const useAuthStore = defineStore('auth', () => {
     localStorage.removeItem('refreshToken');
   }
 
+  function updateUserDetails(updatedDetails: Partial<User>) {
+    user.value = { ...user.value, ...updatedDetails };
+    localStorage.setItem('user', JSON.stringify(user.value));
+  }
+
   return {
     user,
     authError,
@@ -101,6 +106,7 @@ export const useAuthStore = defineStore('auth', () => {
     emptyUser,
     reset,
     setTokens,
-    clearTokens
+    clearTokens,
+    updateUserDetails
   };
 });

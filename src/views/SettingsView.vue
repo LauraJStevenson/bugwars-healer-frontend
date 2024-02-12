@@ -191,6 +191,7 @@ const updateEmail = async () => {
       await UserService.updateEmail(user.value.id, newEmail.value);
       successMessage.value = 'Email updated successfully!';
       newEmail.value = '';
+      authStore.updateUserDetails({ email: newEmail.value });
     } catch (error) {
       console.error('An error occurred: ', error);
       validationError.value = 'Failed to update email.';
