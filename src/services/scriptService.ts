@@ -66,9 +66,7 @@ class ScriptService {
                 throw new Error('No token found');
             }
 
-            console.log('Authorization Header:', `Bearer ${token}`);
-
-            const response = await axios.put(`/scripts/${scriptId}`, scriptData, {
+            const response = await axios.patch(`/scripts/${scriptId}`, scriptData, {
                 headers: {
                     'Authorization': `Bearer ${token}`
                 }

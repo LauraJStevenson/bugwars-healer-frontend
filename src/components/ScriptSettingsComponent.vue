@@ -121,8 +121,6 @@ const validateScriptName = () => {
 
 // Method to update script name
 const updateScriptName = async () => {
-  console.log('Starting updateScriptName function');
-
   if (!editingScriptId.value) {
     console.log('Validation error: No script selected for update.');
     validationError.value = 'No script selected for update.';
@@ -130,16 +128,13 @@ const updateScriptName = async () => {
   }
 
   if (validateScriptName()) {
-    console.log(`Attempting to update script with ID: ${editingScriptId.value}, New Name: ${newScriptName.value}`);
     try {
       const response = await ScriptService.updateScript(editingScriptId.value, { name: newScriptName.value });
-      console.log('Update script response:', response);
 
       if (response && response.data) {
         const index = scriptStore.scripts.findIndex(script => script.id === editingScriptId.value);
         if (index !== -1) {
           scriptStore.scripts[index] = response.data;
-          console.log(`Script with ID: ${editingScriptId.value} updated successfully in the local store.`);
           successMessage.value = 'Script name updated successfully!';
         } else {
           console.log('Error: Failed to find the script in the local store.');
@@ -155,29 +150,21 @@ const updateScriptName = async () => {
     } catch (error) {
       console.error('An error occurred during script update:', error);
 
-      // Check if error is an instance of Error and has a response property
       if (axios.isAxiosError(error)) {
-        // Now TypeScript knows error is an AxiosError, you can access error.response safely
         console.log(`Axios error response: ${error.response ? JSON.stringify(error.response.data) : 'No response data'}`);
         validationError.value = error.response && error.response.data && error.response.data.message 
                                 ? error.response.data.message 
                                 : 'Failed to update script name.';
       } else if (error instanceof Error) {
-        // Handle non-Axios errors
         console.log(`Error details: ${error.message}`);
         validationError.value = error.message;
       } else {
-        // Handle cases where the error is not an Error instance
         console.log('An unknown error occurred');
         validationError.value = 'An unknown error occurred';
       }
     }
   }
 };
-
-
-
-
 
 
 // Fetches user scripts
