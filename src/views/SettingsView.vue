@@ -188,10 +188,14 @@ const updateEmail = async () => {
   const emailError = validationService.validateEmail(newEmail.value);
   if (emailError === '') {
     try {
-      await UserService.updateEmail(user.value.id, newEmail.value);
-      successMessage.value = 'Email updated successfully!';
-      newEmail.value = '';
-      authStore.updateUserDetails({ email: newEmail.value });
+      const response = await UserService.updateEmail(user.value.id, newEmail.value);
+      if (response && response.data) {
+        authStore.updateUserDetails({ email: newEmail.value });
+        successMessage.value = 'Email updated successfully!';
+        newEmail.value = '';
+      } else {
+        throw new Error('Failed to update email.');
+      }
     } catch (error) {
       console.error('An error occurred: ', error);
       validationError.value = 'Failed to update email.';
@@ -202,14 +206,20 @@ const updateEmail = async () => {
 };
 
 
+
 // Method to update first name
 const updateFirstName = async () => {
   const firstNameError = validationService.validateFirstName(newFirstName.value);
   if (firstNameError === '') {
     try {
-      await UserService.updateFirstName(user.value.id, newFirstName.value);
-      successMessage.value = 'First name updated successfully!';
-      newFirstName.value = '';
+      const response = await UserService.updateFirstName(user.value.id, newFirstName.value);
+      if (response && response.data) {
+        successMessage.value = 'First name updated successfully!';
+        authStore.updateUserDetails({ firstname: newFirstName.value });
+        newFirstName.value = '';
+      } else {
+        throw new Error('Failed to update first name.');
+      }
     } catch (error) {
       console.error('An error occurred: ', error);
       validationError.value = 'Failed to update first name.';
@@ -220,14 +230,20 @@ const updateFirstName = async () => {
 };
 
 
+
 // Method to update last name
 const updateLastName = async () => {
   const lastNameError = validationService.validateLastName(newLastName.value);
   if (lastNameError === '') {
     try {
-      await UserService.updateLastName(user.value.id, newLastName.value);
-      successMessage.value = 'Last name updated successfully!';
-      newLastName.value = '';
+      const response = await UserService.updateLastName(user.value.id, newLastName.value);
+      if (response && response.data) {
+        successMessage.value = 'Last name updated successfully!';
+        authStore.updateUserDetails({ lastname: newLastName.value });
+        newLastName.value = '';
+      } else {
+        throw new Error('Failed to update last name.');
+      }
     } catch (error) {
       console.error('An error occurred: ', error);
       validationError.value = 'Failed to update last name.';
@@ -236,6 +252,7 @@ const updateLastName = async () => {
     validationError.value = lastNameError;
   }
 };
+
 
 
 /*  Method to delete user account */
