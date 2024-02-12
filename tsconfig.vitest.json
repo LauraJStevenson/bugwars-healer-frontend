@@ -8,6 +8,6 @@
       "vitest/globals",
       "node",
       "jsdom"
-    ]
+    ],
   }
 }
