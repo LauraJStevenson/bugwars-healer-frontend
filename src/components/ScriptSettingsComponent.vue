@@ -20,7 +20,7 @@
             </template>
             <button v-else @click="renameScript(script.id)" class="rename-script">Rename</button>
 
-            <router-link :to="{ name: 'scriptEditor', params: { id: script.id } }" class="edit-script">Edit</router-link>
+            <router-link :to="{ name: 'scriptEditorWithParam', params: { id: script.id } }" class="edit-script">Edit</router-link>
             <span class="delete-script" @click="() => deleteScript(script.id)">Delete</span>
 
         </li>

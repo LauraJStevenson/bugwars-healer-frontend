@@ -7,7 +7,6 @@ import type { LoginDto, User } from '../types';
 import { type SuccessResponse } from '../utils/makeRequest';
 
 export const useAuthStore = defineStore('auth', () => {
-  const router = useRouter();
   const emptyUser: User = {
     username: '',
     roles: [],
@@ -15,21 +14,22 @@ export const useAuthStore = defineStore('auth', () => {
     firstname: '',
     lastname: '',
     email: '',
+    scripts: [],
   };
 
   const user = useLocalStorage<User>('user', emptyUser);
   const isAuthenticated = useLocalStorage<boolean>('isAuthenticated', false);
   const authError = ref('');
 
-
-  async function login(loginDto: LoginDto) {
+  async function login(loginDto: LoginDto, router: any) {
     const response = await authService.login(loginDto);
 
     if (response.type === 'success') {
+
       const successResponse = response as SuccessResponse;
       const errorMessage = successResponse.data.errorMessage;
       if (errorMessage == null) {
-        successfulLoginActions(response);
+        successfulLoginActions(response, router);
       } else {
         authError.value = errorMessage;
       }
@@ -38,7 +38,7 @@ export const useAuthStore = defineStore('auth', () => {
     }
   }
 
-  function successfulLoginActions(response: SuccessResponse) {
+  function successfulLoginActions(response: SuccessResponse, router: any) {
     const responseUser = {
       id: response.data.id,
       username: response.data.username,
@@ -46,6 +46,7 @@ export const useAuthStore = defineStore('auth', () => {
       lastname: response.data.lastname,
       email: response.data.email,
       roles: response.data.roles,
+      scripts: response.data.scripts || [],
     };
 
     user.value = responseUser;
@@ -56,7 +57,7 @@ export const useAuthStore = defineStore('auth', () => {
     router.push({ name: 'home' });
   }
 
-  async function logout() {
+  async function logout(router?: any) {
     try {
       await authService.logout();
       user.value = emptyUser;
@@ -68,6 +69,12 @@ export const useAuthStore = defineStore('auth', () => {
     } catch (error) {
       console.error('Logout failed', error);
     }
+  }
+
+  function reset() {
+    user.value = { ...emptyUser };
+    isAuthenticated.value = false;
+    authError.value = '';
   }
 
   function clearAuthError() {
@@ -84,6 +91,11 @@ export const useAuthStore = defineStore('auth', () => {
     localStorage.removeItem('refreshToken');
   }
 
+  function updateUserDetails(updatedDetails: Partial<User>) {
+    user.value = { ...user.value, ...updatedDetails };
+    localStorage.setItem('user', JSON.stringify(user.value));
+  }
+
   return {
     user,
     authError,
@@ -91,7 +103,10 @@ export const useAuthStore = defineStore('auth', () => {
     login,
     logout,
     isAuthenticated,
+    emptyUser,
+    reset,
     setTokens,
-    clearTokens
+    clearTokens,
+    updateUserDetails
   };
 });

@@ -68,7 +68,7 @@ const router = createRouter({
     //The following route is a dynamic route used from thr Settings View. It routes to the ScriptEditor View with the Script ID as a param so the user will automatically see their script in the editor.
     {
       path: '/scripteditor/:id',
-      name: 'scriptEditor',
+      name: 'scriptEditorWithParam',
       component: () => import('../views/ScriptEditorView.vue'),
       meta: { requiresAuth: true },
     },

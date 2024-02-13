@@ -17,11 +17,13 @@
     </div>
 
     <div class="change-properties-div">
-      <!-- Spans to display messages */ -->
+
+      <!-- Span to display messages */ -->
       <div class="messages">
-        <span v-if="validationError" class="error-message">{{ validationError }}</span>
-        <span v-if="successMessage" class="success-message">{{ successMessage }}</span>
+        <span :class="messageClass" class='messageSpan'>{{ displayMessage }}</span>
       </div>
+
+
 
       <div class="form-group">
         <label for="change-password">Change Password:</label>
@@ -37,7 +39,7 @@
       <div class="form-group">
         <label for="change-email">Change Email:</label>
         <input type="email" id="change-email" placeholder="Enter new email" v-model="newEmail" />
-        <button @click="updateEmail" type="submit" class="submit-btn">Submit</button>
+        <button @click="updateEmail" type="submit" class="submit-btn email-submit">Submit</button>
       </div>
 
       <div class="form-group">
@@ -78,7 +80,7 @@
     <p><br /></p>
 
     <div class="form-group delete-option">
-      <label for="delete-account">Want to delete your account?</label>
+      <label for="delete-btn">Want to delete your account?</label>
       <button @click="deleteUserAccount" type="submit" id="delete-btn">
         {{ deleteClicked ? 'CONFIRM' : 'DELETE' }}
       </button>
@@ -93,6 +95,7 @@ import { useAuthStore } from '../stores/auth';
 import UserService from '../services/userService';
 import { useRouter } from 'vue-router';
 import ScriptSettingsComponent from '../components/ScriptSettingsComponent.vue';
+import validationService from '../services/validationService'
 
 /* Define refs for new values */
 const newPassword = ref('');
@@ -105,11 +108,20 @@ const router = useRouter();
 const { isAuthenticated } = useAuthStore();
 const authStore = useAuthStore();
 const user = computed(() => authStore.user);
-const logout = useAuthStore().logout;
-const deleteClicked = ref(false);
+const handleLogout = () => {
+  authStore.logout(router);
+};const deleteClicked = ref(false);
 
-/* USERNAME IS TIED TO JWT TOKEN AND WOULD NEED A TOKEN REFRESH. LEAVING OUT OPTION TO CHANGE IT FOR NOW- */
-// const newUsername = ref('');
+
+const displayMessage = computed(() => {
+  return successMessage.value || validationError.value;
+});
+
+const messageClass = computed(() => {
+  if (successMessage.value) return 'success-message fade-in';
+  if (validationError.value) return 'error-message fade-in';
+  return '';
+});
 
 /* Watchers for adding fade-in/fade-out animations and timeouts to error and success spans */
 watch(successMessage, (newValue: string) => {
@@ -154,17 +166,14 @@ watch(validationError, (newValue: string) => {
   }
 });
 
-/* Validation and update methods for inputs */
 
-// Validation method for password
-
-// Constraints are not set up yet on backend. Once implemented on backend, validation will need to be added for password constraints.
+/* Update methods for inputs */
 
 // Method to update password
 const updatePassword = async () => {
   try {
     if (newPassword.value) {
-      await UserService.updateUser(user.value.id, { password: newPassword.value });
+      await UserService.updatePassword(user.value.id, newPassword.value);
       successMessage.value = 'Password updated successfully!';
       newPassword.value = '';
     }
@@ -174,93 +183,77 @@ const updatePassword = async () => {
   }
 };
 
-// Validation method for email
-const validateEmail = () => {
-  const emailRegex = /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/;
-
-  if (newEmail.value.length < 5 || newEmail.value.length > 50) {
-    validationError.value = 'Email must be between 5 and 50 characters.';
-    return false;
-  }
-
-  // Check if the email matches the regex
-  if (!emailRegex.test(newEmail.value)) {
-    validationError.value = 'Please enter a valid email address.';
-    return false;
-  }
-
-  return true;
-};
-
 // Method to update email
 const updateEmail = async () => {
-  if (validateEmail()) {
+  const emailError = validationService.validateEmail(newEmail.value);
+  if (emailError === '') {
     try {
-      const response = await UserService.updateUser(user.value.id, { email: newEmail.value });
-      user.value.email = response.data.email;
-      successMessage.value = 'Email updated successfully!';
-      user.value.email = newEmail.value;
-      newEmail.value = '';
+      const response = await UserService.updateEmail(user.value.id, newEmail.value);
+      if (response && response.data) {
+        authStore.updateUserDetails({ email: newEmail.value });
+        successMessage.value = 'Email updated successfully!';
+        newEmail.value = '';
+      } else {
+        throw new Error('Failed to update email.');
+      }
     } catch (error) {
       console.error('An error occurred: ', error);
       validationError.value = 'Failed to update email.';
     }
+  } else {
+    validationError.value = emailError;
   }
 };
 
-// Validation method for first name
-const validateFirstName = () => {
-  if (newFirstName.value.length < 2 || newFirstName.value.length > 15) {
-    validationError.value = 'First name must be between 2 and 15 characters.';
-    return false;
-  }
-  return true;
-};
+
 
 // Method to update first name
 const updateFirstName = async () => {
-  if (validateFirstName()) {
+  const firstNameError = validationService.validateFirstName(newFirstName.value);
+  if (firstNameError === '') {
     try {
-      const response = await UserService.updateUser(user.value.id, {
-        firstname: newFirstName.value,
-      });
-      user.value.firstname = response.data.firstname;
-      successMessage.value = 'First name updated successfully!';
-      user.value.firstname = newFirstName.value;
-      newFirstName.value = '';
+      const response = await UserService.updateFirstName(user.value.id, newFirstName.value);
+      if (response && response.data) {
+        successMessage.value = 'First name updated successfully!';
+        authStore.updateUserDetails({ firstname: newFirstName.value });
+        newFirstName.value = '';
+      } else {
+        throw new Error('Failed to update first name.');
+      }
     } catch (error) {
       console.error('An error occurred: ', error);
       validationError.value = 'Failed to update first name.';
     }
+  } else {
+    validationError.value = firstNameError;
   }
 };
 
-// Validation method for last name
-const validateLastName = () => {
-  if (newLastName.value.length < 2 || newLastName.value.length > 15) {
-    validationError.value = 'Last name must be between 2 and 15 characters.';
-    return false;
-  }
-  return true;
-};
+
 
 // Method to update last name
 const updateLastName = async () => {
-  if (validateLastName()) {
+  const lastNameError = validationService.validateLastName(newLastName.value);
+  if (lastNameError === '') {
     try {
-      const response = await UserService.updateUser(user.value.id, { lastname: newLastName.value });
-      user.value.lastname = response.data.lastname;
-      successMessage.value = 'Last name updated successfully!';
-      user.value.lastname = newLastName.value;
-      newLastName.value = '';
+      const response = await UserService.updateLastName(user.value.id, newLastName.value);
+      if (response && response.data) {
+        successMessage.value = 'Last name updated successfully!';
+        authStore.updateUserDetails({ lastname: newLastName.value });
+        newLastName.value = '';
+      } else {
+        throw new Error('Failed to update last name.');
+      }
     } catch (error) {
       console.error('An error occurred: ', error);
       validationError.value = 'Failed to update last name.';
     }
+  } else {
+    validationError.value = lastNameError;
   }
-
-  /* USERNAME IS TIED TO JWT TOKEN AND WOULD NEED A TOKEN REFRESH. LEAVING OUT OPTION TO CHANGE IT FOR NOW- */
 };
+
+
 
 /*  Method to delete user account */
 const deleteUserAccount = async () => {
@@ -269,14 +262,14 @@ const deleteUserAccount = async () => {
   } else {
     try {
       await UserService.deleteUser(user.value.id);
-      logout();
-      router.push({ name: 'login', query: { accountDeleted: 'true' } });
+      await authStore.logout(router);
     } catch (error) {
       console.error('An error occurred during account deletion: ', error);
       validationError.value = 'Failed to delete account.';
     }
   }
 };
+
 </script>
 
 <style scoped>
