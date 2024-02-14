@@ -39,11 +39,18 @@
       <!-- Password Requirements Div -->
       <div class="password-requirements">
         <ul class="password-requirements-list">
-          <li :class="{'text-success': passwordValidations.minLength}">8 characters minimum</li>
-          <li :class="{'text-success': passwordValidations.number}">Contains a number</li>
-          <li :class="{'text-success': passwordValidations.uppercase}">Contains an uppercase letter</li>
+          <li :class="{'text-success': passwordValidations.minLength}">
+            <font-awesome-icon icon="check" v-if="passwordValidations.minLength" class="fa-icon" /> 8 characters minimum
+          </li>
+          <li :class="{'text-success': passwordValidations.number}">
+            <font-awesome-icon icon="check" v-if="passwordValidations.number" class="fa-icon" /> Contains a number
+          </li>
+          <li :class="{'text-success': passwordValidations.uppercase}">
+            <font-awesome-icon icon="check" v-if="passwordValidations.uppercase" class="fa-icon" /> Contains an uppercase letter
+          </li>
         </ul>
       </div>
+
 
 
       <div class="form-group">
@@ -509,5 +516,15 @@ span.warning-message {
 
 .text-success {
   color: #1ea749;
+}
+
+.fa-icon {
+  color: #1ea749;
+  margin-right: 5px;
+}
+
+.password-requirements-list li {
+  display: flex;
+  align-items: center;
 }
 </style>
