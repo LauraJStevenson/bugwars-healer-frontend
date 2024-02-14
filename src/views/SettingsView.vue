@@ -25,7 +25,7 @@
 
 
 
-      <div class="form-group">
+      <div class="form-group" id="password-group">
         <label for="change-password">Change Password:</label>
         <input
           type="password"
@@ -35,6 +35,16 @@
         />
         <button @click="updatePassword" type="submit" class="submit-btn">Submit</button>
       </div>
+
+      <!-- Password Requirements Div -->
+      <div class="password-requirements">
+        <ul class="password-requirements-list">
+          <li :class="{'text-success': passwordValidations.minLength}">8 characters minimum</li>
+          <li :class="{'text-success': passwordValidations.number}">Contains a number</li>
+          <li :class="{'text-success': passwordValidations.uppercase}">Contains an uppercase letter</li>
+        </ul>
+      </div>
+
 
       <div class="form-group">
         <label for="change-email">Change Email:</label>
@@ -90,7 +100,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, watch, nextTick, computed } from 'vue';
+import { ref, watch, nextTick, computed, reactive } from 'vue';
 import { useAuthStore } from '../stores/auth';
 import UserService from '../services/userService';
 import { useRouter } from 'vue-router';
@@ -105,12 +115,9 @@ const newLastName = ref('');
 const validationError = ref('');
 const successMessage = ref('');
 const router = useRouter();
-const { isAuthenticated } = useAuthStore();
 const authStore = useAuthStore();
 const user = computed(() => authStore.user);
-const handleLogout = () => {
-  authStore.logout(router);
-};const deleteClicked = ref(false);
+const deleteClicked = ref(false);
 
 
 const displayMessage = computed(() => {
@@ -121,6 +128,20 @@ const messageClass = computed(() => {
   if (successMessage.value) return 'success-message fade-in';
   if (validationError.value) return 'error-message fade-in';
   return '';
+});
+
+// Reactive property for password validation status
+const passwordValidations = reactive({
+  minLength: false,
+  number: false,
+  uppercase: false,
+});
+
+// Watch the newPassword for changes and validate it
+watch(newPassword, (newValue) => {
+  passwordValidations.minLength = newValue.length >= 8;
+  passwordValidations.number = /\d/.test(newValue);
+  passwordValidations.uppercase = /[A-Z]/.test(newValue);
 });
 
 /* Watchers for adding fade-in/fade-out animations and timeouts to error and success spans */
@@ -466,5 +487,27 @@ span.warning-message {
   to {
     opacity: 0;
   }
+}
+
+/** Password group and requirements styling */
+
+#password-group {
+  margin-bottom: 0px;
+}
+
+.password-requirements-list {
+  list-style-type: none;
+  padding: 0px;
+}
+
+.password-requirements {
+  color: gray;
+  font-size: .8em;
+  margin-bottom: 10px;
+  font-weight: bold;;
+}
+
+.text-success {
+  color: #1ea749;
 }
 </style>
