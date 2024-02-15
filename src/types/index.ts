@@ -5,6 +5,7 @@ export type User = {
   lastname: string;
   email: string;
   roles?: string[];
+  scripts: Script[];
 };
 
 export type LoginDto = {

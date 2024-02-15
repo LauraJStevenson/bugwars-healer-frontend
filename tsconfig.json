@@ -13,6 +13,9 @@
   ],
   "compilerOptions": {
     "allowJs": true,
-    "module": "NodeNext"
+    "module": "NodeNext",
+    "types": [
+      "vitest/globals"
+    ]
   }
 }
