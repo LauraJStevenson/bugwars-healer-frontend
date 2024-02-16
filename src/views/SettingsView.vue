@@ -33,7 +33,7 @@
           placeholder="Enter new password"
           v-model="newPassword"
         />
-        <button @click="updatePassword" type="submit" class="submit-btn">Submit</button>
+        <button @click="updatePassword" type="submit" class="submit-btn"   :disabled="!isPasswordValid">Submit</button>
       </div>
 
       <!-- Password Requirements Div -->
@@ -127,30 +127,6 @@ const user = computed(() => authStore.user);
 const deleteClicked = ref(false);
 
 
-const displayMessage = computed(() => {
-  return successMessage.value || validationError.value;
-});
-
-const messageClass = computed(() => {
-  if (successMessage.value) return 'success-message fade-in';
-  if (validationError.value) return 'error-message fade-in';
-  return '';
-});
-
-// Reactive property for password validation status
-const passwordValidations = reactive({
-  minLength: false,
-  number: false,
-  uppercase: false,
-});
-
-// Watch the newPassword for changes and validate it
-watch(newPassword, (newValue) => {
-  passwordValidations.minLength = newValue.length >= 8;
-  passwordValidations.number = /\d/.test(newValue);
-  passwordValidations.uppercase = /[A-Z]/.test(newValue);
-});
-
 /* Watchers for adding fade-in/fade-out animations and timeouts to error and success spans */
 watch(successMessage, (newValue: string) => {
   if (newValue) {
@@ -194,22 +170,61 @@ watch(validationError, (newValue: string) => {
   }
 });
 
+const displayMessage = computed(() => {
+  return successMessage.value || validationError.value;
+});
+
+const messageClass = computed(() => {
+  if (successMessage.value) return 'success-message fade-in';
+  if (validationError.value) return 'error-message fade-in';
+  return '';
+});
+
 
 /* Update methods for inputs */
 
 // Method to update password
 const updatePassword = async () => {
-  try {
-    if (newPassword.value) {
-      await UserService.updatePassword(user.value.id, newPassword.value);
-      successMessage.value = 'Password updated successfully!';
-      newPassword.value = '';
+  if (isPasswordValid.value && newPassword.value) {
+    try {
+      const response = await UserService.updatePassword(user.value.id, newPassword.value);
+      if (response.status === 200) {
+        successMessage.value = 'Password updated successfully!';
+        newPassword.value = '';
+      } else {
+        throw new Error('Update failed');
+      }
+    } catch (error) {
+      console.error('An error occurred: ', error);
+      validationError.value = 'Failed to update password.';
     }
-  } catch (error) {
-    console.error('An error occurred: ', error);
-    validationError.value = 'Failed to update password.';
   }
 };
+
+// This is linked to the password submit button. Button will be greyed out until constraint requirements are met.
+const isPasswordValid = computed(() => {
+  return (
+    passwordValidations.minLength &&
+    passwordValidations.number &&
+    passwordValidations.uppercase
+  );
+});
+
+// Reactive property for password validation status
+const passwordValidations = reactive({
+  minLength: false,
+  number: false,
+  uppercase: false,
+});
+
+// Watch new password field for changes and validate it
+watch(newPassword, (newValue) => {
+  passwordValidations.minLength = newValue.length >= 8;
+  passwordValidations.number = /\d/.test(newValue);
+  passwordValidations.uppercase = /[A-Z]/.test(newValue);
+});
+
+
 
 // Method to update email
 const updateEmail = async () => {
