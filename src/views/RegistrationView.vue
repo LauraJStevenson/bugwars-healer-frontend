@@ -74,7 +74,7 @@ import { useRouter } from 'vue-router';
 import { authService } from '../services/authService';
 import type { RegisterDto } from '../types';
 
-import { SuccessResponse } from '../utils/makeRequest';
+import { type SuccessResponse } from '../utils/makeRequest';
 import {
 	RegExpMatcher,
 	TextCensor,
