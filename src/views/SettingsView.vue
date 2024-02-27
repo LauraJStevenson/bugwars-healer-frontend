@@ -20,12 +20,11 @@
 
       <!-- Span to display messages */ -->
       <div class="messages">
-        <span :class="messageClass" class='messageSpan'>{{ displayMessage }}</span>
+        <span :class="messageClass" class="messageSpan">{{ displayMessage }}</span>
       </div>
 
-
-
-      <div class="form-group">
+      <!-- Change Password Form -->
+      <div class="form-group" id="password-group">
         <label for="change-password">Change Password:</label>
         <input
           type="password"
@@ -33,8 +32,37 @@
           placeholder="Enter new password"
           v-model="newPassword"
         />
-        <button @click="updatePassword" type="submit" class="submit-btn">Submit</button>
+        <p>
+        <input
+          type="password"
+          id="confirm-password"
+          placeholder="Confirm new password"
+          v-model="confirmPassword"
+        />
+        <button @click="updatePassword" type="submit" class="submit-btn" :disabled="!isPasswordValid">Submit</button>
+
+      </p>
       </div>
+
+      <!-- Password Requirements Div -->
+      <div class="password-requirements">
+        <ul class="password-requirements-list">
+          <li :class="{'text-success': passwordValidations.minLength}">
+            <font-awesome-icon icon="check" v-if="passwordValidations.minLength" class="fa-icon" /> 8 characters minimum
+          </li>
+          <li :class="{'text-success': passwordValidations.number}">
+            <font-awesome-icon icon="check" v-if="passwordValidations.number" class="fa-icon" /> Contains a number
+          </li>
+          <li :class="{'text-success': passwordValidations.uppercase}">
+            <font-awesome-icon icon="check" v-if="passwordValidations.uppercase" class="fa-icon" /> Contains an uppercase letter
+          </li>
+          <li :class="{'text-success': newPassword === confirmPassword && newPassword !== ''}">
+      <font-awesome-icon icon="check" v-if="newPassword === confirmPassword && newPassword !== ''" class="fa-icon" /> Passwords match
+    </li>
+        </ul>
+      </div>
+
+
 
       <div class="form-group">
         <label for="change-email">Change Email:</label>
@@ -90,7 +118,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, watch, nextTick, computed } from 'vue';
+import { ref, watch, nextTick, computed, reactive } from 'vue';
 import { useAuthStore } from '../stores/auth';
 import UserService from '../services/userService';
 import { useRouter } from 'vue-router';
@@ -99,29 +127,17 @@ import validationService from '../services/validationService'
 
 /* Define refs for new values */
 const newPassword = ref('');
+const confirmPassword = ref('');
 const newEmail = ref('');
 const newFirstName = ref('');
 const newLastName = ref('');
 const validationError = ref('');
 const successMessage = ref('');
 const router = useRouter();
-const { isAuthenticated } = useAuthStore();
 const authStore = useAuthStore();
 const user = computed(() => authStore.user);
-const handleLogout = () => {
-  authStore.logout(router);
-};const deleteClicked = ref(false);
+const deleteClicked = ref(false);
 
-
-const displayMessage = computed(() => {
-  return successMessage.value || validationError.value;
-});
-
-const messageClass = computed(() => {
-  if (successMessage.value) return 'success-message fade-in';
-  if (validationError.value) return 'error-message fade-in';
-  return '';
-});
 
 /* Watchers for adding fade-in/fade-out animations and timeouts to error and success spans */
 watch(successMessage, (newValue: string) => {
@@ -166,22 +182,61 @@ watch(validationError, (newValue: string) => {
   }
 });
 
+const displayMessage = computed(() => {
+  return successMessage.value || validationError.value;
+});
+
+const messageClass = computed(() => {
+  if (successMessage.value) return 'success-message fade-in';
+  if (validationError.value) return 'error-message fade-in';
+  return '';
+});
+
 
 /* Update methods for inputs */
 
 // Method to update password
 const updatePassword = async () => {
-  try {
-    if (newPassword.value) {
-      await UserService.updatePassword(user.value.id, newPassword.value);
-      successMessage.value = 'Password updated successfully!';
-      newPassword.value = '';
+  if (isPasswordValid.value && newPassword.value) {
+    try {
+      const response = await UserService.updatePassword(user.value.id, newPassword.value);
+      if (response.status === 200) {
+        successMessage.value = 'Password updated successfully!';
+        newPassword.value = '';
+      } else {
+        throw new Error('Update failed');
+      }
+    } catch (error) {
+      console.error('An error occurred: ', error);
+      validationError.value = 'Failed to update password.';
     }
-  } catch (error) {
-    console.error('An error occurred: ', error);
-    validationError.value = 'Failed to update password.';
   }
 };
+
+// This is linked to the password submit button. Button will be greyed out until constraint requirements are met.
+const isPasswordValid = computed(() => {
+  const passwordsMatch = newPassword.value === confirmPassword.value && newPassword.value !== '';
+  return passwordsMatch &&
+         passwordValidations.minLength &&
+         passwordValidations.number &&
+         passwordValidations.uppercase;
+});
+
+// Reactive property for password validation status
+const passwordValidations = reactive({
+  minLength: false,
+  number: false,
+  uppercase: false,
+});
+
+// Watch new password field for changes and validate it
+watch(newPassword, (newValue) => {
+  passwordValidations.minLength = newValue.length >= 8;
+  passwordValidations.number = /\d/.test(newValue);
+  passwordValidations.uppercase = /[A-Z]/.test(newValue);
+});
+
+
 
 // Method to update email
 const updateEmail = async () => {
@@ -369,7 +424,8 @@ select {
 #change-username,
 #change-name,
 #change-firstname,
-#change-lastname {
+#change-lastname,
+#confirm-password {
   height: 2.5em;
   width: 15em;
   border-radius: 5px;
@@ -380,6 +436,7 @@ select {
 
 .submit-btn {
   margin-left: 5px;
+  width: 70px;
 }
 
 button {
@@ -466,5 +523,46 @@ span.warning-message {
   to {
     opacity: 0;
   }
+}
+
+/** Password group and requirements styling */
+
+#password-group {
+  margin-bottom: 0px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  width: 100%;
+}
+
+.password-requirements-list {
+  list-style-type: none;
+  padding: 0px;
+}
+
+.password-requirements {
+  color: gray;
+  font-size: .8em;
+  margin-bottom: 10px;
+  font-weight: bold;;
+}
+
+#password-group > p {
+  margin-bottom: 0;
+}
+
+.text-success {
+  color: #1ea749;
+}
+
+.fa-icon {
+  color: #1ea749;
+  margin-right: 5px;
+}
+
+.password-requirements-list li {
+  display: flex;
+  align-items: center;
 }
 </style>

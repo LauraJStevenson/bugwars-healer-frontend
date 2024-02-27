@@ -1,9 +1,3 @@
-import axios from "axios";
-
-import { ref, computed } from 'vue';
-import { useAuthStore } from '../stores/auth';
-import { useRouter } from 'vue-router';
-
 class validationService {
 
     // Validation method for email

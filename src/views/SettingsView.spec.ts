@@ -8,6 +8,7 @@ import LoginView from '../views/LoginView.vue'
 import HomeView from '../views/HomeView.vue'
 import { nextTick } from 'vue';
 import UserService from '../services/userService';
+import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 
 
 // Create router instance
@@ -131,6 +132,9 @@ describe('SettingsView', () => {
                 stubs: {
                     RouterLink: true
                 },
+                components: {
+                    FontAwesomeIcon
+                }
             },
         });
 
@@ -151,6 +155,9 @@ describe('SettingsView', () => {
                 stubs: {
                     RouterLink: true
                 },
+                components: {
+                    FontAwesomeIcon
+                }
             },
         });
 
@@ -174,6 +181,9 @@ describe('SettingsView', () => {
                 stubs: {
                     RouterLink: true
                 },
+                components: {
+                    FontAwesomeIcon
+                }
             },
         });
 
