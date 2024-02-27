@@ -20,11 +20,10 @@
 
       <!-- Span to display messages */ -->
       <div class="messages">
-        <span :class="messageClass" class='messageSpan'>{{ displayMessage }}</span>
+        <span :class="messageClass" class="messageSpan">{{ displayMessage }}</span>
       </div>
 
-
-
+      <!-- Change Password Form -->
       <div class="form-group" id="password-group">
         <label for="change-password">Change Password:</label>
         <input
@@ -33,7 +32,16 @@
           placeholder="Enter new password"
           v-model="newPassword"
         />
-        <button @click="updatePassword" type="submit" class="submit-btn"   :disabled="!isPasswordValid">Submit</button>
+        <p>
+        <input
+          type="password"
+          id="confirm-password"
+          placeholder="Confirm new password"
+          v-model="confirmPassword"
+        />
+        <button @click="updatePassword" type="submit" class="submit-btn" :disabled="!isPasswordValid">Submit</button>
+
+      </p>
       </div>
 
       <!-- Password Requirements Div -->
@@ -48,6 +56,9 @@
           <li :class="{'text-success': passwordValidations.uppercase}">
             <font-awesome-icon icon="check" v-if="passwordValidations.uppercase" class="fa-icon" /> Contains an uppercase letter
           </li>
+          <li :class="{'text-success': newPassword === confirmPassword && newPassword !== ''}">
+      <font-awesome-icon icon="check" v-if="newPassword === confirmPassword && newPassword !== ''" class="fa-icon" /> Passwords match
+    </li>
         </ul>
       </div>
 
@@ -116,6 +127,7 @@ import validationService from '../services/validationService'
 
 /* Define refs for new values */
 const newPassword = ref('');
+const confirmPassword = ref('');
 const newEmail = ref('');
 const newFirstName = ref('');
 const newLastName = ref('');
@@ -203,11 +215,11 @@ const updatePassword = async () => {
 
 // This is linked to the password submit button. Button will be greyed out until constraint requirements are met.
 const isPasswordValid = computed(() => {
-  return (
-    passwordValidations.minLength &&
-    passwordValidations.number &&
-    passwordValidations.uppercase
-  );
+  const passwordsMatch = newPassword.value === confirmPassword.value && newPassword.value !== '';
+  return passwordsMatch &&
+         passwordValidations.minLength &&
+         passwordValidations.number &&
+         passwordValidations.uppercase;
 });
 
 // Reactive property for password validation status
@@ -412,7 +424,8 @@ select {
 #change-username,
 #change-name,
 #change-firstname,
-#change-lastname {
+#change-lastname,
+#confirm-password {
   height: 2.5em;
   width: 15em;
   border-radius: 5px;
@@ -423,6 +436,7 @@ select {
 
 .submit-btn {
   margin-left: 5px;
+  width: 70px;
 }
 
 button {
@@ -515,6 +529,11 @@ span.warning-message {
 
 #password-group {
   margin-bottom: 0px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  width: 100%;
 }
 
 .password-requirements-list {
@@ -527,6 +546,10 @@ span.warning-message {
   font-size: .8em;
   margin-bottom: 10px;
   font-weight: bold;;
+}
+
+#password-group > p {
+  margin-bottom: 0;
 }
 
 .text-success {
