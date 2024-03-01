@@ -195,6 +195,8 @@ button {
   background-color: rgb(212,120,44); 
   height: 2px;
   margin: 15px;
+  -webkit-appearance: none;
+  appearance: none;
 }
 
 .time-slider::-webkit-slider-thumb {
@@ -215,5 +217,14 @@ button {
   background: url('../../public/images/Blue_Up.png') no-repeat center center;
   background-size: cover;
   cursor: pointer;
+}
+
+.time-slider::-moz-range-track {
+  background-color: rgb(212,120,44);
+  border: none;
+}
+
+.time-slider::-moz-range-progress {
+  background-color: rgb(212,120,44);
 }
 </style>
