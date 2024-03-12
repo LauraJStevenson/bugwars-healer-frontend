@@ -12,7 +12,9 @@
     </div>
 
     <div class="game-box">
-      <button @click="previousMap">Previous</button>
+      <button @click="previousMap" class="icon-button">
+        <font-awesome-icon icon="angle-left" />
+      </button>
 
       <div class="game-map">
         <div v-for="(row, rowIndex) in currentMapCells" :key="rowIndex" class="row">
@@ -22,7 +24,9 @@
         </div>
       </div>
 
-      <button @click="nextMap">Next</button>
+      <button @click="previousMap" class="icon-button">
+        <font-awesome-icon icon="angle-right" />
+      </button>
     </div>
 
     <div class="script-selections">
@@ -160,19 +164,22 @@ const startBattle = () => {
 
 .game-play {
   width: 100%;
-  height: 100%;
+  max-height: 100vh; 
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: space-between;
   align-items: center;
+  margin: 10px;
 }
 
 .game-box {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  max-width: 95%;
+  width: 70%;
+  height: 60vh;
   margin: 0 auto;
+  gap: 5px;
 }
 
 /* Game map styling */
@@ -180,8 +187,9 @@ const startBattle = () => {
   flex-grow: 1;
   display: flex;
   flex-direction: column;
-  border: 1px #003049 solid;
-
+  justify-content: center;
+  align-items: center;
+  width: 70%;
 }
 
 .row {
@@ -191,8 +199,8 @@ const startBattle = () => {
 
 .cell {
   flex-shrink: 0; /* Prevents cell from shrinking below its set size */
-  width: 25px;
-  height: 25px;
+  width: 15px;
+  height: 15px;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -238,6 +246,18 @@ button {
   background-color: rgb(247, 171, 101);
   cursor: pointer;
 }
+
+.icon-button {
+  border: none;
+  background-color: transparent;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 50px;
+  height: 50px;
+}
+
 
 /* Script Selectors Styling */
 .script-selections {
@@ -292,23 +312,6 @@ button {
 
 .time-slider::-moz-range-progress {
   background-color: rgb(212,120,44);
-}
-
-
-
-/* Responsive map */
-@media (max-width: 768px) {
-  .cell {
-    width: 24px;
-    height: 24px;
-  }
-}
-
-@media (max-width: 480px) {
-  .cell {
-    width: 16px;
-    height: 16px;
-  }
 }
 
 </style>
