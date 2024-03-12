@@ -91,7 +91,7 @@ const mapCharacterToImage: { [key: string]: string | undefined } = {
   'd': yellowBugImage, 
   'f': foodImage,
   't': treasureImage,
-  ' ': undefined,
+  ' ': floorImage,
 };
 
   const currentMapCells = computed(() => {
@@ -168,39 +168,41 @@ const startBattle = () => {
 }
 
 .game-box {
-  max-width: 80%;
-  max-height: 80%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  max-width: 95%;
+  margin: 0 auto;
 }
 
 /* Game map styling */
 .game-map {
-  width: 80%;
-  height: 60%;
-  border: 2px #003049 solid;
+  flex-grow: 1;
   display: flex;
   flex-direction: column;
+  border: 1px #003049 solid;
+
 }
 
 .row {
   display: flex;
-  margin: 0;
-  padding: 0;
+  flex-wrap: nowrap;
 }
 
 .cell {
-  width: 32px; 
-  height: 32px;
-  display: inline-flex;
+  flex-shrink: 0; /* Prevents cell from shrinking below its set size */
+  width: 25px;
+  height: 25px;
+  display: flex;
   justify-content: center;
   align-items: center;
-  margin: 0;
-  padding: 0;
 }
 
 .cell img {
   width: 100%;
   height: 100%;
   object-fit: cover;
+  background-color: rgb(135,232,74);
 }
 
 /*Bug classes for rotation*/
@@ -290,6 +292,23 @@ button {
 
 .time-slider::-moz-range-progress {
   background-color: rgb(212,120,44);
+}
+
+
+
+/* Responsive map */
+@media (max-width: 768px) {
+  .cell {
+    width: 24px;
+    height: 24px;
+  }
+}
+
+@media (max-width: 480px) {
+  .cell {
+    width: 16px;
+    height: 16px;
+  }
 }
 
 </style>
