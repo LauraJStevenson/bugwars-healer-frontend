@@ -77,6 +77,9 @@ const currentMap = computed(() => gameStore.currentMap);
 
 onMounted(async () => {
   await gameStore.fetchMaps();
+  if (authStore.user && authStore.user.id) {
+    await scriptStore.fetchScriptsByUserId(authStore.user.id);
+  }
 });
 
 const previousMap = () => {
