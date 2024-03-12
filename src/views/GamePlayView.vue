@@ -29,15 +29,11 @@
       </button>
     </div>
 
-    <div class="script-selections">
-      <div class="script-selector">
-        <select v-model="selectedScriptIndex1" id="selectedScriptIndex1">
-          <option v-for="(script, index) in scripts" :key="index" :value="index">{{ script.name }}</option>
-        </select>
-      </div>
+    <p>Select your competitors:</p>
 
-      <div class="script-selector">
-        <select v-model="selectedScriptIndex2" id="selectedScriptIndex2">
+    <div class="script-selections">
+      <div class="script-selector" v-for="index in scriptCount" :key="index">
+        <select v-model="selectedScripts[index]" :id="'selectedScriptIndex' + index">
           <option v-for="(script, index) in scripts" :key="index" :value="index">{{ script.name }}</option>
         </select>
       </div>
@@ -67,6 +63,8 @@ const gameStore = useGameStore();
 const scriptStore = useScriptStore();
 const authStore = useAuthStore();
 const currentTick = ref(0);
+const selectedScripts = ref([]);
+
 
 const map = ref(gameStore.maps);
 const selectedScriptIndex1 = ref(0);
@@ -82,6 +80,8 @@ onMounted(async () => {
   }
 });
 
+
+// Map
 const previousMap = () => {
   gameStore.previousMap();
 };
@@ -113,6 +113,24 @@ const mapCharacterToImage: { [key: string]: string | undefined } = {
     }))
   );
 });
+
+const scriptCount = computed(() => {
+  if (!gameStore.currentMap || !gameStore.currentMap.name) return 0;
+
+  switch (gameStore.currentMap.name) {
+    case 'basic':
+    case 'arena':
+      return 4;
+    case 'original':
+      return 2;
+    case 'maze':
+      return 1;
+    default:
+      return 0;
+  }
+});
+
+
 
 
 // Scripts

@@ -76,6 +76,7 @@ export type Wall = Cell & { type: 'Wall' };
 export type GameMap = {
   cells: Cell[][];
   serialization: string;
+  name: string;
 };
 
 export type UpdateMapDto = {
