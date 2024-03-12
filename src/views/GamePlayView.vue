@@ -1,5 +1,5 @@
 <template>
-  <div v-if="map && map.cells" class="game-play">
+  <div v-if="currentMapCells" class="game-play">
 
     <!-- Score Tracker -->
     <div class="score-tracker">
@@ -12,24 +12,34 @@
       <input class="time-slider" type="range" min="0" :max="gameStore.ticks" v-model="currentTick" @input="updateCurrentTick" />
     </div>
 
-    <!-- Game Map-->
-    <div class="game-map">
-      <div v-for="(row, rowIndex) in map.cells" :key="rowIndex" class="row">
-        <div v-for="(cell, cellIndex) in row" :key="cellIndex" class="cell">
+    <div class="game-box">
 
-          <template v-if="cell.type === 'Bug'">
-            Bug at {{ cell.x }},{{ cell.y }}
-          
+      <!-- Arrow Left for Previous Map -->
+      <button @click="previousMap">Previous</button>
+
+      <!-- Game Map-->
+      <div class="game-map">
+        <div v-for="(row, rowIndex) in currentMapCells" :key="rowIndex" class="row">
+        <div v-for="(cell, cellIndex) in row" :key="cellIndex" class="cell">
+          <img v-if="cell.image" :src="cell.image" :alt="cell.type" :class="{'bug': cell.type === 'Bug', [cell.direction.toLowerCase()]: cell.type === 'Bug'}" />
+
+            <template v-if="cell.type === 'Bug'">
+              Bug at {{ cell.x }},{{ cell.y }}
             
-            <span v-if="getScriptName(cell)">
-              {{ getScriptName(cell) }}
-            </span>
-          </template>
-          <template v-else>
-            {{ cell.type }} at {{ cell.x }},{{ cell.y }}
-          </template>
+              
+              <span v-if="getScriptName({ x: cell.x, y: cell.y, type: cell.type })"> {{ getScriptName({ x: cell.x, y: cell.y, type: cell.type }) }} </span>
+
+            </template>
+            <template v-else>
+              {{ cell.type }} at {{ cell.x }},{{ cell.y }}
+            </template>
+          </div>
         </div>
       </div>
+
+      <!-- Arrow Right for Next Map -->
+      <button @click="nextMap">Next</button>
+
     </div>
 
     <!-- Script Selections-->
@@ -42,7 +52,7 @@
             {{ script.name }}
           </option>
         </select>
-        <button @click="assignScript(1)" class="submit-btn">Bug Team One</button>
+        <!-- <button @click="assignScript(1)" class="submit-btn">Bug Team One</button> -->
       </div>
 
       <!-- Script selector for the second bug -->
@@ -52,7 +62,7 @@
             {{ script.name }}
           </option>
         </select>
-        <button @click="assignScript(2)" class="submit-btn">Bug Team Two</button>
+        <!-- <button @click="assignScript(2)" class="submit-btn">Bug Team Two</button> -->
       </div>
     </div>
 
@@ -69,28 +79,63 @@ import { useGameStore } from '../stores/gameStore';
 import { useScriptStore } from '../stores/scriptStore';
 import { useAuthStore } from '../stores/auth';
 import type { Bug, Cell } from '@/types';
+import blueBugImage from '../assets/bugs/blue/Blue_Up.png';
+import redBugImage from '../assets/bugs/red/Red_Up.png';
+import greenBugImage from '../assets/bugs/green/Green_Up.png';
+import yellowBugImage from '../assets/bugs/yellow/Yellow_Up.png';
+import foodImage from '../assets/apple/Apple.png';
+import wallImage from '../assets/map/wall/Wall.png';
+import floorImage from '../assets/map/floor/Floor.png'
+import treasureImage from '../assets/treasure/Treasure_.png';
 
 const gameStore = useGameStore();
 const scriptStore = useScriptStore();
 const authStore = useAuthStore();
 const currentTick = ref(0);
 
-const map = ref(gameStore.map);
+const map = ref(gameStore.maps);
 const selectedScriptIndex1 = ref(0);
 const selectedScriptIndex2 = ref(0);
 
 const user = computed(() => authStore.user);
+const currentMap = computed(() => gameStore.currentMap);
 
 onMounted(async () => {
-  try {
-    await gameStore.fetchMap();
-    if (user.value && user.value.id) {
-      await scriptStore.fetchScriptsByUserId(user.value.id);
-    }
-  } catch (error) {
-    console.error('Error during mounted hook:', error);
-  }
+  await gameStore.fetchMaps();
 });
+
+const previousMap = () => {
+  gameStore.previousMap();
+};
+
+const nextMap = () => {
+  gameStore.nextMap();
+};
+
+const mapCharacterToImage: { [key: string]: string | undefined } = {
+  'X': wallImage,
+  'a': redBugImage,
+  'b': blueBugImage, 
+  'c': greenBugImage, 
+  'd': yellowBugImage, 
+  'f': foodImage,
+  't': treasureImage,
+  ' ': undefined,
+};
+
+const currentMapCells = computed(() => {
+  if (!gameStore.currentMap || !gameStore.currentMap.serialization) return [];
+  return gameStore.currentMap.serialization.split('\n').map((row, rowIndex) =>
+    row.split('').map((char, colIndex) => ({
+      x: colIndex,
+      y: rowIndex,
+      type: char,
+      image: mapCharacterToImage[char],
+      direction: char === 'a' ? 'N' : char === 'b' ? 'E' : char === 'c' ? 'S' : 'W' // Update this logic based on your direction logic
+    }))
+  );
+});
+
 
 // Scripts
 const scripts = computed(() => scriptStore.scripts);
@@ -104,27 +149,27 @@ const getScriptName = (cell: Cell): string | undefined => {
 };
 
 
-const assignScript = (bugId: number) => {
-  const selectedScriptIndex = bugId === 1 ? selectedScriptIndex1.value : selectedScriptIndex2.value;
-  const script = scripts.value[selectedScriptIndex];
-  // Need to implement logic to assign the selected script to the bug
-};
+// const assignScript = (bugId: number) => {
+//   const selectedScriptIndex = bugId === 1 ? selectedScriptIndex1.value : selectedScriptIndex2.value;
+//   const script = scripts.value[selectedScriptIndex];
+//   gameStore.setScriptForBug(bugId, script.bytecode); // Assuming scripts have a bytecode property
+// };
 
 // Map
-const annotatedCells = computed(() => map.value.cells.map(row => 
-  row.map(cell => {
-    // Check if the cell is a Bug and then extract the scriptIndex...
-    const isBug = cell.type === 'Bug';
-    const scriptIndex = isBug ? (cell as Bug).scriptIndex : undefined;
+// const annotatedCells = computed(() => map.value.cells.map(row => 
+//   row.map(cell => {
+//     // Check if the cell is a Bug and then extract the scriptIndex...
+//     const isBug = cell.type === 'Bug';
+//     const scriptIndex = isBug ? (cell as Bug).scriptIndex : undefined;
 
-    return {
-      ...cell,
-      isBug,
-      // Use scriptIndex to get the script name, ensuring scriptIndex is not undefined...
-      scriptName: isBug && scriptIndex !== undefined ? scripts.value[scriptIndex].name : undefined,
-    };
-  })
-));
+//     return {
+//       ...cell,
+//       isBug,
+//       // Use scriptIndex to get the script name, ensuring scriptIndex is not undefined...
+//       scriptName: isBug && scriptIndex !== undefined ? scripts.value[scriptIndex].name : undefined,
+//     };
+//   })
+// ));
 
 // Battle Game Play
 
@@ -159,7 +204,6 @@ const startBattle = () => {
 }
 
 /* Button styling */
-
 .submit-btn {
   margin-left: 5px;
   width: 120px;
@@ -190,7 +234,6 @@ button {
 }
 
 /* Time Slider Styling */
-
 .time-slider {
   background-color: rgb(212,120,44); 
   height: 2px;
@@ -227,4 +270,26 @@ button {
 .time-slider::-moz-range-progress {
   background-color: rgb(212,120,44);
 }
+
+/*Bug classes for rotation*/
+.bug {
+  transition: transform 0.5s;
+}
+
+.bug.north {
+  transform: rotate(0deg);
+}
+
+.bug.east {
+  transform: rotate(90deg);
+}
+
+.bug.south {
+  transform: rotate(180deg);
+}
+
+.bug.west {
+  transform: rotate(270deg);
+}
+
 </style>

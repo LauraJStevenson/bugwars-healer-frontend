@@ -1,6 +1,7 @@
 // src/stores/gameStore.ts
-import type { GameState, Script, Cell, Bug } from '@/types';
+import type { GameState, GameMap, Script, Cell, Bug } from '@/types';
 import { defineStore } from 'pinia';
+import axios from 'axios';
 
 // Type guard function to check if a Cell is a Bug
 function isBug(cell: Cell): cell is Bug {
@@ -9,25 +10,41 @@ function isBug(cell: Cell): cell is Bug {
 
 export const useGameStore = defineStore('game', {
     state: (): GameState => ({
-        map: { cells: [] },
+        maps: [],
+        currentMapIndex: 0,
+        currentMap: null,
         scripts: [],
         ticks: 0,
         currentTick: 0,
-        scores: { team1: 0, team2: 0 }
+        scores: { team1: 0, team2: 0 },
     }),
-    actions: {
 
-        // Method to fetch map
-        async fetchMap() {
+    actions: {
+        // Maps
+        async fetchMaps() {
             try {
-                const response = await fetch('/api/v1/maps');
-                if (!response.ok) {
-                    throw new Error(`HTTP error! status: ${response.status}`);
-                }
-                const data = await response.json();
-                this.map = { cells: data.cells };
+                const response = await axios.get('/maps/');
+                this.maps = response.data;
+                this.currentMap = this.maps.length > 0 ? this.maps[0] : null;
+
+                //Console logs for testing
+                console.log('Fetched maps:', this.maps);
+                console.log('Current map:', this.currentMap);
+
             } catch (error) {
-                console.error('Failed to fetch map:', error);
+                console.error('Failed to fetch maps:', error);
+            }
+        },
+        nextMap() {
+            if (this.maps.length > 0) {
+                this.currentMapIndex = (this.currentMapIndex + 1) % this.maps.length;
+                this.currentMap = this.maps[this.currentMapIndex];
+            }
+        },
+        previousMap() {
+            if (this.maps.length > 0) {
+                this.currentMapIndex = (this.currentMapIndex - 1 + this.maps.length) % this.maps.length;
+                this.currentMap = this.maps[this.currentMapIndex];
             }
         },
 

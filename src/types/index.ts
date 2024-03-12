@@ -46,7 +46,7 @@ export type Script = {
 
 // Map types
 
-export type CellType = 'Bug' | 'EmptySpace' | 'Food' | 'Wall';
+export type CellType = 'Bug' | 'Treasure' | 'EmptySpace' | 'Food' | 'Wall' | 'Floor';
 
 export type Cell = {
   x: number;
@@ -61,6 +61,13 @@ export type Bug = Cell & {
   bugScript?: number[];
 };
 
+export type ExtendedCell = Cell & {
+  image?: string;
+  direction?: string;
+};
+
+export type Treasure = Cell & { type: 'Treasure' };
+export type Floor = Cell & { type: 'Floor' };
 export type EmptySpace = Cell & { type: 'EmptySpace' };
 export type Food = Cell & { type: 'Food' };
 export type Wall = Cell & { type: 'Wall' };
@@ -68,6 +75,7 @@ export type Wall = Cell & { type: 'Wall' };
 
 export type GameMap = {
   cells: Cell[][];
+  serialization: string;
 };
 
 export type UpdateMapDto = {
@@ -76,7 +84,9 @@ export type UpdateMapDto = {
 // Game play types
 
 export type GameState = {
-  map: GameMap;
+  maps: GameMap[];
+  currentMapIndex: number;
+  currentMap: GameMap | null;
   scripts: Script[];
   ticks: number;
   currentTick: number;
