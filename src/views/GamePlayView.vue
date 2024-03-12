@@ -24,7 +24,7 @@
         </div>
       </div>
 
-      <button @click="previousMap" class="icon-button">
+      <button @click="nextMap" class="icon-button">
         <font-awesome-icon icon="angle-right" />
       </button>
     </div>
