@@ -3,8 +3,8 @@
 <template>
   <div v-if="currentMapCells" class="game-play">
     <div class="score-tracker">
-      <div>Bug Team 1 Score: {{ gameStore.scores.team1 }}</div>
-      <div>Bug Team 2 Score: {{ gameStore.scores.team2 }}</div>
+      <div class="team-one-score">Bug Team 1 Score: {{ gameStore.scores.team1 }}</div>
+      <div class="team-two-score">Bug Team 2 Score: {{ gameStore.scores.team2 }}</div>
     </div>
 
     <div class="time-slider-div">
@@ -65,13 +65,6 @@ const authStore = useAuthStore();
 const currentTick = ref(0);
 const selectedScripts = ref([]);
 
-
-const map = ref(gameStore.maps);
-const selectedScriptIndex1 = ref(0);
-const selectedScriptIndex2 = ref(0);
-
-const user = computed(() => authStore.user);
-const currentMap = computed(() => gameStore.currentMap);
 
 onMounted(async () => {
   await gameStore.fetchMaps();
@@ -184,8 +177,8 @@ const startBattle = () => {
 <style scoped>
 
 .game-play {
-  width: 100%;
-  max-height: 100vh; 
+  width: 80vw;
+  max-height: 100%; 
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -198,9 +191,10 @@ const startBattle = () => {
   justify-content: space-between;
   align-items: center;
   width: 70%;
-  height: 60vh;
+  max-height: 70%;
   margin: 0 auto;
   gap: 5px;
+  border: 4px solid black;
 }
 
 /* Game map styling */
@@ -210,7 +204,8 @@ const startBattle = () => {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  width: 70%;
+  width: 50%;
+  border: 4px solid black;
 }
 
 .row {
@@ -219,9 +214,9 @@ const startBattle = () => {
 }
 
 .cell {
-  flex-shrink: 0; /* Prevents cell from shrinking below its set size */
-  width: 15px;
-  height: 15px;
+  /* flex-shrink: 0; Prevents cell from shrinking below its set size */
+  width: 4%;
+  height: 4%;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -295,6 +290,15 @@ button {
 .score-tracker {
   margin: 10px;
   font-size: 1.2em;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  font-size: medium;
+}
+
+.team-one-score {
+  margin-right: 80px;
 }
 
 /* Time Slider Styling */
