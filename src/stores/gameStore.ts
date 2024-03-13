@@ -1,5 +1,5 @@
 // src/stores/gameStore.ts
-import type { GameState, GameMap, Script, Cell, Bug } from '@/types';
+import type { GameState, Script, Cell, Bug } from '@/types';
 import { defineStore } from 'pinia';
 import axios from 'axios';
 
@@ -20,16 +20,13 @@ export const useGameStore = defineStore('game', {
     }),
 
     actions: {
+
         // Maps
         async fetchMaps() {
             try {
                 const response = await axios.get('/maps/');
                 this.maps = response.data;
                 this.currentMap = this.maps.length > 0 ? this.maps[0] : null;
-
-                //Console logs for testing
-                console.log('Fetched maps:', this.maps);
-                console.log('Current map:', this.currentMap);
 
             } catch (error) {
                 console.error('Failed to fetch maps:', error);
@@ -71,20 +68,18 @@ export const useGameStore = defineStore('game', {
 
         //Method to start battle simulation
         async startBattle() {
-            // Logic to advance the game by one round
-            // This could involve communicating with the backend or directly manipulating the state
             this.ticks += 1;
         },
 
         // Method to set the current tick (when the slider is moved)
         setCurrentTick(tick: number) {
             this.currentTick = tick;
-            // Update the map state based on the tick if necessary
+            // Create the logic to uppdate the map state based on the tick??
         },
 
-        // Method to update scores (you'll need to define the logic based on your game rules)
+        // Method to update scores
         updateScores() {
-            // Update this.scores based on the current game state
+            // Update this.scores based on the current game state??
         },
     },
 });

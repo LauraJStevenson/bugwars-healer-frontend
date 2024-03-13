@@ -94,8 +94,3 @@ export type GameState = {
   scores: { team1: number; team2: number };
 };
 
-export type GameAction = {
-  // This could represent actions taken by the player or system within a game tick...
-  type: string;
-  payload?: any;
-};

@@ -49,7 +49,6 @@ import { computed, onMounted, ref } from 'vue';
 import { useGameStore } from '../stores/gameStore';
 import { useScriptStore } from '../stores/scriptStore';
 import { useAuthStore } from '../stores/auth';
-import type { Bug, Cell } from '@/types';
 import blueBugImage from '../assets/bugs/blue/Blue_Up.png';
 import redBugImage from '../assets/bugs/red/Red_Up.png';
 import greenBugImage from '../assets/bugs/green/Green_Up.png';
@@ -124,47 +123,20 @@ const scriptCount = computed(() => {
 });
 
 
+// Slider
+
+const updateCurrentTick = () => {
+  gameStore.setCurrentTick(currentTick.value);
+};
 
 
 // Scripts
 const scripts = computed(() => scriptStore.scripts);
 
-const getScriptName = (cell: Cell): string | undefined => {
-  if (cell.type === 'Bug') {
-    const scriptIndex = (cell as Bug).scriptIndex;
-    return scriptIndex !== undefined ? scripts.value[scriptIndex]?.name : undefined;
-  }
-  return undefined;
-};
+/* Need to assign scripts */
 
-
-// const assignScript = (bugId: number) => {
-//   const selectedScriptIndex = bugId === 1 ? selectedScriptIndex1.value : selectedScriptIndex2.value;
-//   const script = scripts.value[selectedScriptIndex];
-//   gameStore.setScriptForBug(bugId, script.bytecode); // Assuming scripts have a bytecode property
-// };
-
-// Map
-// const annotatedCells = computed(() => map.value.cells.map(row => 
-//   row.map(cell => {
-//     // Check if the cell is a Bug and then extract the scriptIndex...
-//     const isBug = cell.type === 'Bug';
-//     const scriptIndex = isBug ? (cell as Bug).scriptIndex : undefined;
-
-//     return {
-//       ...cell,
-//       isBug,
-//       // Use scriptIndex to get the script name, ensuring scriptIndex is not undefined...
-//       scriptName: isBug && scriptIndex !== undefined ? scripts.value[scriptIndex].name : undefined,
-//     };
-//   })
-// ));
 
 // Battle Game Play
-
-const updateCurrentTick = () => {
-  gameStore.setCurrentTick(currentTick.value);
-};
 
 const startBattle = () => {
   gameStore.startBattle();
@@ -194,7 +166,7 @@ const startBattle = () => {
   max-height: 70%;
   margin: 0 auto;
   gap: 5px;
-  border: 4px solid black;
+  /* border: 4px solid black; */
 }
 
 /* Game map styling */
@@ -205,7 +177,7 @@ const startBattle = () => {
   justify-content: center;
   align-items: center;
   width: 50%;
-  border: 4px solid black;
+  /* border: 4px solid black; */
 }
 
 .row {
