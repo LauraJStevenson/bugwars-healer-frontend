@@ -5,6 +5,11 @@ import router from './router';
 import { configureAxios } from './config/axios';
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { faCheck } from '@fortawesome/free-solid-svg-icons';
+import { faBars } from '@fortawesome/free-solid-svg-icons';
+import { faX } from '@fortawesome/free-solid-svg-icons';
+import { faUserPlus } from '@fortawesome/free-solid-svg-icons';
+import { faArrowRightFromBracket } from '@fortawesome/free-solid-svg-icons';
+import { faArrowRightToBracket } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 
 configureAxios();
@@ -14,6 +19,12 @@ app.use(createPinia());
 app.use(router);
 
 library.add(faCheck);
+library.add(faBars);
+library.add(faX);
+library.add(faUserPlus);
+library.add(faArrowRightFromBracket);
+library.add(faArrowRightToBracket);
+
 app.component('font-awesome-icon', FontAwesomeIcon);
 
 app.mount('#app');

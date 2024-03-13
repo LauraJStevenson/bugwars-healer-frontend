@@ -1,13 +1,10 @@
 <script setup lang="ts">
 import GlobalNav from './components/GlobalNav.vue';
-import Header from './components/HeaderComponent.vue';
+
 </script>
 
 <template>
   <div class="app">
-    <div class="header-container">
-      <Header />
-    </div>
     <div class="nav-container">
       <GlobalNav />
     </div>
@@ -25,9 +22,8 @@ import Header from './components/HeaderComponent.vue';
   grid-template-columns: auto 1fr;
   grid-template-rows: auto 1fr;
   grid-template-areas:
-    /* 'nav header' */
-    'header header'
-    'nav content-container';
+    'nav nav'
+    'content-container content-container';
 }
 
 .header-container {
@@ -42,10 +38,10 @@ import Header from './components/HeaderComponent.vue';
 
 .nav-container {
   grid-area: nav;
-  width: 150px;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
+  height: 70px;
+  border-left: none;
+  margin-top: 0;
+  margin-bottom: 0;
 }
 
 .content-container {
@@ -55,5 +51,12 @@ import Header from './components/HeaderComponent.vue';
   justify-content: center;
   align-items: center;
   height: 100%;
+}
+
+@media (max-width: 768px) {
+
+  .menu {
+    display: none;
+  }
 }
 </style>

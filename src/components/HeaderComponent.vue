@@ -27,8 +27,4 @@ h1 {
   background-color: #003049;
 }
 
-/* 4em works to not make the page scroll */
-/* img {
-  width: 4em;
-} */
 </style>
