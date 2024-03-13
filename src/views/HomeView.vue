@@ -58,7 +58,7 @@ h1 {
 }
 
 .image-container {
-  /* position: relative; */
+  position: relative;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -66,6 +66,7 @@ h1 {
   text-decoration: none;
   width: 50%;
 }
+
 
 .computer-illustration {
   width: 100%;
@@ -80,22 +81,23 @@ h1 {
   display: block;
 }
 
+
 .go-button {
-  position: absolute;
-  z-index: 2;
   background-color: #f77f00;
   color: #f0eeec;
   border: none;
   border-radius: 5px;
   cursor: pointer;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 10px;
-  transform: translate(-50%, -50%);
+  display: none; 
+  position: absolute;
   left: 50%;
   top: 50%;
+  padding: 5px;
+  transform: translate(-50%, -50%);
+  z-index: 2;
+  box-shadow: 0px 9px 9px rgba(0, 0, 0, 0.8);
 }
+
 
 .image-container:hover .go-button {
   display: flex;
