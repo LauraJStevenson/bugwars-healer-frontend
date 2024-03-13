@@ -57,8 +57,17 @@ h1 {
   font-family: 'Press Start 2P', 'Space Mono', Arial, Helvetica, sans-serif;
 }
 
+/* .image-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-decoration: none;
+  width: 50%;
+} */
+
 .image-container {
-  /* position: relative; */
+  position: relative; /* set position to relative */
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -66,6 +75,7 @@ h1 {
   text-decoration: none;
   width: 50%;
 }
+
 
 .computer-illustration {
   width: 100%;
@@ -80,7 +90,7 @@ h1 {
   display: block;
 }
 
-.go-button {
+/* .go-button {
   position: absolute;
   z-index: 2;
   background-color: #f77f00;
@@ -95,7 +105,24 @@ h1 {
   transform: translate(-50%, -50%);
   left: 50%;
   top: 50%;
+} */
+
+.go-button {
+  background-color: #f77f00;
+  color: #f0eeec;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  display: none; /* initially hide the button */
+  position: absolute; /* position relative to .image-container */
+  left: 50%;
+  top: 50%;
+  padding: 5px;
+  transform: translate(-50%, -50%);
+  z-index: 2;
+  box-shadow: 0px 9px 9px rgba(0, 0, 0, 0.8);
 }
+
 
 .image-container:hover .go-button {
   display: flex;
