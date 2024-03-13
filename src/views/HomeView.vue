@@ -57,17 +57,8 @@ h1 {
   font-family: 'Press Start 2P', 'Space Mono', Arial, Helvetica, sans-serif;
 }
 
-/* .image-container {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  text-decoration: none;
-  width: 50%;
-} */
-
 .image-container {
-  position: relative; /* set position to relative */
+  position: relative;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -90,22 +81,6 @@ h1 {
   display: block;
 }
 
-/* .go-button {
-  position: absolute;
-  z-index: 2;
-  background-color: #f77f00;
-  color: #f0eeec;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 10px;
-  transform: translate(-50%, -50%);
-  left: 50%;
-  top: 50%;
-} */
 
 .go-button {
   background-color: #f77f00;
@@ -113,8 +88,8 @@ h1 {
   border: none;
   border-radius: 5px;
   cursor: pointer;
-  display: none; /* initially hide the button */
-  position: absolute; /* position relative to .image-container */
+  display: none; 
+  position: absolute;
   left: 50%;
   top: 50%;
   padding: 5px;
