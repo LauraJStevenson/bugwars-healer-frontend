@@ -3,11 +3,13 @@
     <div><h1>Script Editor Page</h1></div>
     <div class="wrapper">
       <div class="column1">
+        <label for="scriptName"><h3>Script Name:</h3></label>
+        <input v-model="scriptName" id="scriptName" type="text" placeholder="Enter script name" /><br />
         <label for="multilineInput"><h3>Write Bug Code Here:</h3></label>
-        <textarea class="multilineInput" rows="25" cols="35"></textarea><br />
-        <button type="submit" class="button">Save Script</button>
+        <textarea v-model="scriptText" class="multilineInput" rows="25" cols="35"></textarea><br />
+        <button @click="compileAndSaveScript" class="button">Save Script</button>
         <RouterLink to="/gameplay">
-          <button type="submit" class="button">Play!</button>
+          <button class="button">Play!</button>
         </RouterLink>
       </div>
       <div id="bug-code-example" class="column2">
@@ -45,7 +47,58 @@
   </div>
 </template>
 
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import { ref } from 'vue';
+import axios from 'axios';
+import { useAuthStore } from '../stores/auth';
+
+const scriptName = ref('');
+const scriptText = ref('');
+const authStore = useAuthStore();
+
+const compileAndSaveScript = async () => {
+  if (!scriptName.value.trim()) {
+    alert('Please provide a name for the script.');
+    return;
+  }
+
+  // Assuming authStore.user contains the authenticated user's information
+  if (!authStore.user || !authStore.user.id) {
+    alert('User is not authenticated.');
+    return;
+  }
+
+  console.log('User ID:', authStore.user.id);
+
+
+  try {
+    // Compile the script
+    const compileResponse = await axios.post('/game/compile', { script: scriptText.value });
+    if (compileResponse.data) {
+      // Save the compiled script to the user's account
+      const saveResponse = await axios.post('/scripts/', {
+        name: scriptName.value,
+        rawCode: scriptText.value,
+        bytecode: compileResponse.data.compiledScript,
+        userId: authStore.user.id,
+      });
+
+      if (saveResponse.data) {
+        alert('Script saved successfully!');
+        scriptName.value = '';
+        scriptText.value = '';
+      } else {
+        alert('Failed to save the script.');
+      }
+    } else {
+      alert('Script compilation failed.');
+    }
+  } catch (error) {
+    console.error('Error compiling or saving the script:', error);
+    alert('An error occurred.');
+  }
+};
+</script>
 
 <style scoped>
 .wrapper {
