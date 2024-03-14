@@ -1,4 +1,3 @@
-// src/stores/gameStore.ts
 import type { GameState, Script, Cell, Bug } from '@/types';
 import { defineStore } from 'pinia';
 import axios from 'axios';
@@ -47,20 +46,18 @@ export const useGameStore = defineStore('game', {
 
         // Method to initialize the scripts
         initializeScripts(scripts: Script[]) {
-            // Example of initializing scripts - replace with actual logic
+            // Needs actual logic... Not complete... 
             this.scripts = scripts;
         },
 
         // Method to set script for battle
+        //Not complete.... Needs finished....
         setScriptForBug(bugId: number, script: number[]) {
-            // Iterate through each cell in the map
             for (const row of this.map.cells) {
                 for (const cell of row) {
-                    // Use the isBug type guard to check if the cell is a Bug
                     if (isBug(cell) && cell.scriptIndex === bugId) {
-                        // Now TypeScript knows cell is a Bug, so this assignment is valid
                         cell.bugScript = script;
-                        return; // Exit once the script is assigned to the bug
+                        return;
                     }
                 }
             }
@@ -74,12 +71,12 @@ export const useGameStore = defineStore('game', {
         // Method to set the current tick (when the slider is moved)
         setCurrentTick(tick: number) {
             this.currentTick = tick;
-            // Create the logic to uppdate the map state based on the tick??
+            // Create the logic to uppdate the map state based on the tick?? Not complete...
         },
 
         // Method to update scores
         updateScores() {
-            // Update this.scores based on the current game state??
+            // Update this.scores based on the current game state?? Not complete... 
         },
     },
 });
