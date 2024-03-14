@@ -39,7 +39,7 @@
       </div>
     </div>
 
-    <button @click="startBattle">BATTLE!</button>
+    <button @click="startBattle" class="battle-btn">BATTLE!</button>
   </div>
 </template>
 
@@ -153,7 +153,7 @@ const startBattle = () => {
   max-height: 100%; 
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  justify-content: space-evenly;
   align-items: center;
   margin: 10px;
 }
@@ -246,6 +246,10 @@ button {
   height: 50px;
 }
 
+.battle-btn {
+  margin-bottom: 30px;
+}
+
 
 /* Script Selectors Styling */
 .script-selections {
@@ -259,7 +263,7 @@ button {
   }
 
 .script-selector {
-  margin-bottom: 10px;
+  margin-bottom: 20px;
 }
 
 /* Score Tracker Styling */
@@ -319,8 +323,7 @@ button {
   background-color: rgb(212,120,44);
 }
 
-
-  @media only screen and (max-width: 600px) {
+@media only screen and (max-width: 950px) {
 
     .game-play {
       height: 100vh;
@@ -333,11 +336,11 @@ button {
     }
 
     .game-box {
-      width: 300px;
+      width: 100%;
     }
 
     .game-map {
-      max-width: 150px;
+      width: 150px;
     }
 
     .score-tracker {
@@ -359,9 +362,8 @@ button {
     }
 
     .script-selector {
-      flex-basis: calc(50% - 20px); /* Two selectors per row, with some spacing */
+      flex-basis: calc(50% - 20px);
       text-align: center;
-
     }
   }
 
