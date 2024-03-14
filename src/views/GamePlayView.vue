@@ -249,13 +249,17 @@ button {
 
 /* Script Selectors Styling */
 .script-selections {
-  display: flex;
-  justify-content: space-around;
-  width: 100%;
-}
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    max-width: 600px;
+    margin-top: 10px;
+  }
 
 .script-selector {
-  margin: 10px;
+  margin-bottom: 10px;
 }
 
 /* Score Tracker Styling */
@@ -271,6 +275,10 @@ button {
 
 .team-one-score {
   margin-right: 80px;
+}
+
+.team-one-score, .team-two-score {
+      text-align: center;
 }
 
 /* Time Slider Styling */
@@ -310,5 +318,51 @@ button {
 .time-slider::-moz-range-progress {
   background-color: rgb(212,120,44);
 }
+
+
+  @media only screen and (max-width: 600px) {
+
+    .game-play {
+      height: 100vh;
+      width: 100vw;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      align-items: center;
+      margin: 20px;
+    }
+
+    .game-box {
+      width: 300px;
+    }
+
+    .game-map {
+      max-width: 150px;
+    }
+
+    .score-tracker {
+      display: flex;
+      flex-direction: row;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .team-one-score, .team-two-score {
+      text-align: center;
+    }
+
+    .script-selections {
+      max-width: 100%; /* Allow full width on smaller screens */
+      padding: 0 10px; /* Add padding to avoid edge-to-edge layout */
+      justify-content: center;
+      align-items: center;
+    }
+
+    .script-selector {
+      flex-basis: calc(50% - 20px); /* Two selectors per row, with some spacing */
+      text-align: center;
+
+    }
+  }
 
 </style>
