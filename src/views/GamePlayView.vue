@@ -261,17 +261,23 @@ button {
   border: 1px solid black;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
   text-align: center;
-  outline: none; /* Remove default outline */
+  outline: none;
 }
 
 select:focus {
-  border: 1px solid rgb(212, 120, 44); /* Change border color on focus */
+  border: 1px solid rgb(212, 120, 44);
 }
 
 .script-selector {
   margin-bottom: 20px;
   padding: 5px;
 }
+
+option {
+  color: black;
+  background-color: white;
+}
+
 
 /* Score Tracker Styling */
 .score-tracker {
