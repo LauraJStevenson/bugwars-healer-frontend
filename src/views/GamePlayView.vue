@@ -1,5 +1,3 @@
-
-
 <template>
   <div v-if="currentMapCells" class="game-play">
     <div class="score-tracker">
@@ -150,45 +148,43 @@ const startBattle = () => {
 
 .game-play {
   width: 80vw;
-  max-height: 100%; 
-  display: flex;
-  flex-direction: column;
-  justify-content: space-evenly;
-  align-items: center;
-  margin: 10px;
-}
-
-.game-box {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  width: 70%;
-  max-height: 70%;
-  margin: 0 auto;
-  gap: 5px;
-  /* border: 4px solid black; */
-}
-
-/* Game map styling */
-.game-map {
-  flex-grow: 1;
+  height: 100%; 
+  max-height: 100%;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  margin: 10px;
+  text-align: center;
+}
+
+.game-box {
+  width: 100%;
+  max-height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+/* Game map styling */
+.game-map {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
   width: 50%;
-  /* border: 4px solid black; */
+  max-height: 100%;
+  overflow: auto;
 }
 
 .row {
   display: flex;
-  flex-wrap: nowrap;
 }
 
 .cell {
-  /* flex-shrink: 0; Prevents cell from shrinking below its set size */
-  width: 4%;
-  height: 4%;
+  width: auto;
+  height: auto;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -246,24 +242,35 @@ button {
   height: 50px;
 }
 
-.battle-btn {
-  margin-bottom: 30px;
-}
-
-
 /* Script Selectors Styling */
 .script-selections {
     display: flex;
     flex-wrap: wrap;
-    justify-content: space-between;
+    justify-content: center;
     align-items: center;
     width: 100%;
     max-width: 600px;
-    margin-top: 10px;
   }
+
+  select {
+  background-color: white;
+  color: black;
+  height: 2em;
+  width: 10em;
+  border-radius: 5px;
+  border: 1px solid black;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+  text-align: center;
+  outline: none; /* Remove default outline */
+}
+
+select:focus {
+  border: 1px solid rgb(212, 120, 44); /* Change border color on focus */
+}
 
 .script-selector {
   margin-bottom: 20px;
+  padding: 5px;
 }
 
 /* Score Tracker Styling */
@@ -323,43 +330,14 @@ button {
   background-color: rgb(212,120,44);
 }
 
-@media only screen and (max-width: 950px) {
+
+
+@media only screen and (max-width: 775px) {
 
     .game-play {
-      height: 100vh;
       width: 100vw;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-      align-items: center;
-      margin: 20px;
     }
 
-    .game-box {
-      width: 100%;
-    }
-
-    .game-map {
-      width: 150px;
-    }
-
-    .score-tracker {
-      display: flex;
-      flex-direction: row;
-      justify-content: center;
-      align-items: center;
-    }
-
-    .team-one-score, .team-two-score {
-      text-align: center;
-    }
-
-    .script-selections {
-      max-width: 100%; /* Allow full width on smaller screens */
-      padding: 0 10px; /* Add padding to avoid edge-to-edge layout */
-      justify-content: center;
-      align-items: center;
-    }
 
     .script-selector {
       flex-basis: calc(50% - 20px);

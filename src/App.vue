@@ -54,6 +54,7 @@ import GlobalNav from './components/GlobalNav.vue';
   align-items: center;
   height: 100%;
   width: 100%;
+  max-height: 100%;
 }
 
 @media (max-width: 768px) {
