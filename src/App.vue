@@ -19,6 +19,8 @@ import GlobalNav from './components/GlobalNav.vue';
   height: 100%;
   display: grid;
   margin: 0;
+  width: 100vw;
+  height: 100vh;
   grid-template-columns: auto 1fr;
   grid-template-rows: auto 1fr;
   grid-template-areas:
@@ -51,6 +53,8 @@ import GlobalNav from './components/GlobalNav.vue';
   justify-content: center;
   align-items: center;
   height: 100%;
+  width: 100%;
+  max-height: 100%;
 }
 
 @media (max-width: 768px) {

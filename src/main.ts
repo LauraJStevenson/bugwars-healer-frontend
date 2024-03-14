@@ -4,7 +4,7 @@ import App from './App.vue';
 import router from './router';
 import { configureAxios } from './config/axios';
 import { library } from '@fortawesome/fontawesome-svg-core';
-import { faCheck } from '@fortawesome/free-solid-svg-icons';
+import { faCheck, faAngleLeft, faAngleRight } from '@fortawesome/free-solid-svg-icons';
 import { faBars } from '@fortawesome/free-solid-svg-icons';
 import { faX } from '@fortawesome/free-solid-svg-icons';
 import { faUserPlus } from '@fortawesome/free-solid-svg-icons';
@@ -18,7 +18,7 @@ const app = createApp(App);
 app.use(createPinia());
 app.use(router);
 
-library.add(faCheck);
+library.add(faCheck, faAngleLeft, faAngleRight);
 library.add(faBars);
 library.add(faX);
 library.add(faUserPlus);
