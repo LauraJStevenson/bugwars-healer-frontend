@@ -3,10 +3,10 @@
     <div><h1>Script Editor Page</h1></div>
     <div class="wrapper">
       <div class="column1">
-        <label for="scriptName"><h3>Script Name:</h3></label>
-        <input v-model="scriptName" id="scriptName" type="text" placeholder="Enter script name" /><br />
         <label for="multilineInput"><h3>Write Bug Code Here:</h3></label>
         <textarea v-model="scriptText" class="multilineInput" rows="25" cols="35"></textarea><br />
+        <label for="scriptName"><h3>Script Name:</h3></label>
+        <input v-model="scriptName" id="scriptName" type="text" placeholder="Enter script name" /><br />
         <button @click="compileAndSaveScript" class="button">Save Script</button>
         <RouterLink to="/gameplay">
           <button class="button">Play!</button>
@@ -15,33 +15,30 @@
       <div id="bug-code-example" class="column2">
         <label for="immutableTextbox"><h3>Bug Code Looks Like This:</h3></label>
         <textarea id="immutableTextarea" rows="25" cols="35" readonly>
-:LABEL
-#Action Commands (Size 1)#       
-  noop #NoOperation#
-  mov  #MoveForward#
-  rotr #RotateRight#
-  rotl #RotateLeft#
-  att  #Attack#
-  eat  #EatFoodOrBug#
-  
-#Conditional Commands (Size 2)#
-  ifEnemy
-  ifAlly
-  ifFood
-  ifEmpty
-  ifWall
-  goto
+          :LABEL
+          #Action Commands (Size 1)#       
+            noop #NoOperation#
+            mov  #MoveForward#
+            rotr #RotateRight#
+            rotl #RotateLeft#
+            att  #Attack#
+            eat  #EatFoodOrBug#
+          
+          #Conditional Commands (Size 2)#
+            ifEnemy
+            ifAlly
+            ifFood
+            ifEmpty
+            ifWall
+            goto
 
-#Please Note:#
-
-#Action commands may ONLY have one command.#
-#Conditional commands MUST have an Action Command appended.#
-#Declaring a LABEL should have a ':' and the ':' should be the first character of the line.#
-#LABELS can be alphanumeric +_ but they MUST begin with a character.#
-
-#Anything inside of hashtags is a comment.#
-  </textarea
-        >
+          #Please Note:#
+            #Action commands may ONLY have one command.#
+            #Conditional commands MUST have an Action Command appended.#
+            #Declaring a LABEL should have a ':' and the ':' should be the first character of the line.#
+            #LABELS can be alphanumeric +_ but they MUST begin with a character.#
+            #Anything inside of hashtags is a comment.#
+        </textarea>
       </div>
     </div>
   </div>
@@ -62,7 +59,6 @@ const compileAndSaveScript = async () => {
     return;
   }
 
-  // Assuming authStore.user contains the authenticated user's information
   if (!authStore.user || !authStore.user.id) {
     alert('User is not authenticated.');
     return;
@@ -70,15 +66,14 @@ const compileAndSaveScript = async () => {
 
   console.log('User ID:', authStore.user.id);
 
-
   try {
-    // Compile the script
     const compileResponse = await axios.post('/game/compile', { script: scriptText.value });
     if (compileResponse.data) {
-      // Save the compiled script to the user's account
+
       const saveResponse = await axios.post('/scripts/', {
         name: scriptName.value,
-        rawCode: scriptText.value,
+
+        rawCode: scriptText.value.replace(/\r?\n/g, '\n'),
         bytecode: compileResponse.data.compiledScript,
         userId: authStore.user.id,
       });
@@ -98,6 +93,7 @@ const compileAndSaveScript = async () => {
     alert('An error occurred.');
   }
 };
+
 </script>
 
 <style scoped>
@@ -121,6 +117,7 @@ button {
   background-color: rgb(247, 171, 101);
   cursor: pointer;
 }
+
 @media (max-width: 768px) {
   .wrapper {
     grid-template-columns: 1fr; /* Switch to a single column for smaller screens */
