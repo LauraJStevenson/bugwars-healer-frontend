@@ -37,7 +37,7 @@
       </div>
     </div>
 
-    <button @click="startBattle" class="battle-btn">BATTLE!</button>
+    <button @click="assignScriptsAndStartBattle" @click="startBattle" class="battle-btn">BATTLE!</button>
   </div>
 </template>
 
@@ -69,6 +69,7 @@ onMounted(async () => {
     await scriptStore.fetchScriptsByUserId(authStore.user.id);
   }
 });
+
 
 
 // Map
@@ -104,6 +105,19 @@ const mapCharacterToImage: { [key: string]: string | undefined } = {
   );
 });
 
+
+
+// Slider
+
+const updateCurrentTick = () => {
+  gameStore.setCurrentTick(currentTick.value);
+};
+
+
+
+// Scripts
+const scripts = computed(() => scriptStore.scripts);
+
 const scriptCount = computed(() => {
   if (!gameStore.currentMap || !gameStore.currentMap.name) return 0;
 
@@ -120,24 +134,31 @@ const scriptCount = computed(() => {
   }
 });
 
+const assignScriptsAndStartBattle = async () => {
 
-// Slider
+  const response = await fetch('/game/start-battle', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      scripts: selectedScripts.value,
+    }),
+  });
 
-const updateCurrentTick = () => {
-  gameStore.setCurrentTick(currentTick.value);
+  if (response.ok) {
+    // Start battle if successful response
+    gameStore.startBattle();
+  } else {
+    console.error('Failed to start battle');
+  }
 };
-
-
-// Scripts
-const scripts = computed(() => scriptStore.scripts);
-
-/* Need to assign scripts */
 
 
 // Battle Game Play
 
 const startBattle = () => {
-  gameStore.startBattle();
+  gameStore.assignScriptsAndStartBattle();
 };
 
 
