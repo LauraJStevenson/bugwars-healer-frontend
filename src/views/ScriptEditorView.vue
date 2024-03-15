@@ -112,21 +112,52 @@ const compileAndSaveScript = async () => {
 </script>
 
 <style scoped>
+
+.script-editor {
+  margin-bottom: 10px;
+}
 .wrapper {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 50px;
 }
+
 .column1 {
   align-items: center;
 }
+
 h1 {
   text-align: center;
 }
+
+h3 {
+  margin: 5px 0;
+}
+
 textarea {
   border-radius: 5px;
   background-color: rgb(255, 255, 255);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+  outline: none;
+  border: 1px solid black;
 }
+
+textarea:focus {
+  border: 1px solid rgb(212, 120, 44);
+}
+
+input {
+  border-radius: 5px;
+  background-color: rgb(255, 255, 255);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+  outline: none;
+  border: 1px solid black;
+}
+
+input:focus {
+  border: 1px solid rgb(212, 120, 44);
+}
+
 button {
   text-transform: uppercase;
   background-color: rgb(247, 171, 101);
