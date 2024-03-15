@@ -141,6 +141,30 @@
           </li>
         </ul>
       </div>
+
+      <div class="individual-card">
+        <img class="card-photo" src="../../public/images/samantha-img.jpg" />
+        <h1>Samantha Butterfield</h1>
+        <h3>Full Stack Developer</h3>
+        <ul>
+          FrontEnd, Architectural Diagram
+        </ul>
+        <ul>
+          <li>
+            <a class="contact-link" href="hhttps://www.linkedin.com/in/samanthabutterfield/"
+              >LinkedIn</a
+            >
+          </li>
+          <li><a class="contact-link" href="https://github.com/sbutterfield5">GitHub</a></li>
+          <li>
+            <a
+              class="contact-link"
+              href="https://docs.google.com/document/d/1Ea12FlXnIRZx0vSCerngSS-pdmWiwDBlF98lTXoKL5M/edit?usp=sharing"
+              >Resume</a
+            >
+          </li>
+        </ul>
+      </div>
     </div>
   </div>
 </template>

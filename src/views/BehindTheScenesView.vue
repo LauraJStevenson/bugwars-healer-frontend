@@ -15,6 +15,9 @@
         Spring Boot, PostgreSQL, and Vue3 with Typescript. Laura took ownership of the CI/CD
         pipeline and configured our repositories and images with test coverage.
       </p>
+      <section class="diagram-container">
+        <img class="diagram-img" src="../../public/images/architectural-diagram-img.png" />
+      </section>
       <p>
         Once we had our pipeline running, we divided our resources and skills into front-end and
         back-end teams. Yagmur and Kimlyn took ownership of the back-end development, including user
@@ -91,15 +94,18 @@
           -PostgreSQL database accessed via JPA in Spring Boot <br />
           -Amazing graphics & color schemes <br />
           -Every functioning page you see on this site <br />
+          -Increasing our testing <br />
+          -Implementing compiler logic to connect to the ScriptEditor Page <br />
+          -Building the game engine <br />
+
+
+
         </ul>
       </p>
       <p>We are currently working on:
         <ul>
-          -Building the game engine <br />
-          -Increasing our testing <br />
           -Implementing a Content Management System for this page <br />
-          -Implementing compiler logic to connect to the ScriptEditor Page <br />
-          -Building the game!<br />
+          -Making functional gameplay!<br />
           -More robust error handling <br />
 
         </ul>
@@ -139,6 +145,16 @@ p {
   display: flex;
   flex-wrap: wrap;
   justify-content: space-around;
+}
+
+.diagram-container {
+  display: flex;
+  justify-content: center;
+}
+
+.diagram-img {
+  border: 2px solid black;
+  padding: 4px;
 }
 .blog-images {
   border: 2px solid black;
