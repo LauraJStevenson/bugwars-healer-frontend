@@ -1,6 +1,7 @@
 import axios from 'axios';
 
 class ScriptService {
+
     async getScriptsByUserId(userId: any) {
         try {
             const token = localStorage.getItem('token');
