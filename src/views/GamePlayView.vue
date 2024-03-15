@@ -115,6 +115,10 @@ const scriptCount = computed(() => {
       return 2;
     case 'maze':
       return 1;
+    case 'maelstrom':
+      return 2;
+    case 'labyrinth':
+      return 2;
     default:
       return 0;
   }
