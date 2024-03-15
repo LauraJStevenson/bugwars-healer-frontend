@@ -17,7 +17,7 @@
       <div class="game-map">
         <div v-for="(row, rowIndex) in currentMapCells" :key="rowIndex" class="row">
           <div v-for="(cell, cellIndex) in row" :key="cellIndex" class="cell">
-            <img v-if="cell.image" :src="cell.image" :alt="cell.type" :class="{'bug': cell.type === 'Bug', [cell.direction.toLowerCase()]: cell.type === 'Bug'}" />
+            <img v-if="cell.image" :src="cell.image" :alt="cell.type" :class="{'bug': cell.type === 'Bug', [(cell.direction || '').toLowerCase()]: cell.type === 'Bug'}" />
           </div>
         </div>
       </div>
@@ -37,7 +37,7 @@
       </div>
     </div>
 
-    <button @click="assignScriptsAndStartBattle" @click="startBattle" class="battle-btn">BATTLE!</button>
+    <button @click="startBattle" class="battle-btn">BATTLE!</button>
   </div>
 </template>
 
@@ -47,14 +47,6 @@ import { computed, onMounted, ref } from 'vue';
 import { useGameStore } from '../stores/gameStore';
 import { useScriptStore } from '../stores/scriptStore';
 import { useAuthStore } from '../stores/auth';
-import blueBugImage from '../assets/bugs/blue/Blue_Up.png';
-import redBugImage from '../assets/bugs/red/Red_Up.png';
-import greenBugImage from '../assets/bugs/green/Green_Up.png';
-import yellowBugImage from '../assets/bugs/yellow/Yellow_Up.png';
-import foodImage from '../assets/apple/Apple.png';
-import wallImage from '../assets/map/wall/Wall.png';
-import floorImage from '../assets/map/floor/Floor.png'
-import treasureImage from '../assets/treasure/Treasure_.png';
 
 const gameStore = useGameStore();
 const scriptStore = useScriptStore();
@@ -81,29 +73,8 @@ const nextMap = () => {
   gameStore.nextMap();
 };
 
-const mapCharacterToImage: { [key: string]: string | undefined } = {
-  'X': wallImage,
-  'a': redBugImage,
-  'b': blueBugImage, 
-  'c': greenBugImage, 
-  'd': yellowBugImage, 
-  'f': foodImage,
-  't': treasureImage,
-  ' ': floorImage,
-};
 
-  const currentMapCells = computed(() => {
-  if (!gameStore.currentMap || !gameStore.currentMap.serialization) return [];
-  return gameStore.currentMap.serialization.split('\n').map((row, rowIndex) =>
-    row.split('').map((char, colIndex) => ({
-      x: colIndex,
-      y: rowIndex,
-      type: char,
-      image: mapCharacterToImage[char] || undefined,
-      direction: char === 'a' ? 'N' : char === 'b' ? 'E' : char === 'c' ? 'S' : 'W'
-    }))
-  );
-});
+const currentMapCells = computed(() => gameStore.currentMapCells);
 
 
 
@@ -134,31 +105,11 @@ const scriptCount = computed(() => {
   }
 });
 
-const assignScriptsAndStartBattle = async () => {
-
-  const response = await fetch('/game/start-battle', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({
-      scripts: selectedScripts.value,
-    }),
-  });
-
-  if (response.ok) {
-    // Start battle if successful response
-    gameStore.startBattle();
-  } else {
-    console.error('Failed to start battle');
-  }
-};
-
 
 // Battle Game Play
 
-const startBattle = () => {
-  gameStore.assignScriptsAndStartBattle();
+const startBattle = async () => {
+  await gameStore.assignScriptsAndStartBattle(selectedScripts.value);
 };
 
 

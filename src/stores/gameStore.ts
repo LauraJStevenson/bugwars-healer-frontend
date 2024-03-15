@@ -1,8 +1,17 @@
 import { defineStore } from 'pinia';
 import axios from 'axios';
+import blueBugImage from '../assets/bugs/blue/Blue_Up.png';
+import redBugImage from '../assets/bugs/red/Red_Up.png';
+import greenBugImage from '../assets/bugs/green/Green_Up.png';
+import yellowBugImage from '../assets/bugs/yellow/Yellow_Up.png';
+import foodImage from '../assets/apple/Apple.png';
+import wallImage from '../assets/map/wall/Wall.png';
+import floorImage from '../assets/map/floor/Floor.png'
+import treasureImage from '../assets/treasure/Treasure_.png';
+import type { CellType, ExtendedCell, GameMap, GameState } from '@/types';
 
 export const useGameStore = defineStore('game', {
-    state: () => ({
+    state: (): GameState => ({
         maps: [],
         currentMapIndex: 0,
         currentMap: null,
@@ -10,14 +19,28 @@ export const useGameStore = defineStore('game', {
         ticks: 0,
         currentTick: 0,
         scores: { team1: 0, team2: 0 },
-        gameMaps: [],
     }),
+
+    getters: {
+        currentMapCells: (state): ExtendedCell[][] => {
+            if (!state.currentMap || !state.currentMap.serialization) return [];
+            return state.currentMap.serialization.split('\n').map((row, rowIndex) =>
+                row.split('').map((char, colIndex): ExtendedCell => ({
+                    x: colIndex,
+                    y: rowIndex,
+                    type: char as CellType,
+                    image: mapCharacterToImage[char] || undefined,
+                    direction: char === 'a' ? 'N' : char === 'b' ? 'E' : char === 'c' ? 'S' : 'W'
+                }))
+            );
+        }
+    },
 
     actions: {
         async fetchMaps() {
             try {
                 const response = await axios.get('/maps/');
-                this.maps = response.data;
+                this.maps = response.data as GameMap[];
                 this.currentMap = this.maps.length > 0 ? this.maps[0] : null;
             } catch (error) {
                 console.error('Failed to fetch maps:', error);
@@ -44,39 +67,38 @@ export const useGameStore = defineStore('game', {
                 return;
             }
 
+            console.log('Selected scripts:', selectedScripts);
+            console.log('Available scripts:', this.scripts);
+
             const selectedMap = this.currentMap.name;
-            const selectedScriptIndexes = selectedScripts.map(index => {
+            const selectedScriptBytecodes = selectedScripts.map(index => {
                 const script = this.scripts[index];
-                if (!script || typeof script.compiledScript === 'undefined') {
-                    console.error(`Script at index ${index} is not defined or does not have a compiledScript property`);
+                if (!script || !script.bytecode) {
+                    console.error(`Script at index ${index} is not defined or does not have a bytecode property. Script:`, script);
                     return [];
                 }
-                return script.compiledScript;
+                return script.bytecode;
             });
+
+            console.log('Selected script bytecodes:', selectedScriptBytecodes);
 
             const requestBody = {
                 map: selectedMap,
-                script1: selectedScriptIndexes[0] || [],
-                script2: selectedScriptIndexes[1] || [],
-                script3: selectedScriptIndexes[2] || [],
-                script4: selectedScriptIndexes[3] || [],
+                script1: selectedScriptBytecodes[0] || [],
+                script2: selectedScriptBytecodes[1] || [],
+                script3: selectedScriptBytecodes[2] || [],
+                script4: selectedScriptBytecodes[3] || [],
                 ticks: this.ticks,
             };
 
             try {
                 const response = await axios.post('/api/v1/game/start', requestBody);
-                if (response.status === 200) {
-                    this.setGameMaps(response.data);
-                } else {
-                    console.error('Failed to start battle');
+                if (response.status != 200) {
+                    console.error('Failed to start battle, response:', response);
                 }
             } catch (error) {
                 console.error('Error starting battle:', error);
             }
-        },
-
-        setGameMaps(gameMaps) {
-            this.gameMaps = gameMaps;
         },
 
         setCurrentTick(tick: number) {
@@ -89,3 +111,14 @@ export const useGameStore = defineStore('game', {
 
     },
 });
+
+const mapCharacterToImage: { [key: string]: string | undefined } = {
+    'X': wallImage,
+    'a': redBugImage,
+    'b': blueBugImage,
+    'c': greenBugImage,
+    'd': yellowBugImage,
+    'f': foodImage,
+    't': treasureImage,
+    ' ': floorImage,
+};

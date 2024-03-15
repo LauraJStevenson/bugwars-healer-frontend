@@ -39,7 +39,7 @@ export type Script = {
   id: number;
   name: string;
   raw: string;
-  bytecode: string;
+  bytecode: number[];
   isBytecodeValid: boolean;
 };
 
