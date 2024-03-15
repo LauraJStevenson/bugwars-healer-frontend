@@ -31,8 +31,17 @@
 
     <div class="script-selections">
       <div class="script-selector" v-for="index in scriptCount" :key="index">
-        <select v-model="selectedScripts[index]" :id="'selectedScriptIndex' + index">
+        <!-- <select v-model="selectedScripts[index]" :id="'selectedScriptIndex' + index">
           <option v-for="(script, index) in scripts" :key="index" :value="index">{{ script.name }}</option>
+        </select> -->
+        <!-- <select v-model="selectedScripts[index]" :id="'selectedScriptIndex' + index">
+          <option v-for="(script, scriptIndex) in scripts" :key="scriptIndex" :value="scriptIndex">{{ script.name }}</option>
+        </select> -->
+
+        <select v-model="selectedScripts[index]" :key="index">
+          <option v-for="(script, scriptIndex) in scripts" :key="scriptIndex" :value="scriptIndex">
+            {{ script.name }}
+          </option>
         </select>
       </div>
     </div>
@@ -109,7 +118,8 @@ const scriptCount = computed(() => {
 // Battle Game Play
 
 const startBattle = async () => {
-  await gameStore.assignScriptsAndStartBattle(selectedScripts.value);
+  const selectedScriptObjects = selectedScripts.value.map(index => scriptStore.scripts[index]);
+  await gameStore.assignScriptsAndStartBattle(selectedScriptObjects);
 };
 
 

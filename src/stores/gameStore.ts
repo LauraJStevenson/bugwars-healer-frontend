@@ -61,26 +61,20 @@ export const useGameStore = defineStore('game', {
             }
         },
 
-        async assignScriptsAndStartBattle(selectedScripts: number[]) {
+        async assignScriptsAndStartBattle(selectedScripts: any[]) {
             if (!this.currentMap) {
                 console.error('No current map selected');
                 return;
             }
 
-            console.log('Selected scripts:', selectedScripts);
-            console.log('Available scripts:', this.scripts);
-
             const selectedMap = this.currentMap.name;
-            const selectedScriptBytecodes = selectedScripts.map(index => {
-                const script = this.scripts[index];
+            const selectedScriptBytecodes = selectedScripts.map(script => {
                 if (!script || !script.bytecode) {
-                    console.error(`Script at index ${index} is not defined or does not have a bytecode property. Script:`, script);
+                    console.error(`Script is not defined or does not have a bytecode property. Script:`, script);
                     return [];
                 }
                 return script.bytecode;
             });
-
-            console.log('Selected script bytecodes:', selectedScriptBytecodes);
 
             const requestBody = {
                 map: selectedMap,
@@ -92,14 +86,15 @@ export const useGameStore = defineStore('game', {
             };
 
             try {
-                const response = await axios.post('/api/v1/game/start', requestBody);
-                if (response.status != 200) {
+                const response = await axios.post('/game/start', requestBody);
+                if (response.status !== 200) {
                     console.error('Failed to start battle, response:', response);
                 }
             } catch (error) {
                 console.error('Error starting battle:', error);
             }
         },
+
 
         setCurrentTick(tick: number) {
             this.currentTick = tick;
