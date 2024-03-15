@@ -1,19 +1,33 @@
 <template>
   <div class="script-editor">
-    <div><h1>Script Editor Page</h1></div>
+
+    <div>
+      <h1>Script Editor Page</h1>
+    </div>
+
     <div class="wrapper">
+
       <div class="column1">
+
         <label for="multilineInput"><h3>Write Bug Code Here:</h3></label>
-        <textarea v-model="scriptText" class="multilineInput" rows="25" cols="35"></textarea><br />
+        
+        <textarea v-model="scriptText" id="multilineInput" rows="25" cols="35" name="multilineInput"></textarea><br />
+
         <label for="scriptName"><h3>Script Name:</h3></label>
+
         <input v-model="scriptName" id="scriptName" type="text" placeholder="Enter script name" /><br />
+
         <button @click="compileAndSaveScript" class="button">Save Script</button>
+
         <RouterLink to="/gameplay">
           <button class="button">Play!</button>
         </RouterLink>
+
       </div>
       <div id="bug-code-example" class="column2">
-        <label for="immutableTextbox"><h3>Bug Code Looks Like This:</h3></label>
+
+        <label for="immutableTextarea"><h3>Bug Code Looks Like This:</h3></label>
+
         <textarea id="immutableTextarea" rows="25" cols="35" readonly>
           :LABEL
           #Action Commands (Size 1)#       
@@ -39,6 +53,7 @@
             #LABELS can be alphanumeric +_ but they MUST begin with a character.#
             #Anything inside of hashtags is a comment.#
         </textarea>
+
       </div>
     </div>
   </div>
@@ -117,6 +132,7 @@ button {
   background-color: rgb(247, 171, 101);
   cursor: pointer;
   margin-top: 10px;
+  margin-right: 10px;
 }
 
 @media (max-width: 768px) {
