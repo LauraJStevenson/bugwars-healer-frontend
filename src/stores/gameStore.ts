@@ -45,38 +45,38 @@ export const useGameStore = defineStore('game', {
         },
 
         // Method to initialize the scripts
-        initializeScripts(scripts: Script[]) {
-            // Needs actual logic... Not complete... 
-            this.scripts = scripts;
-        },
+        // initializeScripts(scripts: Script[]) {
+        // Needs actual logic... Not complete... 
+        //     this.scripts = scripts;
+        // },
 
         // Method to set script for battle
         //Not complete.... Needs finished....
-        setScriptForBug(bugId: number, script: number[]) {
-            for (const row of this.map.cells) {
-                for (const cell of row) {
-                    if (isBug(cell) && cell.scriptIndex === bugId) {
-                        cell.bugScript = script;
-                        return;
-                    }
-                }
-            }
-        },
+        // setScriptForBug(bugId: number, script: number[]) {
+        //     for (const row of this.map.cells) {
+        //         for (const cell of row) {
+        //             if (isBug(cell) && cell.scriptIndex === bugId) {
+        //                 cell.bugScript = script;
+        //                 return;
+        //             }
+        //         }
+        //     }
+        // },
 
         //Method to start battle simulation
-        async startBattle() {
-            this.ticks += 1;
-        },
+        // async startBattle() {
+        //     this.ticks += 1;
+        // },
 
         // Method to set the current tick (when the slider is moved)
-        setCurrentTick(tick: number) {
-            this.currentTick = tick;
-            // Create the logic to uppdate the map state based on the tick?? Not complete...
-        },
+        // setCurrentTick(tick: number) {
+        //     this.currentTick = tick;
+        // Create the logic to uppdate the map state based on the tick?? Not complete...
+        // },
 
         // Method to update scores
-        updateScores() {
-            // Update this.scores based on the current game state?? Not complete... 
-        },
+        // updateScores() {
+        // Update this.scores based on the current game state?? Not complete... 
+        // },
     },
 });

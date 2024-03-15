@@ -124,7 +124,7 @@ const scriptCount = computed(() => {
 // Slider
 
 const updateCurrentTick = () => {
-  gameStore.setCurrentTick(currentTick.value);
+  // gameStore.setCurrentTick(currentTick.value);
 };
 
 
@@ -137,7 +137,7 @@ const scripts = computed(() => scriptStore.scripts);
 // Battle Game Play
 
 const startBattle = () => {
-  gameStore.startBattle();
+  // gameStore.startBattle();
 };
 
 

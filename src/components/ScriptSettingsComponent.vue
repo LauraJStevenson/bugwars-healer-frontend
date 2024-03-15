@@ -237,6 +237,7 @@ ul {
   border: none;
   font-size: .9em;
   cursor: pointer;
+  background-color: transparent;
 }
 
 /** Name Edit Input Box */
