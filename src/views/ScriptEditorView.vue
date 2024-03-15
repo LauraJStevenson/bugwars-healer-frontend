@@ -116,6 +116,7 @@ button {
   text-transform: uppercase;
   background-color: rgb(247, 171, 101);
   cursor: pointer;
+  margin-top: 10px;
 }
 
 @media (max-width: 768px) {
