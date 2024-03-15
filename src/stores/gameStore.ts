@@ -86,5 +86,6 @@ export const useGameStore = defineStore('game', {
         updateScores() {
             // Update this.scores based on the current game state
         },
+
     },
 });
