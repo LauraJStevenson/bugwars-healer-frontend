@@ -1,97 +1,63 @@
 <template>
-  <div class="game-lobby">
-    <h1>Choose Your Bug</h1>
-  </div>
-  <div class="bug-card-collection">
-    <div class="individual-bug-card">
-      <img class="bug-card-photo" src="../../public/images/Blue-Bug.png" />
-      <h1>Blue Bug</h1>
-      <h3>Blue Bug Abilities</h3>
-      <label for="option1">
-        <input type="radio" id="option1" name="options" />
-        Choose this bug!
-      </label>
-    </div>
-    <div class="individual-bug-card">
-      <img class="bug-card-photo" src="../../public/images/Green-Bug.png" />
-      <h1>Green Bug</h1>
-      <h3>Green Bug Abilities</h3>
-      <label for="option2">
-        <input type="radio" id="option2" name="options" />
-        Choose this bug!
-      </label>
-    </div>
-    <div class="individual-bug-card">
-      <img class="bug-card-photo" src="../../public/images/Yellow-Bug.png" />
-      <h1>Yellow Bug</h1>
-      <h3>Yellow Bug Abilities</h3>
-      <label for="option3">
-        <input type="radio" id="option3" name="options" />
-        Choose this bug!
-      </label>
-    </div>
-    <div class="individual-bug-card">
-      <img class="bug-card-photo" src="../../public/images/Red-Bug.png" />
-      <h1>Red Bug</h1>
-      <h3>Red Bug Abilities</h3>
-      <label for="option4">
-        <input type="radio" id="option4" name="options" />
-        Choose this bug!
-      </label>
-    </div>
-  </div>
-  <div>
-    <h1>Or Make Your Own</h1>
-    <div class="individual-bug-card">
-      <img class="bug-card-photo" src="../../public/images/QuestionMark.png" />
-      <h1>Custom Bug</h1>
-      <div>
-        <RouterLink to="scripteditor">
-          <button type="submit">Choose Your Abilities</button>
-        </RouterLink>
+  <div id="app" class="game-lobby">
+    <div id="card-collection" class="bug-card-collection">
+      <div id="card" class="individual-bug-card">
+        <h1>Play With Our Scripts</h1>
+        <img :src="randomImage" alt="Random Bug Image" class="bug-card-photo" />
+        <p>
+          <RouterLink to="/gameplay">
+            <button type="submit">I'm Ready to Play!</button>
+          </RouterLink>
+        </p>
       </div>
-      <p>
-        <label for="option1">
-          <input type="radio" id="option5" name="options" />
-          Choose this bug!
-        </label>
-      </p>
+      <div class="individual-bug-card">
+        <h1>Write Your Own Script</h1>
+        <img class="bug-card-photo" src="../../public/images/QuestionMark.png" />
+        <div>
+          <p>
+            <RouterLink to="scripteditor">
+              <button type="submit">Write Your Script</button>
+            </RouterLink>
+          </p>
+        </div>
+      </div>
     </div>
   </div>
-  <p class="gameplay-link"><RouterLink to="/gameplay">I'm Ready to Play!</RouterLink></p>
 </template>
 
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import { computed, ref } from 'vue';
+
+const images = ref([
+  '../../public/images/Blue-Bug.png',
+  '../../public/images/Red-Bug.png',
+  '../../public/images/Green-Bug.png',
+  '../../public/images/Yellow-Bug.png',
+  // Add more image URLs as needed
+]);
+
+const randomIndex = ref<number | null>(null);
+
+const randomImage = computed(() => {
+  if (randomIndex.value !== null) {
+    return images.value[randomIndex.value];
+  } else {
+    return '';
+  }
+});
+
+randomIndex.value = Math.floor(Math.random() * images.value.length);
+</script>
 
 <style scoped>
-.game-lobby {
-  padding: 50px;
-}
 h1 {
   text-align: center;
 }
-.lobby-placeholder-logo {
-  display: block;
-  margin-left: auto;
-  margin-right: auto;
-  width: 20%;
-  height: auto;
-  justify-content: center;
-  align-items: center;
-}
-.gameplay-link {
-  font-family: 'Space Mono', Arial, Helvetica, sans-serif;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-}
 .bug-card-photo {
-  width: 200px;
-  height: 200px;
+  width: 240px;
+  height: 240px;
   flex-shrink: 0;
   border-radius: 5px;
-
   margin: 5px;
 }
 .bug-card-collection {
@@ -108,13 +74,15 @@ h1 {
   align-items: center;
   padding: 15px;
   margin: 15px;
-  width: 345px;
-  height: 530px;
+  width: 325px;
+  height: 510px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
 }
 button {
   text-transform: uppercase;
   background-color: rgb(247, 171, 101);
   cursor: pointer;
+  width: 200px;
+  height: 30px;
 }
 </style>
