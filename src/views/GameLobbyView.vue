@@ -12,7 +12,7 @@
       </div>
       <div class="individual-bug-card">
         <h1>Write Your Own Script</h1>
-        <img class="bug-card-photo" src="../../public/images/QuestionMark.png" />
+        <img class="bug-card-photo" src="/images/QuestionMark.png" />
         <div>
           <p>
             <RouterLink to="scripteditor">
@@ -29,10 +29,10 @@
 import { computed, ref } from 'vue';
 
 const images = ref([
-  '../../public/images/Blue-Bug.png',
-  '../../public/images/Red-Bug.png',
-  '../../public/images/Green-Bug.png',
-  '../../public/images/Yellow-Bug.png',
+  '/images/Blue-Bug.png',
+  '/images/Red-Bug.png',
+  '/images/Green-Bug.png',
+  '/images/Yellow-Bug.png',
   // Add more image URLs as needed
 ]);
 
