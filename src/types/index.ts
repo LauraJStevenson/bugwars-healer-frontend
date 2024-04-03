@@ -1,3 +1,5 @@
+// User login/register types
+
 export type User = {
   id: number;
   username: string;
@@ -5,6 +7,7 @@ export type User = {
   lastname: string;
   email: string;
   roles?: string[];
+  scripts: Script[];
 };
 
 export type LoginDto = {
@@ -24,6 +27,9 @@ export type ParseDto = {
   code: string;
 };
 
+
+//Script types
+
 export type ScriptDto = {
   name: string;
   raw: string;
@@ -36,3 +42,55 @@ export type Script = {
   bytecode: string;
   isBytecodeValid: boolean;
 };
+
+
+// Map types
+
+export type CellType = 'Bug' | 'Treasure' | 'EmptySpace' | 'Food' | 'Wall' | 'Floor';
+
+export type Cell = {
+  x: number;
+  y: number;
+  type: CellType;
+};
+
+export type Bug = Cell & {
+  type: 'Bug';
+  direction: 'N' | 'S' | 'E' | 'W';
+  scriptIndex: number;
+  bugScript?: number[];
+};
+
+export type ExtendedCell = Cell & {
+  image?: string;
+  direction?: string;
+};
+
+export type Treasure = Cell & { type: 'Treasure' };
+export type Floor = Cell & { type: 'Floor' };
+export type EmptySpace = Cell & { type: 'EmptySpace' };
+export type Food = Cell & { type: 'Food' };
+export type Wall = Cell & { type: 'Wall' };
+
+
+export type GameMap = {
+  cells: Cell[][];
+  serialization: string;
+  name: string;
+};
+
+export type UpdateMapDto = {
+};
+
+// Game play types
+
+export type GameState = {
+  maps: GameMap[];
+  currentMapIndex: number;
+  currentMap: GameMap | null;
+  scripts: Script[];
+  ticks: number;
+  currentTick: number;
+  scores: { team1: number; team2: number };
+};
+

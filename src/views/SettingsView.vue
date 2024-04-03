@@ -17,13 +17,14 @@
     </div>
 
     <div class="change-properties-div">
-      <!-- Spans to display messages */ -->
+
+      <!-- Span to display messages */ -->
       <div class="messages">
-        <span v-if="validationError" class="error-message">{{ validationError }}</span>
-        <span v-if="successMessage" class="success-message">{{ successMessage }}</span>
+        <span :class="messageClass" class="messageSpan">{{ displayMessage }}</span>
       </div>
 
-      <div class="form-group">
+      <!-- Change Password Form -->
+      <div class="form-group" id="password-group">
         <label for="change-password">Change Password:</label>
         <input
           type="password"
@@ -31,13 +32,42 @@
           placeholder="Enter new password"
           v-model="newPassword"
         />
-        <button @click="updatePassword" type="submit" class="submit-btn">Submit</button>
+        <p>
+        <input
+          type="password"
+          id="confirm-password"
+          placeholder="Confirm new password"
+          v-model="confirmPassword"
+        />
+        <button @click="updatePassword" type="submit" class="submit-btn" :disabled="!isPasswordValid">Submit</button>
+
+      </p>
       </div>
+
+      <!-- Password Requirements Div -->
+      <div class="password-requirements">
+        <ul class="password-requirements-list">
+          <li :class="{'text-success': passwordValidations.minLength}">
+            <font-awesome-icon icon="check" v-if="passwordValidations.minLength" class="fa-icon" /> 8 characters minimum
+          </li>
+          <li :class="{'text-success': passwordValidations.number}">
+            <font-awesome-icon icon="check" v-if="passwordValidations.number" class="fa-icon" /> Contains a number
+          </li>
+          <li :class="{'text-success': passwordValidations.uppercase}">
+            <font-awesome-icon icon="check" v-if="passwordValidations.uppercase" class="fa-icon" /> Contains an uppercase letter
+          </li>
+          <li :class="{'text-success': newPassword === confirmPassword && newPassword !== ''}">
+      <font-awesome-icon icon="check" v-if="newPassword === confirmPassword && newPassword !== ''" class="fa-icon" /> Passwords match
+    </li>
+        </ul>
+      </div>
+
+
 
       <div class="form-group">
         <label for="change-email">Change Email:</label>
         <input type="email" id="change-email" placeholder="Enter new email" v-model="newEmail" />
-        <button @click="updateEmail" type="submit" class="submit-btn">Submit</button>
+        <button @click="updateEmail" type="submit" class="submit-btn email-submit">Submit</button>
       </div>
 
       <div class="form-group">
@@ -78,7 +108,7 @@
     <p><br /></p>
 
     <div class="form-group delete-option">
-      <label for="delete-account">Want to delete your account?</label>
+      <label for="delete-btn">Want to delete your account?</label>
       <button @click="deleteUserAccount" type="submit" id="delete-btn">
         {{ deleteClicked ? 'CONFIRM' : 'DELETE' }}
       </button>
@@ -88,28 +118,26 @@
 </template>
 
 <script setup lang="ts">
-import { ref, watch, nextTick, computed } from 'vue';
+import { ref, watch, nextTick, computed, reactive } from 'vue';
 import { useAuthStore } from '../stores/auth';
 import UserService from '../services/userService';
 import { useRouter } from 'vue-router';
 import ScriptSettingsComponent from '../components/ScriptSettingsComponent.vue';
+import validationService from '../services/validationService'
 
 /* Define refs for new values */
 const newPassword = ref('');
+const confirmPassword = ref('');
 const newEmail = ref('');
 const newFirstName = ref('');
 const newLastName = ref('');
 const validationError = ref('');
 const successMessage = ref('');
 const router = useRouter();
-const { isAuthenticated } = useAuthStore();
 const authStore = useAuthStore();
 const user = computed(() => authStore.user);
-const logout = useAuthStore().logout;
 const deleteClicked = ref(false);
 
-/* USERNAME IS TIED TO JWT TOKEN AND WOULD NEED A TOKEN REFRESH. LEAVING OUT OPTION TO CHANGE IT FOR NOW- */
-// const newUsername = ref('');
 
 /* Watchers for adding fade-in/fade-out animations and timeouts to error and success spans */
 watch(successMessage, (newValue: string) => {
@@ -154,113 +182,133 @@ watch(validationError, (newValue: string) => {
   }
 });
 
-/* Validation and update methods for inputs */
+const displayMessage = computed(() => {
+  return successMessage.value || validationError.value;
+});
 
-// Validation method for password
+const messageClass = computed(() => {
+  if (successMessage.value) return 'success-message fade-in';
+  if (validationError.value) return 'error-message fade-in';
+  return '';
+});
 
-// Constraints are not set up yet on backend. Once implemented on backend, validation will need to be added for password constraints.
+
+/* Update methods for inputs */
 
 // Method to update password
 const updatePassword = async () => {
-  try {
-    if (newPassword.value) {
-      await UserService.updateUser(user.value.id, { password: newPassword.value });
-      successMessage.value = 'Password updated successfully!';
-      newPassword.value = '';
+  if (isPasswordValid.value && newPassword.value) {
+    try {
+      const response = await UserService.updatePassword(user.value.id, newPassword.value);
+      if (response.status === 200) {
+        successMessage.value = 'Password updated successfully!';
+        newPassword.value = '';
+      } else {
+        throw new Error('Update failed');
+      }
+    } catch (error) {
+      console.error('An error occurred: ', error);
+      validationError.value = 'Failed to update password.';
     }
-  } catch (error) {
-    console.error('An error occurred: ', error);
-    validationError.value = 'Failed to update password.';
   }
 };
 
-// Validation method for email
-const validateEmail = () => {
-  const emailRegex = /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/;
+// This is linked to the password submit button. Button will be greyed out until constraint requirements are met.
+const isPasswordValid = computed(() => {
+  const passwordsMatch = newPassword.value === confirmPassword.value && newPassword.value !== '';
+  return passwordsMatch &&
+         passwordValidations.minLength &&
+         passwordValidations.number &&
+         passwordValidations.uppercase;
+});
 
-  if (newEmail.value.length < 5 || newEmail.value.length > 50) {
-    validationError.value = 'Username must be between 5 and 50 characters.';
-    return false;
-  }
+// Reactive property for password validation status
+const passwordValidations = reactive({
+  minLength: false,
+  number: false,
+  uppercase: false,
+});
 
-  // Check if the email matches the regex
-  if (!emailRegex.test(newEmail.value)) {
-    validationError.value = 'Please enter a valid email address.';
-    return false;
-  }
+// Watch new password field for changes and validate it
+watch(newPassword, (newValue) => {
+  passwordValidations.minLength = newValue.length >= 8;
+  passwordValidations.number = /\d/.test(newValue);
+  passwordValidations.uppercase = /[A-Z]/.test(newValue);
+});
 
-  return true;
-};
+
 
 // Method to update email
 const updateEmail = async () => {
-  if (validateEmail()) {
+  const emailError = validationService.validateEmail(newEmail.value);
+  if (emailError === '') {
     try {
-      const response = await UserService.updateUser(user.value.id, { email: newEmail.value });
-      user.value.email = response.data.email;
-      successMessage.value = 'Email updated successfully!';
-      user.value.email = newEmail.value;
-      newEmail.value = '';
+      const response = await UserService.updateEmail(user.value.id, newEmail.value);
+      if (response && response.data) {
+        authStore.updateUserDetails({ email: newEmail.value });
+        successMessage.value = 'Email updated successfully!';
+        newEmail.value = '';
+      } else {
+        throw new Error('Failed to update email.');
+      }
     } catch (error) {
       console.error('An error occurred: ', error);
       validationError.value = 'Failed to update email.';
     }
+  } else {
+    validationError.value = emailError;
   }
 };
 
-// Validation method for first name
-const validateFirstName = () => {
-  if (newFirstName.value.length < 2 || newFirstName.value.length > 15) {
-    validationError.value = 'First name must be between 2 and 15 characters.';
-    return false;
-  }
-  return true;
-};
+
 
 // Method to update first name
 const updateFirstName = async () => {
-  if (validateFirstName()) {
+  const firstNameError = validationService.validateFirstName(newFirstName.value);
+  if (firstNameError === '') {
     try {
-      const response = await UserService.updateUser(user.value.id, {
-        firstname: newFirstName.value,
-      });
-      user.value.firstname = response.data.firstname;
-      successMessage.value = 'First name updated successfully!';
-      user.value.firstname = newFirstName.value;
-      newFirstName.value = '';
+      const response = await UserService.updateFirstName(user.value.id, newFirstName.value);
+      if (response && response.data) {
+        successMessage.value = 'First name updated successfully!';
+        authStore.updateUserDetails({ firstname: newFirstName.value });
+        newFirstName.value = '';
+      } else {
+        throw new Error('Failed to update first name.');
+      }
     } catch (error) {
       console.error('An error occurred: ', error);
       validationError.value = 'Failed to update first name.';
     }
+  } else {
+    validationError.value = firstNameError;
   }
 };
 
-// Validation method for last name
-const validateLastName = () => {
-  if (newLastName.value.length < 2 || newLastName.value.length > 15) {
-    validationError.value = 'Last name must be between 2 and 15 characters.';
-    return false;
-  }
-  return true;
-};
+
 
 // Method to update last name
 const updateLastName = async () => {
-  if (validateLastName()) {
+  const lastNameError = validationService.validateLastName(newLastName.value);
+  if (lastNameError === '') {
     try {
-      const response = await UserService.updateUser(user.value.id, { lastname: newLastName.value });
-      user.value.lastname = response.data.lastname;
-      successMessage.value = 'Last name updated successfully!';
-      user.value.lastname = newLastName.value;
-      newLastName.value = '';
+      const response = await UserService.updateLastName(user.value.id, newLastName.value);
+      if (response && response.data) {
+        successMessage.value = 'Last name updated successfully!';
+        authStore.updateUserDetails({ lastname: newLastName.value });
+        newLastName.value = '';
+      } else {
+        throw new Error('Failed to update last name.');
+      }
     } catch (error) {
       console.error('An error occurred: ', error);
       validationError.value = 'Failed to update last name.';
     }
+  } else {
+    validationError.value = lastNameError;
   }
-
-  /* USERNAME IS TIED TO JWT TOKEN AND WOULD NEED A TOKEN REFRESH. LEAVING OUT OPTION TO CHANGE IT FOR NOW- */
 };
+
+
 
 /*  Method to delete user account */
 const deleteUserAccount = async () => {
@@ -269,14 +317,14 @@ const deleteUserAccount = async () => {
   } else {
     try {
       await UserService.deleteUser(user.value.id);
-      logout();
-      router.push({ name: 'login', query: { accountDeleted: 'true' } });
+      await authStore.logout(router);
     } catch (error) {
       console.error('An error occurred during account deletion: ', error);
       validationError.value = 'Failed to delete account.';
     }
   }
 };
+
 </script>
 
 <style scoped>
@@ -376,7 +424,8 @@ select {
 #change-username,
 #change-name,
 #change-firstname,
-#change-lastname {
+#change-lastname,
+#confirm-password {
   height: 2.5em;
   width: 15em;
   border-radius: 5px;
@@ -387,6 +436,7 @@ select {
 
 .submit-btn {
   margin-left: 5px;
+  width: 70px;
 }
 
 button {
@@ -473,5 +523,46 @@ span.warning-message {
   to {
     opacity: 0;
   }
+}
+
+/** Password group and requirements styling */
+
+#password-group {
+  margin-bottom: 0px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  width: 100%;
+}
+
+.password-requirements-list {
+  list-style-type: none;
+  padding: 0px;
+}
+
+.password-requirements {
+  color: gray;
+  font-size: .8em;
+  margin-bottom: 10px;
+  font-weight: bold;;
+}
+
+#password-group > p {
+  margin-bottom: 0;
+}
+
+.text-success {
+  color: #1ea749;
+}
+
+.fa-icon {
+  color: #1ea749;
+  margin-right: 5px;
+}
+
+.password-requirements-list li {
+  display: flex;
+  align-items: center;
 }
 </style>

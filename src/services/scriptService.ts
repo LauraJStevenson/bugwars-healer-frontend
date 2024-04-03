@@ -1,7 +1,8 @@
 import axios from 'axios';
 
 class ScriptService {
-    static getScriptsByUserId(userId: any) {
+
+    async getScriptsByUserId(userId: any) {
         try {
             const token = localStorage.getItem('token');
 
@@ -20,7 +21,7 @@ class ScriptService {
         }
     }
 
-    static getScript(scriptId: any) {
+    async getScript(scriptId: any) {
         try {
             const token = localStorage.getItem('token');
 
@@ -39,7 +40,7 @@ class ScriptService {
         }
     }
 
-    static createScript(scriptData: any) {
+    async createScript(scriptData: any) {
         try {
             const token = localStorage.getItem('token');
 
@@ -58,7 +59,7 @@ class ScriptService {
         }
     }
 
-    static updateScript(scriptId: any, scriptData: any) {
+    async updateScript(scriptId: number, scriptData: any) {
         try {
             const token = localStorage.getItem('token');
 
@@ -66,18 +67,20 @@ class ScriptService {
                 throw new Error('No token found');
             }
 
-            return axios.put(`scripts/${scriptId}`, scriptData, {
+            const response = await axios.patch(`/scripts/${scriptId}`, scriptData, {
                 headers: {
-                    Authorization: `Bearer ${token}`,
-                },
+                    'Authorization': `Bearer ${token}`
+                }
             });
+
+            return response;
         } catch (error) {
             console.error('Error updating script:', error);
             throw error;
         }
     }
 
-    static deleteScript(scriptId: any) {
+    async deleteScript(scriptId: any) {
         try {
             const token = localStorage.getItem('token');
 
@@ -97,4 +100,4 @@ class ScriptService {
     }
 }
 
-export default ScriptService;
+export default new ScriptService();

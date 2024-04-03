@@ -48,6 +48,22 @@ class UserService {
             throw error;
         }
     }
+
+    async updatePassword(userId: any, newPassword: any) {
+        return this.updateUser(userId, { password: newPassword });
+    }
+
+    async updateEmail(userId: any, newEmail: any) {
+        return this.updateUser(userId, { email: newEmail });
+    }
+
+    async updateFirstName(userId: any, newFirstName: any) {
+        return this.updateUser(userId, { firstname: newFirstName });
+    }
+
+    async updateLastName(userId: any, newLastName: any) {
+        return this.updateUser(userId, { lastname: newLastName });
+    }
 }
 
 export default new UserService();

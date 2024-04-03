@@ -39,12 +39,15 @@ export const useScriptStore = defineStore('script', {
         },
         async deleteScript(scriptId: number) {
             try {
-                const response = await ScriptService.deleteScript(scriptId);
+                await ScriptService.deleteScript(scriptId);
                 this.scripts = this.scripts.filter(script => script.id !== scriptId);
             } catch (error) {
                 console.error('Failed to delete script:', error);
                 throw error;
             }
+        },
+        reset() {
+            this.$reset();
         },
     },
 });

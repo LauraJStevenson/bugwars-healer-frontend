@@ -1,6 +1,6 @@
 <template>
   <div id="registration">
-    <form class="input-form" @submit.prevent="submitForm">
+    <form class="input-form" @input="error = ''" @submit.prevent="submitForm">
       <h1>Sign Up</h1>
 
       <div class="reg-input-group">
@@ -58,6 +58,7 @@
       </div>
 
       <div v-if="passwordsDoNotMatch" class="error-message">Passwords do not match</div>
+      <div v-if="error" class="error-message fade-effect">{{ error }}</div>
 
       <p><button id="submitButton" type="submit" :disabled="isSubmitDisabled">Register</button></p>
       <p>
@@ -73,7 +74,23 @@ import { useRouter } from 'vue-router';
 import { authService } from '../services/authService';
 import type { RegisterDto } from '../types';
 
+import { type SuccessResponse } from '../utils/makeRequest';
+import {
+	RegExpMatcher,
+	TextCensor,
+	englishDataset,
+	englishRecommendedTransformers,
+} from 'obscenity';
+
+const matcher = new RegExpMatcher({
+	...englishDataset.build(),
+	...englishRecommendedTransformers,
+});
+
+
 const router = useRouter();
+const error = ref('');
+
 
 const formData = ref({
   username: '',
@@ -90,6 +107,43 @@ const passwordsDoNotMatch = computed(
 const isSubmitDisabled = computed(() => passwordsDoNotMatch.value);
 
 const submitForm = async () => {
+  if(matcher.hasMatch(formData.value.username)) {
+    error.value = 'The username is not useable.';
+    console.log("yagmur");
+    return;
+  }
+  if(formData.value.username.length < 3) {
+    error.value = 'Username must be at least 3 characters long.';
+    return;
+  }
+  if(formData.value.username.length > 15) {
+    error.value = 'Username must be at least 15 characters long.';
+    return;
+  }
+  if(matcher.hasMatch(formData.value.firstname)) {
+    error.value = 'The firstname is not useable.';
+    return;
+  }
+  if(formData.value.firstname.length < 2) {
+    error.value = 'Firstname must be at least 2 characters long.';
+    return;
+  }
+  if(formData.value.firstname.length > 15) {
+    error.value = 'Firstname must be at least 15 characters long.';
+    return;
+  }
+  if(matcher.hasMatch(formData.value.lastname)) {
+    error.value = 'The lastname is not useable.';
+    return;
+  }
+  if(formData.value.lastname.length < 2) {
+    error.value = 'Lastname must be at least 2 characters long.';
+    return;
+  }
+  if(formData.value.lastname.length > 15) {
+    error.value = 'Lastname must be at least 15 characters long.';
+    return;
+  }
   if (passwordsDoNotMatch.value) {
     return;
   }
@@ -102,7 +156,13 @@ const submitForm = async () => {
   };
   const response = await authService.register(registerDTO);
   if (response.type === 'success') {
-    router.push({ name: 'login', query: { registered: 'true' } });
+    const successResponse = response as SuccessResponse;
+    const errorMessage = successResponse.data.errorMessage;
+    if(errorMessage == null) {
+      router.push({ name: 'login', query: { registered: 'true' } });
+    } else {
+      console.error(errorMessage);
+    }
   } else {
     console.error(response.error);
   }

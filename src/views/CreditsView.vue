@@ -28,9 +28,9 @@
         <img class="card-photo" src="../../public/images/laura-img.jpg" />
         <h1>Laura Stevenson</h1>
         <h3>Tech Lead / Full Stack Developer</h3>
-        <ul>
+        <p>
           CI/CD Pipeline, FrontEnd Views, & Team Leadership
-        </ul>
+        </p>
         <ul>
           <li>
             <a class="contact-link" href="https://www.linkedin.com/in/laurajstevenson/"
@@ -54,9 +54,9 @@
         <img class="card-photo" src="../../public/images/ashley-img.jpg" />
         <h1>Ashley Mical</h1>
         <h3>Full Stack Developer</h3>
-        <ul>
+        <p>
           FrontEnd Design, Token Refresh, & Dynamic FrontEnd Views
-        </ul>
+        </p>
         <ul>
           <li>
             <a class="contact-link" href="https://www.linkedin.com/in/ashleymical/">LinkedIn</a>
@@ -76,9 +76,9 @@
         <img class="card-photo" src="../../public/images/yagmur-img.jpg" />
         <h1>Yagmur Muslu</h1>
         <h3>Full Stack Developer</h3>
-        <ul>
+        <p>
           Backend Design, Authentication, Security, & Game Engine
-        </ul>
+        </p>
         <ul>
           <li>
             <a class="contact-link" href="https://www.linkedin.com/in/yagmurmuslu/">LinkedIn</a>
@@ -98,9 +98,9 @@
         <img class="card-photo" src="../../public/images/kimlyn-img.jpg" />
         <h1>Kimlyn De Lara</h1>
         <h3>Full Stack Developer</h3>
-        <ul>
+        <p>
           Backend Design, Backend Testing, & Authentication
-        </ul>
+        </p>
         <ul>
           <li>
             <a class="contact-link" href="https://www.linkedin.com/in/kimlyn-de-lara/">LinkedIn</a>
@@ -122,9 +122,9 @@
         <img class="card-photo" src="../../public/images/viv-img.jpg" />
         <h1>Viviana Valentin</h1>
         <h3>Full Stack Developer</h3>
-        <ul>
+        <p>
           FrontEnd Design, Pixel Art, & Dynamic FrontEnd Views
-        </ul>
+        </p>
         <ul>
           <li>
             <a class="contact-link" href="https://www.linkedin.com/in/viviana-valentin/"
@@ -136,6 +136,30 @@
             <a
               class="contact-link"
               href="https://drive.google.com/file/d/1vU7DZSs4GNjDqENESPaV4LZALMNBziMM/view?usp=sharing"
+              >Resume</a
+            >
+          </li>
+        </ul>
+      </div>
+
+      <div class="individual-card">
+        <img class="card-photo" src="../../public/images/samantha-img.jpg" />
+        <h1>Samantha Butterfield</h1>
+        <h3>Full Stack Developer</h3>
+        <ul>
+          FrontEnd, Architectural Diagram
+        </ul>
+        <ul>
+          <li>
+            <a class="contact-link" href="hhttps://www.linkedin.com/in/samanthabutterfield/"
+              >LinkedIn</a
+            >
+          </li>
+          <li><a class="contact-link" href="https://github.com/sbutterfield5">GitHub</a></li>
+          <li>
+            <a
+              class="contact-link"
+              href="https://docs.google.com/document/d/1Ea12FlXnIRZx0vSCerngSS-pdmWiwDBlF98lTXoKL5M/edit?usp=sharing"
               >Resume</a
             >
           </li>

@@ -4,10 +4,6 @@ import HomeView from '../views/HomeView.vue';
 import LoginView from '../views/LoginView.vue';
 import RegistrationView from '../views/RegistrationView.vue';
 
-const isAuthenticated = () => {
-  const authStore = useAuthStore();
-  return authStore.isAuthenticated;
-};
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -72,15 +68,19 @@ const router = createRouter({
     //The following route is a dynamic route used from thr Settings View. It routes to the ScriptEditor View with the Script ID as a param so the user will automatically see their script in the editor.
     {
       path: '/scripteditor/:id',
-      name: 'scriptEditor',
+      name: 'scriptEditorWithParam',
       component: () => import('../views/ScriptEditorView.vue'),
       meta: { requiresAuth: true },
     },
   ],
 });
 
+
 router.beforeEach((to, from, next) => {
-  if (to.meta.requiresAuth && !isAuthenticated()) {
+  const authStore = useAuthStore();
+  const requiresAuth = to.matched.some(record => record.meta.requiresAuth);
+
+  if (requiresAuth && !authStore.isAuthenticated) {
     next({ name: 'login' });
   } else {
     next();
