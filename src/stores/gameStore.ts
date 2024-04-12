@@ -15,7 +15,7 @@ export const useGameStore = defineStore('game', {
         scripts: [],
         ticks: 0,
         currentTick: 0,
-        scores: { team1: 0, team2: 0 },
+        scores: { team1: 0, team2: 0, team3: 0, team4: 0 },
         isPlaying: false,
         gameHistory: [],
     }),
@@ -46,26 +46,33 @@ export const useGameStore = defineStore('game', {
             }
         },
 
-        async startBattle(selectedScripts: never[]) {
+        async startBattle(selectedScripts: number[][]) {
             try {
                 const response = await axios.post('/game/start', { scripts: selectedScripts });
                 this.currentMap = response.data;
-                this.gameHistory.push(this.currentMap);
-                this.ticks = 1;
-                this.currentTick = 0;
-                this.isPlaying = true;
-                this.advanceGameAutomatically(selectedScripts);
+                if (this.currentMap !== null) {
+                    this.gameHistory.push(this.currentMap);
+                    this.ticks = this.currentMap.ticks || 1;
+                    this.currentTick = 0;
+                    this.isPlaying = true;
+                    this.advanceGameAutomatically(selectedScripts);
+                }
             } catch (error) {
                 console.error('Failed to start battle:', error);
             }
         },
 
+
         async advanceGame(scripts: any[]) {
             try {
                 const response = await axios.post('/advance', { scripts });
-                this.currentMap = response.data;
-                this.gameHistory.push(this.currentMap);
-                this.currentTick++;
+                if (response.data) {
+                    this.currentMap = response.data;
+                    if (this.currentMap !== null) {
+                        this.gameHistory.push(this.currentMap);
+                        this.currentTick++;
+                    }
+                }
             } catch (error) {
                 console.error('Failed to advance game:', error);
             }

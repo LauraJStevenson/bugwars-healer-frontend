@@ -77,6 +77,7 @@ export type GameMap = {
   cells: Cell[][];
   serialization: string;
   name: string;
+  ticks?: number;
 };
 
 export type UpdateMapDto = {
@@ -91,6 +92,8 @@ export type GameState = {
   scripts: Script[];
   ticks: number;
   currentTick: number;
-  scores: { team1: number; team2: number };
+  scores: { team1: number; team2: number; team3: number; team4: number; };
+  isPlaying: boolean;
+  gameHistory: GameMap[];
 };
 
