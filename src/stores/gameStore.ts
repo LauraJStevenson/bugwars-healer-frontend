@@ -16,6 +16,8 @@ export const useGameStore = defineStore('game', {
         ticks: 0,
         currentTick: 0,
         scores: { team1: 0, team2: 0 },
+        isPlaying: false,
+        gameHistory: [],
     }),
 
     actions: {
@@ -44,39 +46,68 @@ export const useGameStore = defineStore('game', {
             }
         },
 
-        // Method to initialize the scripts
-        // initializeScripts(scripts: Script[]) {
-        // Needs actual logic... Not complete... 
-        //     this.scripts = scripts;
-        // },
+        async startBattle(selectedScripts: never[]) {
+            try {
+                const response = await axios.post('/game/start', { scripts: selectedScripts });
+                this.currentMap = response.data;
+                this.gameHistory.push(this.currentMap);
+                this.ticks = 1;
+                this.currentTick = 0;
+                this.isPlaying = true;
+                this.advanceGameAutomatically(selectedScripts);
+            } catch (error) {
+                console.error('Failed to start battle:', error);
+            }
+        },
 
-        // Method to set script for battle
-        //Not complete.... Needs finished....
-        // setScriptForBug(bugId: number, script: number[]) {
-        //     for (const row of this.map.cells) {
-        //         for (const cell of row) {
-        //             if (isBug(cell) && cell.scriptIndex === bugId) {
-        //                 cell.bugScript = script;
-        //                 return;
-        //             }
-        //         }
-        //     }
-        // },
+        async advanceGame(scripts: any[]) {
+            try {
+                const response = await axios.post('/advance', { scripts });
+                this.currentMap = response.data;
+                this.gameHistory.push(this.currentMap);
+                this.currentTick++;
+            } catch (error) {
+                console.error('Failed to advance game:', error);
+            }
+        },
 
-        //Method to start battle simulation
-        // async startBattle() {
-        //     this.ticks += 1;
-        // },
+        async advanceGameAutomatically(selectedScripts: any[]) {
+            while (this.isPlaying && this.currentTick < this.ticks) {
+                await this.advanceGame(selectedScripts);
+            }
+        },
 
-        // Method to set the current tick (when the slider is moved)
-        // setCurrentTick(tick: number) {
-        //     this.currentTick = tick;
-        // Create the logic to uppdate the map state based on the tick?? Not complete...
-        // },
+        pauseGame() {
+            this.isPlaying = false;
+        },
 
-        // Method to update scores
-        // updateScores() {
-        // Update this.scores based on the current game state?? Not complete... 
-        // },
+        resumeGame(selectedScripts: any[]) {
+            this.isPlaying = true;
+            this.advanceGameAutomatically(selectedScripts);
+        },
+
+        fastForward() {
+            if (this.currentTick < this.ticks - 1) {
+                this.currentTick++;
+                this.currentMap = this.gameHistory[this.currentTick];
+            }
+        },
+
+        fastBackward() {
+            if (this.currentTick > 0) {
+                this.currentTick--;
+                this.currentMap = this.gameHistory[this.currentTick];
+            }
+        },
+
+        updateGameStateForTick(tick: number) {
+            if (tick >= 0 && tick < this.gameHistory.length) {
+                this.currentTick = tick;
+                this.currentMap = this.gameHistory[tick];
+            }
+        },
+
+
+
     },
 });

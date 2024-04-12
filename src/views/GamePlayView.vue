@@ -9,6 +9,13 @@
       <input type="range" min="0" :max="gameStore.ticks" v-model="currentTick" @input="updateCurrentTick" class="time-slider" />
     </div>
 
+    <div>
+      <button @click="gameStore.fastBackward">Backward</button>
+      <button @click="gameStore.pauseGame">Pause</button>
+      <button @click="gameStore.resumeGame(selectedScripts)">Play</button>
+      <button @click="gameStore.fastForward">Forward</button>
+    </div>
+
     <div class="game-box">
       <button @click="previousMap" class="icon-button">
         <font-awesome-icon icon="angle-left" />
@@ -37,8 +44,9 @@
       </div>
     </div>
 
-    <button @click="startBattle" class="battle-btn">BATTLE!</button>
-  </div>
+    <button @click="gameStore.startBattle(selectedScripts)">BATTLE!</button>
+
+      </div>
 </template>
 
 
@@ -140,8 +148,13 @@ const scripts = computed(() => scriptStore.scripts);
 
 // Battle Game Play
 
+
 const startBattle = () => {
-  // gameStore.startBattle();
+  gameStore.startBattle(selectedScripts.value);
+};
+
+const advanceGame = () => {
+  gameStore.advanceGame(selectedScripts.value);
 };
 
 
