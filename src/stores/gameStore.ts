@@ -46,26 +46,52 @@ export const useGameStore = defineStore('game', {
             }
         },
 
-        async startBattle(selectedScripts: number[][]) {
+        async startBattle(selectedScripts: any[]) {
+            if (!this.currentMap || !this.currentMap.serialization) {
+                console.error("No current map selected or map data is incomplete.");
+                return;
+            }
+
             try {
-                const response = await axios.post('/game/start', { scripts: selectedScripts });
-                this.currentMap = response.data;
-                if (this.currentMap !== null) {
-                    this.gameHistory.push(this.currentMap);
-                    this.ticks = this.currentMap.ticks || 1;
-                    this.currentTick = 0;
-                    this.isPlaying = true;
-                    this.advanceGameAutomatically(selectedScripts);
+                const response = await axios.post('/game/start', {
+                    map: this.currentMap.serialization,
+                    script1: selectedScripts[0] || [],
+                    script2: selectedScripts[1] || [],
+                    script3: selectedScripts[2] || [],
+                    script4: selectedScripts[3] || [],
+                    ticks: this.currentMap.ticks || 1  // Provide a fallback if ticks is not defined
+                });
+
+                // Update state with response data if it's valid
+                if (response.data) {
+                    this.currentMap = response.data;
+
+                    // Check if currentMap is valid before pushing to history
+                    if (this.currentMap) {
+                        this.gameHistory.push(this.currentMap);
+                        this.ticks = this.currentMap.ticks || 1; // Default to 1 if ticks is undefined
+                        this.currentTick = 0;
+                        this.isPlaying = true;
+                        this.advanceGameAutomatically(selectedScripts);
+                    } else {
+                        console.error("Failed to update currentMap from response.");
+                    }
+                } else {
+                    console.error("No data received from the start game endpoint.");
                 }
             } catch (error) {
-                console.error('Failed to start battle:', error);
+                if (axios.isAxiosError(error)) {
+                    console.error('Failed to start battle:', error.response ? error.response.data : "No response data");
+                } else {
+                    console.error('Failed to start battle:', error);
+                }
             }
         },
 
 
         async advanceGame(scripts: any[]) {
             try {
-                const response = await axios.post('/advance', { scripts });
+                const response = await axios.post('game/advance', { scripts });
                 if (response.data) {
                     this.currentMap = response.data;
                     if (this.currentMap !== null) {
