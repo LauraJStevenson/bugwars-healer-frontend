@@ -5,6 +5,8 @@
       <h1>Script Editor Page</h1>
     </div>
 
+    <p>Here you can program the behavior of autonomous creatures called "bugs" to compete and survive in a simulated environment. Your scripts dictate how bugs sense their environment, make decisions, and interact with other entities.</p>
+
     <div class="wrapper">
 
       <div class="column1">
@@ -26,33 +28,52 @@
       </div>
       <div id="bug-code-example" class="column2">
 
-        <label for="immutableTextarea"><h3>Bug Code Looks Like This:</h3></label>
+        <h3>Instructions:</h3>
 
-        <textarea id="immutableTextarea" rows="25" cols="35" readonly>
-          :LABEL
-          #Action Commands (Size 1)#       
-            noop #NoOperation#
-            mov  #MoveForward#
-            rotr #RotateRight#
-            rotl #RotateLeft#
-            att  #Attack#
-            eat  #EatFoodOrBug#
-          
-          #Conditional Commands (Size 2)#
-            ifEnemy
-            ifAlly
-            ifFood
-            ifEmpty
-            ifWall
-            goto
+        <div class="instructions" rows="25" cols="35">
+          <h4>* Script Structure *</h4>
+          A bug script consists of a series of commands and conditions that are executed in a game environment. The script allows you to define complex behaviors using simple commands.
 
-          #Please Note:#
-            #Action commands may ONLY have one command.#
-            #Conditional commands MUST have an Action Command appended.#
-            #Declaring a LABEL should have a ':' and the ':' should be the first character of the line.#
-            #LABELS can be alphanumeric +_ but they MUST begin with a character.#
-            #Anything inside of hashtags is a comment.#
-        </textarea>
+          <h4>* Basic Commands *</h4>
+          Commands control the actions of your bug. Each command has a specific purpose:
+
+          noop - No operation. The bug does nothing for one cycle.
+          mov - Move forward one space.
+          rotr - Rotate right (clockwise).
+          rotl - Rotate left (counterclockwise).
+          att - Attack. Targets the entity directly in front of the bug.
+          eat - Eat food or another bug directly in front of your bug.
+
+
+          <h4>* Conditional Commands *</h4>
+          Conditional commands allow your bug to make decisions based on its surroundings:
+
+          ifEnemy - Execute the next command if there is an enemy ahead.
+          ifAlly - Execute the next command if there is an ally ahead.
+          ifFood - Execute the next command if there is food ahead.
+          ifEmpty - Execute the next command if the space ahead is empty.
+          ifWall - Execute the next command if there is a wall ahead.
+          goto - Go to a specified label in the script.
+
+          <h4>* Labels *</h4>
+          Labels are used to create loops or jump to parts of the script based on conditions:
+
+          To declare a label, start a line with a colon followed by the label name (e.g., :start).
+          Labels can be alphanumeric and underscores but must start with a letter.
+
+          <h4>Example</h4>
+
+          Here is a simple example of what your script should look like:
+          <div class="sample">
+          :start
+          <br>
+          ifEmpty mov # Moves forward if the space ahead is empty
+          <br>
+          ifWall rotr # Turns right if there is a wall
+          <br>
+          goto start # Loops back to the start
+          </div>
+        </div>
 
       </div>
     </div>
@@ -114,12 +135,12 @@ const compileAndSaveScript = async () => {
 <style scoped>
 
 .script-editor {
-  margin-bottom: 10px;
+  margin: 50px;
 }
 .wrapper {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 50px;
+  gap: 20px;
 }
 
 .column1 {
@@ -164,6 +185,10 @@ button {
   cursor: pointer;
   margin-top: 10px;
   margin-right: 10px;
+}
+
+.sample {
+  font-style: italic;
 }
 
 @media (max-width: 768px) {

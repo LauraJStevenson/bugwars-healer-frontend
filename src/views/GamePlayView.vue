@@ -39,8 +39,9 @@
     <div class="script-selections">
       <div class="script-selector" v-for="index in scriptCount" :key="index">
         <select v-model="selectedScripts[index]" :id="'selectedScriptIndex' + index">
-          <option v-for="(script, index) in scripts" :key="index" :value="index">{{ script.name }}</option>
-        </select>
+    <option v-for="(script, index) in scripts" :key="index" :value="index">{{ script.name }}</option>
+</select>
+
       </div>
     </div>
 
@@ -51,7 +52,7 @@
 
 
 <script setup lang="ts">
-import { computed, onMounted, ref } from 'vue';
+import { computed, onMounted, ref, type Ref } from 'vue';
 import { useGameStore } from '../stores/gameStore';
 import { useScriptStore } from '../stores/scriptStore';
 import { useAuthStore } from '../stores/auth';
@@ -68,14 +69,16 @@ const gameStore = useGameStore();
 const scriptStore = useScriptStore();
 const authStore = useAuthStore();
 const currentTick = ref(0);
-const selectedScripts = ref([]);
+const selectedScripts: Ref<number[]> = ref([]);
 
 
 onMounted(async () => {
   await gameStore.fetchMaps();
   if (authStore.user && authStore.user.id) {
-    await scriptStore.fetchScriptsByUserId(authStore.user.id);
-  }
+        await scriptStore.fetchScriptsByUserId(authStore.user.id);
+        // Initialize selectedScripts with default values
+        selectedScripts.value = scriptStore.scripts.slice(0, scriptCount.value).map((_, index) => index);
+    }
 });
 
 
