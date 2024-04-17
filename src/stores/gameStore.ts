@@ -49,41 +49,53 @@ export const useGameStore = defineStore('game', {
         async startBattle(selectedScripts: any[]) {
             if (!this.currentMap || !this.currentMap.serialization) {
                 console.error("No current map selected or map data is incomplete.");
-                return;
+                return; // Early exit if the map data is not ready
             }
 
+            // Log to verify the scripts
+            console.log("Selected Scripts:", selectedScripts);
+
+            // Construct the payload with fallbacks for scripts
+            const payload = {
+                map: this.currentMap.serialization,
+                script1: this.scripts[selectedScripts[0]] || [],
+                script2: this.scripts[selectedScripts[1]] || [],
+                script3: this.scripts[selectedScripts[2]] || [],
+                script4: this.scripts[selectedScripts[3]] || [],
+                ticks: this.currentMap.ticks || 1
+            };
+
+            // Log the payload to ensure it's correctly formed
+            console.log("Sending payload for battle start:", payload);
+
             try {
-                const response = await axios.post('/game/start', {
-                    map: this.currentMap.serialization,
-                    script1: selectedScripts[0] || [],
-                    script2: selectedScripts[1] || [],
-                    script3: selectedScripts[2] || [],
-                    script4: selectedScripts[3] || [],
-                    ticks: this.currentMap.ticks || 1  // Provide a fallback if ticks is not defined
-                });
+                const response = await axios.post('/game/start', payload);
 
-                // Update state with response data if it's valid
-                if (response.data) {
-                    this.currentMap = response.data;
-
-                    // Check if currentMap is valid before pushing to history
-                    if (this.currentMap) {
-                        this.gameHistory.push(this.currentMap);
-                        this.ticks = this.currentMap.ticks || 1; // Default to 1 if ticks is undefined
+                // Check if the response is valid and has data
+                if (response && response.data) {
+                    // Safely update currentMap with response data
+                    const newMap = response.data;
+                    if (newMap && newMap.serialization) { // Validate that newMap is correct
+                        this.currentMap = newMap;
+                        this.gameHistory.push(newMap);  // Add to history only if it's valid
+                        this.ticks = newMap.ticks || 1; // Safely access ticks
                         this.currentTick = 0;
                         this.isPlaying = true;
                         this.advanceGameAutomatically(selectedScripts);
                     } else {
-                        console.error("Failed to update currentMap from response.");
+                        console.error("Invalid map data received from the server.");
                     }
                 } else {
-                    console.error("No data received from the start game endpoint.");
+                    console.error("No data received from the start game endpoint, or invalid response structure.");
                 }
-            } catch (error) {
+            } catch (error: unknown) {
+                // Check if it's an AxiosError
                 if (axios.isAxiosError(error)) {
                     console.error('Failed to start battle:', error.response ? error.response.data : "No response data");
+                } else if (error instanceof Error) {
+                    console.error('Failed to start battle:', error.message);
                 } else {
-                    console.error('Failed to start battle:', error);
+                    console.error('Failed to start battle:', 'An unknown error occurred');
                 }
             }
         },
